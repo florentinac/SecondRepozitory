@@ -17,7 +17,7 @@ namespace MySecondProblems
             Console.WriteLine(messageCoding);
             //string deCodingMessage = DeCoding(messageCoding, no_c);
             //Console.WriteLine(deCodingMessage);
-            float rezult = coding.CalculateCombinations(49, 6);
+            double rezult = coding.CalculateCombinations(49, 6);
             long factorial = coding.Factorial(49);
 
 
@@ -75,25 +75,25 @@ namespace MySecondProblems
             }
             return deCoding;
         }
-        public float CalculateCombinations(int n, int k)
+        public double CalculateCombinations(int n, int k)
         {
             var problems = new SecondProblems();
             int val = n - k;
-            float rezult = problems.Factorial(n) / (problems.Factorial(k) * problems.Factorial(val));
+            double rezult = problems.Factorial(n) / (problems.Factorial(k) * problems.Factorial(val));
             return rezult;
 
         }
-        public long Factorial(int n)
+        public long Factorial(long number)
         {
-            long rezult = 1;
-            for (long i = 1; i <= n; i++)
-                rezult *= i;
-            return rezult;
+            if (number <= 1)
+                return 1;
+            else
+                return number*Factorial(number-1);
 
         }
-        public float ProbabilityWinLoto(int n, int k)
+        public double ProbabilityWinLoto(int n, int k)
         {
-            float probability = 0;
+            double probability = 0;
             probability = CalculateCombinations(n, k) * CalculateCombinations(49 - n, n - k) / CalculateCombinations(49, n);
             return probability;
         }
