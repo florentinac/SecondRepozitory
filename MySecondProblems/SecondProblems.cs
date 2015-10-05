@@ -15,8 +15,6 @@ namespace MySecondProblems
             var coding = new SecondProblems();
             string messageCoding = coding.CodingMessage(message, no_c);
             Console.WriteLine(messageCoding);
-            //string deCodingMessage = DeCoding(messageCoding, no_c);
-            //Console.WriteLine(deCodingMessage);
             double rezult = coding.CalculateCombinations(49, 6);
             long factorial = coding.Factorial(49);
 
@@ -40,7 +38,6 @@ namespace MySecondProblems
             }
 
             var finalString = new String(stringChars);
-            //Console.WriteLine(finalString);
             return finalString;
         }
 
@@ -69,32 +66,45 @@ namespace MySecondProblems
                 for (int j = i; j < message.Length; j = j + no_c)
                 {
                     deCoding += message[j];
-                    //Console.Write(finalMesage[i]);
-
+                   
                 }
             }
             return deCoding;
         }
-        public double CalculateCombinations(int n, int k)
+        public long CalculateCombinations(int n, int k)
         {
             var problems = new SecondProblems();
-            int val = n - k;
-            double rezult = problems.Factorial(n) / (problems.Factorial(k) * problems.Factorial(val));
-            return rezult;
+            long numerator;
+            long denuminator;
+            if ((n - k) > k) {
+                numerator = PartialFactorial(n, n - k + 1);
+                denuminator = Factorial(k);
+            }
+            else {
+                numerator = PartialFactorial(n, k + 1);
+                denuminator = Factorial(n - k);
+            }           
+            return numerator/denuminator;
 
         }
         public long Factorial(long number)
         {
-            if (number <= 1)
-                return 1;
-            else
-                return number*Factorial(number-1);
-
+           long result=1;
+           for (int i = 1; i <= number; i++)
+              result *= i;
+           return result;
+        }
+        public long PartialFactorial(int number, int k)
+        {
+            long result = 1;
+            for (int i = k; i <= number; i++)
+                result *= i;
+            return  result;
         }
         public double ProbabilityWinLoto(int n, int k)
         {
-            double probability = 0;
-            probability = CalculateCombinations(n, k) * CalculateCombinations(49 - n, n - k) / CalculateCombinations(49, n);
+            double probability;
+            probability = (double)CalculateCombinations(n, k) * (double)CalculateCombinations(49 - n, n - k) / (double)CalculateCombinations(49, n);
             return probability;
         }
     }
