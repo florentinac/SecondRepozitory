@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text.RegularExpressions;
 
 
 namespace MySecondProblems.Tests
@@ -16,19 +17,49 @@ namespace MySecondProblems.Tests
         }
 
         [TestMethod]
-        public void CodingMessageTest()
+        public void ParametersTest()
         {
             var problems = new SecondProblems();
-            string messageCoding = problems.CodingMessage("Nicaieri nu e ca acasa", 4);
-            Assert.AreEqual(messageCoding, "Neeaircsciaaanamiuca");
+            var parameters = problems.ParametersMessage("Nicaieri nu e ca acasa", 4);
+            Assert.AreEqual(parameters[0], 5);
+            Assert.AreEqual(parameters[1], 2);
+        }
+
+
+        [TestMethod]
+        public void EncryptionMessageTest()
+        {
+            var problems = new SecondProblems();
+            int noColumns = 4;
+            var parameters = problems.ParametersMessage("Nicaieri nu e ca acasa", noColumns);
+            string messageEncryption = problems.EncryptionMessage("Nicaieri nu e ca acasa", noColumns);
+            string messageEncryptionClean = messageEncryption;
+
+            if(parameters[1] < 1)
+            {
+                messageEncryptionClean = messageEncryption;
+            }
+            else
+            {                
+                for (int i =1; i<= parameters[1]; i++)
+                {
+                    messageEncryptionClean = messageEncryptionClean.Remove(messageEncryptionClean.Length - noColumns * (parameters[1] - i) -1 , 1);                    
+                }
+            }
+            Assert.AreEqual(parameters[0], 5);
+            Assert.AreEqual(parameters[1], 2);
+            Assert.AreEqual(messageEncryption.Length, 20);
+            Assert.AreEqual(messageEncryptionClean, "Neeaircsciaaanaiuc");                    
         }
 
         [TestMethod]
         public void DeCodingMessagetTest()
         {
             var problems = new SecondProblems();
-            string messageDeCoding = problems.DeCoding("Neeaircsciaaanamiuca", 4);
-            Assert.AreEqual(messageDeCoding, "Nicaierinuecaacasama");
+            string messageEncryption = problems.EncryptionMessage("Nicaieri nu e ca acasa", 4);
+            string messageDeCryption = problems.DeCryptionMessage(messageEncryption, 4);
+            messageDeCryption = Regex.Replace(messageDeCryption, @"\W|_", string.Empty);
+            Assert.AreEqual(messageDeCryption, "Nicaierinuecaacasa");
         }
 
         [TestMethod]

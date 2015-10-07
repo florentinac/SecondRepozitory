@@ -6,3 +6,5 @@ c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\My
 c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblemsTest\obj\Debug\MySecondProblemsTest.csprojResolveAssemblyReference.cache
 c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblemsTest\obj\Debug\MySecondProblemsTest.dll
 c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblemsTest\obj\Debug\MySecondProblemsTest.pdb
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\MySecondProblems\MySecondProblemsTest\bin\Debug\MySecondProblemsTest.dll.CodeAnalysisLog.xml
+C:\Users\Administrator\Documents\Visual Studio 2015\Projects\MySecondProblems\MySecondProblemsTest\bin\Debug\MySecondProblemsTest.dll.lastcodeanalysissucceeded

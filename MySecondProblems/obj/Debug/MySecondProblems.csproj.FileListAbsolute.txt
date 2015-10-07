@@ -3,4 +3,3 @@ c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\My
 c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblems\bin\Debug\MySecondProblems.pdb
 c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblems\obj\Debug\MySecondProblems.exe
 c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblems\obj\Debug\MySecondProblems.pdb
-c:\users\administrator\documents\visual studio 2015\Projects\MySecondProblems\MySecondProblems\obj\Debug\MySecondProblems.csprojResolveAssemblyReference.cache

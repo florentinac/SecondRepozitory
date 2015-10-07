@@ -11,13 +11,12 @@ namespace MySecondProblems
         public static void Main()
         {
             string message = "Oriunde e ca acasa!";
-            int no_c = 4;
-            var coding = new SecondProblems();
-            string messageCoding = coding.CodingMessage(message, no_c);
+            int noColumns = 4;
+            var encryption = new SecondProblems();
+            string messageCoding = encryption.EncryptionMessage(message, noColumns);
             Console.WriteLine(messageCoding);
-            double rezult = coding.CalculateCombinations(49, 6);
-            long factorial = coding.Factorial(49);
-
+            double rezult = encryption.CalculateCombinations(49, 6);
+            long factorial = encryption.Factorial(49);
 
         }
         public string RemoveSpace(string message)
@@ -28,7 +27,7 @@ namespace MySecondProblems
 
         public string RandomChar(int n)
         {
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            var chars = @"\|~!@#$%^&*_+-=`?.,\/><[]{}";
             var stringChars = new char[n];
             var random = new Random();
 
@@ -40,40 +39,47 @@ namespace MySecondProblems
             var finalString = new String(stringChars);
             return finalString;
         }
-
-        public string CodingMessage(string message, int no_c)
+        public int[] ParametersMessage(string message, int noColumns)
         {
             string messageClean = RemoveSpace(message);
-            int no_l = (int)Math.Ceiling((double)messageClean.Length / no_c);
-            int noRandom = no_l * no_c - messageClean.Length;
-            string finalMesage = messageClean + RandomChar(noRandom);
-            string finalCoding = "";
-            for (int i = 0; i < no_l; i++)
+            int noLines = (int)Math.Ceiling((double)messageClean.Length / noColumns);
+            int noRandom = noLines * noColumns - messageClean.Length;
+            var parametres = new int[] { noLines, noRandom };
+            return parametres;
+        }
+
+        public string EncryptionMessage(string message, int noColumns)
+        {
+            string messageClean = RemoveSpace(message);
+            var parameters = ParametersMessage("Nicaieri nu e ca acasa", 4);
+            string finalMesage = messageClean + RandomChar(parameters[1]);
+            string finalEncryption = "";
+            for (int i = 0; i < parameters[0]; i++)
             {
-                for (int j = i; j < finalMesage.Length; j = j + no_l)
+                for (int j = i; j < finalMesage.Length; j = j + parameters[0])
                 {
-                    finalCoding += finalMesage[j];
+                    finalEncryption += finalMesage[j];
                 }
             }
-            return finalCoding;
+            //for (int i=finalCoding.Length; i<=no_c*(noRandom-1)+1;i--)
+            //    for(j=i)
+            return finalEncryption;
         }
-        public string DeCoding(string message, int no_c)
+        public string DeCryptionMessage(string message, int noColumns)
         {
-            int no_l = (int)Math.Ceiling((double)message.Length / no_c);
-            string deCoding = "";
-            for (int i = 0; i < no_c; i++)
+            string deCryptiong = "";
+            for (int i = 0; i < noColumns; i++)
             {
-                for (int j = i; j < message.Length; j = j + no_c)
+                for (int j = i; j < message.Length; j = j + noColumns)
                 {
-                    deCoding += message[j];
+                    deCryptiong += message[j];
                    
                 }
             }
-            return deCoding;
+            return deCryptiong;
         }
         public long CalculateCombinations(int n, int k)
         {
-            var problems = new SecondProblems();
             long numerator;
             long denuminator;
             if ((n - k) > k) {
@@ -87,6 +93,7 @@ namespace MySecondProblems
             return numerator/denuminator;
 
         }
+
         public long Factorial(long number)
         {
            long result=1;
@@ -94,6 +101,7 @@ namespace MySecondProblems
               result *= i;
            return result;
         }
+
         public long PartialFactorial(int number, int k)
         {
             long result = 1;
@@ -101,6 +109,7 @@ namespace MySecondProblems
                 result *= i;
             return  result;
         }
+
         public double ProbabilityWinLoto(int n, int k)
         {
             double probability;
