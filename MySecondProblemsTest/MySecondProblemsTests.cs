@@ -87,7 +87,7 @@ namespace MySecondProblems.Tests
             var problems = new SecondProblems();
             string messageEncryption = problems.EncryptionMessage("Nicaieri, nu e ca acasa!", 4);
             string messageDeCryption = problems.DeCryptionMessage(messageEncryption, 4);
-            messageDeCryption = Regex.Replace(messageDeCryption, @"\W|_", string.Empty);
+            messageDeCryption = problems.RemoveSpecialCharacters(messageDeCryption);
             Assert.AreEqual(messageDeCryption, "Nicaierinuecaacasa");
         }
 
