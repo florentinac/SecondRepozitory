@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProbabilitiesLoto
 {
-    public class ProbabilitesLoto
+    public class Probabilites
     {
         public ulong CalculateCombinations(ulong n, ulong k)
         {
@@ -42,9 +42,9 @@ namespace ProbabilitiesLoto
             return result;
         }
 
-        public double ProbabilityWinLoto(ulong n, ulong k)
+        public double ProbabilityWinLoto(ulong n, ulong k, ulong noLoto)
         {
-            var probability = (double)CalculateCombinations(n, k) * (double)CalculateCombinations(49 - n, n - k) / (double)CalculateCombinations(49, n);
+            double probability = (double)CalculateCombinations(n, k) * (double)CalculateCombinations(noLoto - n, n - k) / (double)CalculateCombinations(noLoto, n);
             return probability;
         }
 

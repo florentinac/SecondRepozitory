@@ -53,6 +53,12 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProbabilitiesLoto\ProbabilitiesLoto.csproj">
+      <Project>{7b8eadbf-1300-4f11-b5da-43ce961d4687}</Project>
+      <Name>ProbabilitiesLoto</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
