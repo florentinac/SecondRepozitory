@@ -5,7 +5,7 @@ using ProbabilitiesLoto;
 namespace Loto
 {
     [TestClass]
-    public class UnitTest1
+    public class ProbabilitiesLotoTest
     {
 
         [TestMethod]

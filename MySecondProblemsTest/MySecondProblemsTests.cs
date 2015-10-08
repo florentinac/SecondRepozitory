@@ -14,14 +14,14 @@ namespace MySecondProblems.Tests
         public void NumerLinesTest()
         {
             var problems = new SecondProblems();
-            var noLines = problems.GetNumberLines("Nicaieri nu e ca acasa", 4);
+            var noLines = problems.GetNumberLines("Nicaierinuecaacasa", 4);
             Assert.AreEqual(noLines, 5);
         }
         [TestMethod]
         public void NumerLeterRandomTest()
         {
             var problems = new SecondProblems();
-            var noLetersRandom = problems.GetNumberLetersRandom("Nicaieri nu e ca acasa", 4, 5);
+            var noLetersRandom = problems.GetNumberLetersRandom("Nicaierinuecaacasa", 4, 5);
             Assert.AreEqual(noLetersRandom, 2);
         }
 
@@ -38,9 +38,9 @@ namespace MySecondProblems.Tests
         {
             var problems = new SecondProblems();
             var noColumns = 4;
-            var noLines = problems.GetNumberLines("Nicaieri nu e ca aca", noColumns);
-            var noLetersRandom = problems.GetNumberLetersRandom("Nicaieri nu e ca aca", noColumns, noLines);
-            var messageEncryption = problems.EncryptionMessage("Nicaieri nu e ca aca", noColumns);
+            var noLines = problems.GetNumberLines("Nicaierinuecaaca", noColumns);
+            var noLetersRandom = problems.GetNumberLetersRandom("Nicaierinuecaaca", noColumns, noLines);
+            var messageEncryption = problems.EncryptionMessage("Nicaieri, nu e ca aca!", noColumns);
 
             Assert.AreEqual(noLetersRandom,0);
             Assert.AreEqual(noLines,4);
@@ -51,9 +51,9 @@ namespace MySecondProblems.Tests
         {
             var problems = new SecondProblems();
             var noColumns = 4;
-            var noLines = problems.GetNumberLines("Nicaieri nu e ca acasaa", noColumns);
-            var noLetersRandom = problems.GetNumberLetersRandom("Nicaieri nu e ca acasaa", noColumns, noLines);
-            var messageEncryption = problems.EncryptionMessage("Nicaieri nu e ca acasaa", noColumns);
+            var noLines = problems.GetNumberLines("Nicaierinuecaacasaa", noColumns);
+            var noLetersRandom = problems.GetNumberLetersRandom("Nicaierinuecaacasaa", noColumns, noLines);
+            var messageEncryption = problems.EncryptionMessage("Nicaieri, nu e ca acasaa!", noColumns);
             var messageEncryptionClean = messageEncryption;
           
             messageEncryptionClean = messageEncryptionClean.Remove(messageEncryptionClean.Length - noColumns * (noLetersRandom - 1) -1 , 1);                    
@@ -68,9 +68,9 @@ namespace MySecondProblems.Tests
         {
             var problems = new SecondProblems();
             var noColumns = 4;
-            var noLines = problems.GetNumberLines("Nicaieri nu e ca acasa", noColumns);
-            var noLetersRandom = problems.GetNumberLetersRandom("Nicaieri nu e ca acasa", noColumns, noLines);
-            var messageEncryption = problems.EncryptionMessage("Nicaieri nu e ca acasa", noColumns);
+            var noLines = problems.GetNumberLines("Nicaierinuecaacasa", noColumns);
+            var noLetersRandom = problems.GetNumberLetersRandom("Nicaierinuecaacasa", noColumns, noLines);
+            var messageEncryption = problems.EncryptionMessage("Nicaieri, nu e ca acasa!", noColumns);
             var messageEncryptionClean = messageEncryption;
 
             messageEncryptionClean = messageEncryptionClean.Remove(messageEncryptionClean.Length - noColumns * (noLetersRandom - 2) - 1, 1);
@@ -80,6 +80,16 @@ namespace MySecondProblems.Tests
             Assert.AreEqual(noLines, 5);
             Assert.AreEqual(messageEncryptionClean, "Neeaircsciaaanaiuc");
         }
-      
+
+        [TestMethod]
+        public void DeCryptionMessagetTest()
+        {
+            var problems = new SecondProblems();
+            string messageEncryption = problems.EncryptionMessage("Nicaieri, nu e ca acasa!", 4);
+            string messageDeCryption = problems.DeCryptionMessage(messageEncryption, 4);
+            messageDeCryption = Regex.Replace(messageDeCryption, @"\W|_", string.Empty);
+            Assert.AreEqual(messageDeCryption, "Nicaierinuecaacasa");
+        }
+
     }
 }

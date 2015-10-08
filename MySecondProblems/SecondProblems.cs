@@ -9,12 +9,7 @@ namespace MySecondProblems
 {
     public class SecondProblems
     {
-        public string RemoveSpace(string message)
-        {
-            var messageProcessed = Regex.Replace(message, @"\W|_", string.Empty);
-            return messageProcessed;
-        }
-
+        
         public string RandomChar(int n)
         {
             var chars = @"\|~!@#$%^&*_+-=`?.,\/><[]{}";
@@ -43,45 +38,43 @@ namespace MySecondProblems
 
         public int GetNumberLines(string message, int noColumns)
         {
-            var messageClean = RemoveSpace(message);
-            var noLines = (int)Math.Ceiling((double)messageClean.Length / noColumns);
+            var noLines = (int)Math.Ceiling((double)message.Length / noColumns);
             return noLines;
         }
         public int GetNumberLetersRandom(string message, int noColumns,int noLines)
         {
-            var messageClean = RemoveSpace(message);
-            var noLetersRandom = noLines * noColumns - messageClean.Length;
+            var noLetersRandom = noLines * noColumns - message.Length;
             return noLetersRandom;
         }
 
         public string EncryptionMessage(string message, int noColumns)
         {
-            var messageClean = RemoveSpace(message);
-            var noLines = GetNumberLines(message, noColumns);
-            var noLetersRandom = GetNumberLetersRandom(message, noColumns, noLines);
+            var messageClean = RemoveSpecialCharacters(message);
+            var noLines = GetNumberLines(messageClean, noColumns);
+            var noLetersRandom = GetNumberLetersRandom(messageClean, noColumns, noLines);
             var finalMesage = messageClean + RandomChar(noLetersRandom);
-            var finalEncryption = "";
+            var finalEncryptionMessage = "";
             for (var i = 0; i < noLines; i++)
             {
                 for (var j = i; j < finalMesage.Length; j = j + noLines)
                 {
-                    finalEncryption += finalMesage[j];
+                    finalEncryptionMessage += finalMesage[j];
                 }
             }
-            return finalEncryption;
+            return finalEncryptionMessage;
         }
         public string DeCryptionMessage(string message, int noColumns)
         {
-            var deCryption = "";
+            var deCryptionMessage = "";
             for (var i = 0; i < noColumns; i++)
             {
                 for (var j = i; j < message.Length; j = j + noColumns)
                 {
-                    deCryption += message[j];
+                    deCryptionMessage += message[j];
                    
                 }
             }
-            return deCryption;
+            return deCryptionMessage;
         }
     }
 }
