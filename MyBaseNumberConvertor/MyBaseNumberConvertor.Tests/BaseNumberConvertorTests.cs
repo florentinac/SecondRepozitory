@@ -10,8 +10,10 @@ namespace MyBaseNumberConvertor.Tests
         public void NumberConvertorToBaseTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var number = baseNumberConvertor.ConvertToBase(7, 2);
-            Assert.AreEqual(number, 1000);
+            var number = baseNumberConvertor.ConvertToBase(11, 2);
+            var correctResult = new byte[] {0,0,0,0,1,0,1,1};
+            CollectionAssert.AreEqual(correctResult,number);
+            //Assert.AreEqual(number, correctResult);
         }
 
         [TestMethod]

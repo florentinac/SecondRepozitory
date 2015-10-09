@@ -12,18 +12,15 @@ namespace MyBaseNumberConvertor
     {
         public byte[] ConvertToBase(int number, int baseX)
         {
-            var result = new byte[4];
-            for (var i = 0; i <= result.Length; i++)
-            {
+            var result = new byte[8];
+            int index = 7;
+            
                 while (number > 0)
                 {
                     var remainder = number % baseX;
                     number = number/baseX;
-                    result[i] = (byte)(result + remainder);
-                    i++;
-
+                    result[index--] = (byte)(remainder);
                 }
-            }
             
             return result;
         }
