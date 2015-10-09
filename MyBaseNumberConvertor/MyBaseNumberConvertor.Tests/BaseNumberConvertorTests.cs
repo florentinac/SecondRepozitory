@@ -10,7 +10,7 @@ namespace MyBaseNumberConvertor.Tests
         public void NumberConvertorToBaseTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var number = baseNumberConvertor.ConvertToBase(8, 2);
+            var number = baseNumberConvertor.ConvertToBase(7, 2);
             Assert.AreEqual(number, 1000);
         }
 
