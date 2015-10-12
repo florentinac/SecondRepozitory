@@ -7,11 +7,53 @@ namespace MyBaseNumberConvertor.Tests
     public class BaseNumberConvertorTests
     {
         [TestMethod]
+        public void RisezeArrayTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var oldArray =      new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1, 0 ,0 };
+            byte[] newArray = baseNumberConvertor.ResizeArray(ref oldArray,2);
+            CollectionAssert.AreEqual(correctResult,newArray);
+             
+        }
+
+        [TestMethod]
+        public void AddToArrayTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var oldArray = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1, 1 };
+            byte[] newArray = baseNumberConvertor.AddToArray(ref oldArray, 1);
+            CollectionAssert.AreEqual(correctResult, newArray);
+
+        }
+
+        [TestMethod]
+        public void ReverseArrayTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var oldArray =      new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 1, 1, 0, 1, 0, 1, 0, 1};
+            byte[] newArray = baseNumberConvertor.ReverseArray(ref oldArray);
+            CollectionAssert.AreEqual(correctResult, newArray);
+
+        }
+
+        [TestMethod]
+        public void OrBytesTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            byte newByte= baseNumberConvertor.Or(0,1);
+            Assert.AreEqual(newByte, 1);
+
+        }
+
+        [TestMethod]
         public void NumberConvertorToBaseTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var number = baseNumberConvertor.ConvertToBase(100, 36, 8);
-            var correctResult = new byte[] { 0, 0, 0, 0, 0, 0, 2, 28 };
+            var number = baseNumberConvertor.ConvertToBase(100, 36);
+            var correctResult = new byte[] { 2, 28 };
             CollectionAssert.AreEqual(correctResult, number);
         }
 
@@ -23,45 +65,27 @@ namespace MyBaseNumberConvertor.Tests
             var number = baseNumberConvertor.ConvertFromBase(numberdigit, 2);
             Assert.AreEqual(number, 128);
         }
-        [TestMethod]
-        public void AndOperatorTest()
-        {
-            var baseNumberConvertor = new BaseNumberConvertor();
-            var firestByte = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var secondByte = new byte[] { 1, 0, 0, 0, 1, 1, 0, 1 };
-            var correctResult = new byte[] { 1, 0, 1, 0, 1, 1, 1, 1 };
-            var actualResult = baseNumberConvertor.AndOperator(firestByte, secondByte);
-            CollectionAssert.AreEqual(actualResult, correctResult);
-        }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void AndOperatorExceptionTest()
-        {
-            var baseNumberConvertor = new BaseNumberConvertor();
-            var firestByte = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var secondByte = new byte[] { 1, 0, 1, 0, 0, 0, 1, 1, 0, 1 };
-            var result = baseNumberConvertor.AndOperator(firestByte, secondByte);
-        }
-
         public void OrOperatorTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var firestByte = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var secondByte = new byte[] { 1, 0, 0, 0, 1, 1, 0, 1 };
-            var correctResult = new byte[] { 1, 0, 0, 0, 1, 0, 0, 1 };
+            var firestByte =    new byte[] { 1, 0, 1, 0, 1, 0, 1, 1,};
+            var secondByte =    new byte[] { 1, 0, 0, 0, 1, 1, 0, 1 };
+            var correctResult = new byte[] { 1, 0, 1, 0, 1, 1, 1, 1 };
             var actualResult = baseNumberConvertor.OrOperator(firestByte, secondByte);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void OrOperatorExceptionTest()
+        public void AndOperatorTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
             var firestByte = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var secondByte = new byte[] { 0, 1, 1, 0, 0, 0, 1, 1, 0, 1 };
-            var result = baseNumberConvertor.OrOperator(firestByte, secondByte);
+            var secondByte = new byte[] { 1, 0, 0, 0, 1, 1, 0, 1, 1};
+            var correctResult = new byte[] { 1, 0, 0, 0, 1, 0, 0, 1, 0};
+            var actualResult = baseNumberConvertor.AndOperator(firestByte, secondByte);
+            CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
         [TestMethod]
@@ -70,7 +94,7 @@ namespace MyBaseNumberConvertor.Tests
             var baseNumberConvertor = new BaseNumberConvertor();
             var number =        new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
             var correctResult = new byte[] { 0, 1, 0, 1, 0, 1, 0, 0 };
-            var actualResult = baseNumberConvertor.Not(number);
+            var actualResult = baseNumberConvertor.NotOnArray(number);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
@@ -100,8 +124,8 @@ namespace MyBaseNumberConvertor.Tests
         {
             var baseNumberConvertor = new BaseNumberConvertor();
             var number = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var correctResult = new byte[] { 1, 1, 0, 1, 0, 1, 0, 1 };
-            var actualResult = baseNumberConvertor.RightHandShift(number,1);
+            var correctResult = new byte[] {1, 1, 1, 0, 1, 0, 1, 0 };
+            var actualResult = baseNumberConvertor.RightHandShift(number,2);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
