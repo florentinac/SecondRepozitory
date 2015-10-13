@@ -59,6 +59,19 @@ namespace MyBaseNumberConvertor
             return result;
         }
 
+        //public byte[,] ProceessByteArray(byte[] firstBytes, byte[] secondBytes)
+        //{
+        //    if (firstBytes.Length < secondBytes.Length)
+        //        firstBytes = ResizeArray(ref firstBytes, secondBytes.Length - firstBytes.Length);
+        //    else if (firstBytes.Length > secondBytes.Length)
+        //    {
+        //        secondBytes = ResizeArray(ref secondBytes, firstBytes.Length - secondBytes.Length);
+        //    }
+        //    var array = new byte[,] { { firstBytes},{secondBytes}};
+        //    return array;
+        //}
+
+
         public byte[] OrOperator(byte[] firstBytes, byte[] secondBytes)
         {
             var result = new byte[0];
@@ -139,7 +152,7 @@ namespace MyBaseNumberConvertor
                 secondBytes = ResizeArray(ref secondBytes, firstBytes.Length - secondBytes.Length);
             }
             for (var i = 0; i < secondBytes.Length; i++)
-                result = AddToArray(ref result, And(firstBytes[i], secondBytes[i]));
+                result = AddToArray(ref result, Xor(firstBytes[i], secondBytes[i]));
             return result;
         }
 
@@ -152,30 +165,67 @@ namespace MyBaseNumberConvertor
             return result;
         }
 
-        public byte[] RightHandShift(byte[] number, int count)
+        public byte[] RightHandShiftByOne(byte[] number)
         {
             var result = new byte[number.Length];
-            while (count>0)
-            {
                 for (var i = 1; i <= number.Length - 1; i++)
                 {
                     result[i] = number[i - 1];
                 }
-                result[0] = number[number.Length - count];
-                count--;
-            }
+                result[0] = number[number.Length - 1];
            
+            return result;
+        }
+
+        public byte[] RightHandShift(byte[] number, int count)
+        {
+            for (int i = 0; i < count; i++)
+                number = RightHandShiftByOne(number);
+            return number;
+        }
+
+        public byte[] LeftHandShiftByOne(byte[] number)
+        {
+            var result = new byte[number.Length];
+            for (var i = 0; i < number.Length - 1; i++)
+            {
+                result[i] = number[i + 1];
+            }
+            result[number.Length - 1] = number[0];
             return result;
         }
 
         public byte[] LeftHandShift(byte[] number, int count)
         {
-            var result = new byte[number.Length];
-            for (var i = 0; i < number.Length - 1; i++)
+            for (int i = 0; i < count; i++)
+                number = LeftHandShiftByOne(number);
+            return number;
+        }
+
+        public byte[] AddBinarNumber(byte[] firstBytes, byte[] secondBytes)
+        {
+            var result = new byte[0];
+            var transport = 0;
+            if (firstBytes.Length < secondBytes.Length)
+                firstBytes = ResizeArray(ref firstBytes, secondBytes.Length - firstBytes.Length);
+            else if (firstBytes.Length > secondBytes.Length)
             {
-                result[i] = number[i + count];
+                secondBytes = ResizeArray(ref secondBytes, firstBytes.Length - secondBytes.Length);
             }
-            result[number.Length - 1] = number[0];
+            for (int i = firstBytes.Length - 1; i >= 0; i--)
+            {
+                
+                if ((firstBytes[i] + secondBytes[i] + transport) > 1)
+                {
+                    result = AddToArray(ref result, (byte) (0));
+                    transport = 1;
+                }
+                else
+                {
+                    result = AddToArray(ref result, (byte) (firstBytes[i] + secondBytes[i] + transport));
+                    transport = 0;
+                }
+            }
             return result;
         }
     }

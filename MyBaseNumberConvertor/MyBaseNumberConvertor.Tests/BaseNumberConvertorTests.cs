@@ -81,8 +81,8 @@ namespace MyBaseNumberConvertor.Tests
         public void AndOperatorTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var firestByte = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var secondByte = new byte[] { 1, 0, 0, 0, 1, 1, 0, 1, 1};
+            var firestByte =    new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var secondByte =    new byte[] { 1, 0, 0, 0, 1, 1, 0, 1, 1};
             var correctResult = new byte[] { 1, 0, 0, 0, 1, 0, 0, 1, 0};
             var actualResult = baseNumberConvertor.AndOperator(firestByte, secondByte);
             CollectionAssert.AreEqual(actualResult, correctResult);
@@ -109,33 +109,54 @@ namespace MyBaseNumberConvertor.Tests
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
+
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void XorOperatorExceptionTest()
+        public void RightHandShiftByOneTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var firestByte = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var secondByte = new byte[] { 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1 };
-            var actualResult = baseNumberConvertor.XorOperator(firestByte, secondByte);
+            var number = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] {1, 1, 0, 1, 0, 1, 0, 1};
+            var actualResult = baseNumberConvertor.RightHandShiftByOne(number);
+            CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
         [TestMethod]
         public void RightHandShiftTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var number = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var correctResult = new byte[] {1, 1, 1, 0, 1, 0, 1, 0 };
-            var actualResult = baseNumberConvertor.RightHandShift(number,2);
+            var number =        new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 0, 1, 1, 1, 0, 1, 0, 1 };
+            var actualResult = baseNumberConvertor.RightHandShift(number,3);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
+        [TestMethod]
+        public void LeftHandShiftByOneTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var number =        new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 0, 1, 0, 1, 0, 1, 1, 1 };
+            var actualResult = baseNumberConvertor.LeftHandShiftByOne(number);
+            CollectionAssert.AreEqual(actualResult, correctResult);
+        }
         [TestMethod]
         public void LeftHandShiftTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
             var number =        new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var correctResult = new byte[] { 0, 1, 0, 1, 0, 1, 1, 1 };
-            var actualResult = baseNumberConvertor.LeftHandShift(number, 1);
+            var correctResult = new byte[] { 1, 0, 1, 0, 1, 1, 1, 0 };
+            var actualResult = baseNumberConvertor.LeftHandShift(number, 2);
+            CollectionAssert.AreEqual(actualResult, correctResult);
+        }
+
+        [TestMethod]
+        public void AddBinaryBytesTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var firstBytes = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var secondBytes = new byte[] { 1, 0, 1, 0, 1, 1, 0, 1 };
+            var correctResult = new byte[] { 0, 1, 0, 1, 0, 0, 0, 0 };
+            var actualResult = baseNumberConvertor.AddBinarNumber(firstBytes,secondBytes);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
     }
