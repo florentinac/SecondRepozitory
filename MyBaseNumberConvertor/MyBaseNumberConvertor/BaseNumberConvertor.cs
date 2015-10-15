@@ -24,38 +24,36 @@ namespace MyBaseNumberConvertor
         }
         public byte[] AddToArray(ref byte[] array, byte newValue)
         {
-            array = ResizeArrayToLeft(ref array, 1);
+            array = ResizeArrayAndShiftRight(array, 1);
             array[0] = newValue;
             return array;
         }
 
-        public byte[] ResizeArrayToLeft(ref byte[] oldArray, int diff)
+        public byte[] ResizeArrayAndShiftRight(byte[] oldArray, int newSize)
         {
-            var newArray = new byte[oldArray.Length + diff];
-            for (var i = diff; i < newArray.Length; i++)
-                newArray[i] = oldArray[i-diff];            
+            var newArray = new byte[oldArray.Length + newSize];
+            for (var i = newSize; i < newArray.Length; i++)
+                newArray[i] = oldArray[i- newSize];            
             return newArray;
         }
-        public byte[] ResizeArrayToRight(ref byte[] oldArray, int diff)
+
+        public byte[] ResizeArrayAndShiftLeft(byte[] oldArray, int newSize)
         {
-            var newArray = new byte[oldArray.Length + diff];
+            var newArray = new byte[oldArray.Length + newSize];
             for (var i = 0; i < oldArray.Length; i++)
                 newArray[i] = oldArray[i];
             return newArray;
         }
 
-        public byte[] ReverseArray(ref byte[] oldArray)
+        public byte[] ReverseArray(byte[] oldArray)
         {
-            var newArray = new byte[oldArray.Length];
-            var index = 0;
+            var newArray = new byte[oldArray.Length];           
             for (var i = oldArray.Length - 1; i >= 0; i--)
             {
-                newArray[index] = oldArray[i];
-                index++;
+                newArray[oldArray.Length-1-i] = oldArray[i];              
             }
             return newArray;
         }
-
 
         public int ConvertFromBase(byte[] numberDigits, int baseX)
         {
@@ -65,55 +63,42 @@ namespace MyBaseNumberConvertor
             return result;
         }
 
-        public byte GetElementPosition(byte[] number, int pos)
+        public byte GetElementFromPosition(byte[] number, int pos)
         {
-            if (number.Length <= pos)
-                return 0;
-            return number[number.Length - 1 - pos];
+            return (byte)(number.Length <= pos ? 0 : number[number.Length - 1 - pos]);
         }
 
-        public int CompareLenghtArray(int lengthX, int lengthY)
-        {
-            var result = 0;
-            result = lengthX <= lengthY ? lengthY : lengthX;
-            return result;
+        public int MaxValue(int lengthX, int lengthY)
+        {                    
+            return lengthX <= lengthY ? lengthY : lengthX;
         }           
                
         public byte[] OrOperator(byte[] firstBytes, byte[] secondBytes)
         {
             var result = new byte[0];
-            var lengthResult = CompareLenghtArray(firstBytes.Length,secondBytes.Length);
+            var lengthResult = MaxValue(firstBytes.Length,secondBytes.Length);
             for (var i = 0; i < lengthResult; i++)        
-                 result = AddToArray(ref result, Or(GetElementPosition(firstBytes,i), GetElementPosition(secondBytes,i)));
+                 result = AddToArray(ref result, Or(GetElementFromPosition(firstBytes,i), GetElementFromPosition(secondBytes,i)));
             return result;
         }
 
         public byte Or(byte firstBytes, byte secondBytes)
-        {
-            
-            byte result;
-            if (firstBytes == 0 && secondBytes == 0)
-                result = 0;
-            else result = 1;
-            return result;
+        {                      
+            return (byte)((firstBytes == 0 && secondBytes == 0) ? 0 : 1);
         }
 
         public byte[] AndOperator(byte[] firstBytes, byte[] secondBytes)
         {
             var result = new byte[0];
-            var lengthResult = CompareLenghtArray(firstBytes.Length, secondBytes.Length);
+            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
             for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, And(GetElementPosition(firstBytes, i), GetElementPosition(secondBytes, i)));
+                result = AddToArray(ref result, And(GetElementFromPosition(firstBytes, i), GetElementFromPosition(secondBytes, i)));
             return result;
         }
 
         public byte And(byte firstBytes, byte secondBytes)
         {
-            byte result;
-            if (firstBytes == 0 || secondBytes == 0)
-                result = 0;
-            else result = 1;
-            return result;
+            return (byte) ((firstBytes == 0 || secondBytes == 0) ? 0 : 1);
         }
 
         public byte[] NotOnArray(byte[] number)
@@ -134,154 +119,137 @@ namespace MyBaseNumberConvertor
         public byte[] XorOperator(byte[] firstBytes, byte[] secondBytes)
         {
             var result = new byte[0];
-            var lengthResult = CompareLenghtArray(firstBytes.Length, secondBytes.Length);
+            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
             for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, Xor(GetElementPosition(firstBytes, i), GetElementPosition(secondBytes, i)));
+                result = AddToArray(ref result, Xor(GetElementFromPosition(firstBytes, i), GetElementFromPosition(secondBytes, i)));
             return result;
         }
 
         public byte Xor(byte firstBytes, byte secondBytes)
-        {
-            byte result;
-            if ((firstBytes == 0 && secondBytes == 0) || (firstBytes == 1 && secondBytes == 1))
-                result = 1;
-            else result = 0;
-            return result;
-        }
-
-        public byte[] RightHandShiftByOne(byte[] number)
-        {
-            var result = new byte[number.Length];
-                for (var i = 1; i <= number.Length - 1; i++)
-                {
-                    result[i] = number[i - 1];
-                }
-                result[0] = number[number.Length - 1];
-           
-            return result;
+        {            
+            return (byte)(((firstBytes == 0 && secondBytes == 0) || (firstBytes == 1 && secondBytes == 1)) ? 1 : 0);
         }
 
         public byte[] RightHandShift(byte[] number, int count)
         {
-            for (var i = 0; i < count; i++)
-                number = RightHandShiftByOne(number);
-            return number;
-        }
-
-        public byte[] LeftHandShiftByOne(byte[] number)
-        {
             var result = new byte[number.Length];
-            for (var i = 0; i < number.Length - 1; i++)
-            {
-                result[i] = number[i + 1];
-            }
-            result[number.Length - 1] = number[0];
+                for (var i = count; i <= number.Length - 1; i++)
+                {
+                    result[i] = number[i - count];
+                }                         
             return result;
         }
-
+       
         public byte[] LeftHandShift(byte[] number, int count)
         {
-            for (var i = 0; i < count; i++)
-                number = LeftHandShiftByOne(number);
-            return number;
+            var result = new byte[number.Length];
+            for (var i = 0; i < number.Length - count; i++)
+            {
+                result[i] = number[i + count];
+            }          
+            return result;
         }
+        
 
         public bool LessThanBytes(byte[] firstBytes, byte[] secondBytes)
         {
             
-            var length = CompareLenghtArray(firstBytes.Length, secondBytes.Length);
+            var length = MaxValue(firstBytes.Length, secondBytes.Length);
             for (var i = length - 1; i >= 0; i--)
             {
-                if (GetElementPosition(firstBytes,i) < GetElementPosition(secondBytes,i))
+                if (GetElementFromPosition(firstBytes,i) < GetElementFromPosition(secondBytes,i))
                 {
                     return true;
                 }
-                if (GetElementPosition(firstBytes, i) > GetElementPosition(secondBytes, i))
+                if (GetElementFromPosition(firstBytes, i) > GetElementFromPosition(secondBytes, i))
                 {
                     return false;
                 }                
             }
-            return true;
+            return false;
         }
 
-        public byte[] AddBaseBytes(byte[] firstBytes, byte[] secondBytes, int baseX)
+        public byte[] AdditionBaseBytesArray(byte[] firstBytes, byte[] secondBytes, int baseX)
         {
             var result = new byte[0];
             byte rest=0;
-            var lengthResult = CompareLenghtArray(firstBytes.Length, secondBytes.Length);
+            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
             for (var i = 0; i < lengthResult; i++)
             {
-                var add = GetElementPosition(firstBytes, i) + GetElementPosition(secondBytes, i)+rest;
-                if (add >= baseX)
-                {
-                    rest = ConvertToBase(add, baseX)[0];
-                    result = AddToArray(ref result, ConvertToBase(add, baseX)[1]);
-                }
-                else
-                {
-                    rest = 0;
-                    result = AddToArray(ref result, (byte)add);
-                }                
+                var add = GetElementFromPosition(firstBytes, i) + GetElementFromPosition(secondBytes, i)+rest;
+                rest = (byte)(add/baseX);
+                result = AddToArray(ref result, (byte) (add % baseX));   
             }
-            if (rest == 1)
+            if (rest > 0)
             {
                 result=AddToArray(ref result, rest);
             }
             return result;
         }
 
-        public byte[] DeductBaseByte(byte[] firstBytes, byte[] secondBytes, int baseX)
+        public byte[] DeductBaseByteArray(byte[] firstBytes, byte[] secondBytes, int baseX)
         {
             var result = new byte[0];
             byte imprumut = 0;
-            var lengthResult = CompareLenghtArray(firstBytes.Length, secondBytes.Length);
+            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
             for (var i = 0; i < lengthResult; i++)
             {
-                var deductRezult = GetElementPosition(firstBytes, i) - GetElementPosition(secondBytes, i) - imprumut;
-                if (GetElementPosition(firstBytes, i) < GetElementPosition(secondBytes, i))
+                var deductResult = GetElementFromPosition(firstBytes, i) - GetElementFromPosition(secondBytes, i) - imprumut;
+                if (GetElementFromPosition(firstBytes, i) < GetElementFromPosition(secondBytes, i))
                 {
-                    deductRezult =baseX + deductRezult;
-                    result = AddToArray(ref result, (byte)deductRezult);
+                    deductResult =baseX + deductResult;
+                    result = AddToArray(ref result, (byte)deductResult);
                     imprumut = 1;
                 }
                 else
                 {
                     imprumut = 0;
-                    result = AddToArray(ref result, (byte)deductRezult);
+                    result = AddToArray(ref result, (byte)deductResult);
                 }               
             }
             return result;
         }
-        
-        public byte[] MultiplyBaseByte(byte[] firstBytes, byte[] secondBytes, int baseX)
+        public byte[] DeductBaseNumber(byte[] firstBytes, byte[] secondBytes, int baseX)
         {
             var result = new byte[0];
-            
-            byte rest = 0;
-            for (var i = 0; i < secondBytes.Length; i++)
+            byte remainder = 0;
+            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
+            for (var i = 0; i < lengthResult; i++)
             {
-                var partialResult = new byte[0];
-                for (var j = 0; j < firstBytes.Length; j++)
-                {
-                    
-                    var multiplyResult = GetElementPosition(secondBytes, i)*GetElementPosition(firstBytes, j) + rest;
-                    if (multiplyResult > baseX)
-                    {
-                        rest = ConvertToBase(multiplyResult, baseX)[0];
-                        partialResult = AddToArray(ref partialResult, ConvertToBase(multiplyResult, baseX)[1]);
-                    }
-                    else
-                    {
-                        rest = 0;
-                        partialResult = AddToArray(ref partialResult, (byte) multiplyResult);
-                    }
-                }
-                partialResult = ResizeArrayToRight(ref partialResult, i);
-                partialResult = ResizeArrayToLeft(ref partialResult, secondBytes.Length - i - 1);
-
-                result = AddBaseBytes(result, partialResult, baseX);
+                    var deductResult = (baseX+GetElementFromPosition(firstBytes, i) - GetElementFromPosition(secondBytes, i) - remainder) % baseX;
+                    result = AddToArray(ref result, (byte)deductResult);
+                    remainder = (byte)((baseX+GetElementFromPosition(firstBytes, i) - GetElementFromPosition(secondBytes, i) - remainder) / baseX);
+                    remainder = (byte)(remainder == 0 ? 1 : 0);
             }
             return result;
         }
+
+        public byte[] MultiplyBaseBytesArray(byte[] first, byte[] second, int baseX)
+        {
+            var result = new byte[0];
+            var length = ConvertFromBase(second, baseX);
+            for (var i = 0; i < length; i++)
+            {
+                result = AdditionBaseBytesArray(first, result, baseX);
+            }
+            return result;
+        }
+
+        public byte[] DivisionBaseBytesArray(ref byte[] first, byte[] second, int baseX)
+        {          
+            var index = 0;
+            
+            for (var i = 0; i < 255; i++)
+            {
+                first = DeductBaseNumber(first, second, baseX);
+                var boolean = LessThanBytes(first, second);
+                index++;
+                if (boolean)
+                    break;
+            }
+            first = ConvertToBase(index, baseX);
+            return first;
+        }
+
     }
 }
