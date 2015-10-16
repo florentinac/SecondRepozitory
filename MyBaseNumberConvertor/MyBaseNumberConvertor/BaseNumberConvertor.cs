@@ -14,6 +14,11 @@ namespace MyBaseNumberConvertor
         {
             
             var resultReverse=new byte[0];
+            if (number == 0)
+            {
+                resultReverse = AddToArray(ref resultReverse, (byte) 0);
+                return  resultReverse;
+            }
             while (number > 0)
             {
                 var remainder = number % baseX;
@@ -28,18 +33,17 @@ namespace MyBaseNumberConvertor
             array[0] = newValue;
             return array;
         }
-
-        public byte[] ResizeArrayAndShiftRight(byte[] oldArray, int newSize)
-        {
-            var newArray = new byte[oldArray.Length + newSize];
-            for (var i = newSize; i < newArray.Length; i++)
-                newArray[i] = oldArray[i- newSize];            
+      
+        public byte[] ResizeArrayAndShiftRight(byte[] oldArray, int difference)
+        {           
+            var newArray = ResizeArray(oldArray, difference);
+            newArray = RightHandShift(newArray, difference);
             return newArray;
         }
 
-        public byte[] ResizeArrayAndShiftLeft(byte[] oldArray, int newSize)
+        public byte[] ResizeArray(byte[] oldArray, int difference)
         {
-            var newArray = new byte[oldArray.Length + newSize];
+            var newArray = new byte[oldArray.Length + difference];
             for (var i = 0; i < oldArray.Length; i++)
                 newArray[i] = oldArray[i];
             return newArray;
@@ -68,17 +72,17 @@ namespace MyBaseNumberConvertor
             return (byte)(number.Length <= pos ? 0 : number[number.Length - 1 - pos]);
         }
 
-        public int MaxValue(int lengthX, int lengthY)
+        public int MaxValue(int x, int y)
         {                    
-            return lengthX <= lengthY ? lengthY : lengthX;
+            return x >= y ? x : y;
         }           
                
-        public byte[] OrOperator(byte[] firstBytes, byte[] secondBytes)
+        public byte[] OrOperator(byte[] first, byte[] second)
         {
             var result = new byte[0];
-            var lengthResult = MaxValue(firstBytes.Length,secondBytes.Length);
+            var lengthResult = MaxValue(first.Length,second.Length);
             for (var i = 0; i < lengthResult; i++)        
-                 result = AddToArray(ref result, Or(GetElementFromPosition(firstBytes,i), GetElementFromPosition(secondBytes,i)));
+                 result = AddToArray(ref result, Or(GetElementFromPosition(first,i), GetElementFromPosition(second,i)));
             return result;
         }
 
@@ -87,18 +91,18 @@ namespace MyBaseNumberConvertor
             return (byte)((firstBytes == 0 && secondBytes == 0) ? 0 : 1);
         }
 
-        public byte[] AndOperator(byte[] firstBytes, byte[] secondBytes)
+        public byte[] AndOperator(byte[] first, byte[] second)
         {
             var result = new byte[0];
-            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
+            var lengthResult = MaxValue(first.Length, second.Length);
             for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, And(GetElementFromPosition(firstBytes, i), GetElementFromPosition(secondBytes, i)));
+                result = AddToArray(ref result, And(GetElementFromPosition(first, i), GetElementFromPosition(second, i)));
             return result;
         }
 
-        public byte And(byte firstBytes, byte secondBytes)
+        public byte And(byte first, byte second)
         {
-            return (byte) ((firstBytes == 0 || secondBytes == 0) ? 0 : 1);
+            return (byte) ((first == 0 || second == 0) ? 0 : 1);
         }
 
         public byte[] NotOnArray(byte[] number)
@@ -116,18 +120,18 @@ namespace MyBaseNumberConvertor
             return (byte)(number == 0 ? 1 : 0);
         }
 
-        public byte[] XorOperator(byte[] firstBytes, byte[] secondBytes)
+        public byte[] XorOperator(byte[] first, byte[] second)
         {
             var result = new byte[0];
-            var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
+            var lengthResult = MaxValue(first.Length, second.Length);
             for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, Xor(GetElementFromPosition(firstBytes, i), GetElementFromPosition(secondBytes, i)));
+                result = AddToArray(ref result, Xor(GetElementFromPosition(first, i), GetElementFromPosition(second, i)));
             return result;
         }
 
-        public byte Xor(byte firstBytes, byte secondBytes)
+        public byte Xor(byte first, byte second)
         {            
-            return (byte)(((firstBytes == 0 && secondBytes == 0) || (firstBytes == 1 && secondBytes == 1)) ? 1 : 0);
+            return (byte)(((first == 0 && second == 0) || (first == 1 && second == 1)) ? 1 : 0);
         }
 
         public byte[] RightHandShift(byte[] number, int count)
@@ -151,22 +155,36 @@ namespace MyBaseNumberConvertor
         }
         
 
-        public bool LessThanBytes(byte[] firstBytes, byte[] secondBytes)
+        public bool LessThan(byte[] first, byte[] second)
         {
             
-            var length = MaxValue(firstBytes.Length, secondBytes.Length);
+            var length = MaxValue(first.Length, second.Length);
             for (var i = length - 1; i >= 0; i--)
             {
-                if (GetElementFromPosition(firstBytes,i) < GetElementFromPosition(secondBytes,i))
+                if (GetElementFromPosition(first,i) < GetElementFromPosition(second,i))
                 {
                     return true;
                 }
-                if (GetElementFromPosition(firstBytes, i) > GetElementFromPosition(secondBytes, i))
+                if (GetElementFromPosition(first, i) > GetElementFromPosition(second, i))
                 {
                     return false;
                 }                
             }
             return false;
+        }
+
+        public bool GraterThan(byte[] first, byte[] second)
+        {
+            return LessThan(second, first);
+        }
+        public bool Equal(byte[] first, byte[] second)
+        {
+            return (LessThan(first, second) == false) && (LessThan(second, first) == false);
+        }
+
+        public bool NotEqual(byte[] first, byte[] second)
+        {
+            return !Equal(first, second);
         }
 
         public byte[] AdditionBaseBytesArray(byte[] firstBytes, byte[] secondBytes, int baseX)
@@ -214,12 +232,17 @@ namespace MyBaseNumberConvertor
             var result = new byte[0];
             byte remainder = 0;
             var lengthResult = MaxValue(firstBytes.Length, secondBytes.Length);
-            for (var i = 0; i < lengthResult; i++)
+            if (LessThan(firstBytes, secondBytes))
             {
-                    var deductResult = (baseX+GetElementFromPosition(firstBytes, i) - GetElementFromPosition(secondBytes, i) - remainder) % baseX;
-                    result = AddToArray(ref result, (byte)deductResult);
-                    remainder = (byte)((baseX+GetElementFromPosition(firstBytes, i) - GetElementFromPosition(secondBytes, i) - remainder) / baseX);
-                    remainder = (byte)(remainder == 0 ? 1 : 0);
+                result = AddToArray(ref result, (byte)0);
+                return result;
+            }
+            for (var i = 0; i < lengthResult; i++)
+            {               
+                var difference = baseX + GetElementFromPosition(firstBytes, i) - GetElementFromPosition(secondBytes, i) - remainder;                
+                result = AddToArray(ref result, (byte)(difference % baseX));
+                remainder = (byte)(difference / baseX);
+                remainder = (byte)(remainder == 0 ? 1 : 0);
             }
             return result;
         }
@@ -228,6 +251,7 @@ namespace MyBaseNumberConvertor
         {
             var result = new byte[0];
             var length = ConvertFromBase(second, baseX);
+            
             for (var i = 0; i < length; i++)
             {
                 result = AdditionBaseBytesArray(first, result, baseX);
@@ -235,20 +259,20 @@ namespace MyBaseNumberConvertor
             return result;
         }
 
-        public byte[] DivisionBaseBytesArray(ref byte[] first, byte[] second, int baseX)
-        {          
+        public byte[] DivisionBaseBytesArray(byte[] first, byte[] second, int baseX)
+        {
+            var difference = first;
             var index = 0;
+            var boolean = false;
             
-            for (var i = 0; i < 255; i++)
+            while (boolean != true)
             {
-                first = DeductBaseNumber(first, second, baseX);
-                var boolean = LessThanBytes(first, second);
-                index++;
-                if (boolean)
-                    break;
+                boolean = LessThan(difference, second);
+                index = boolean ? index : index + 1;
+                difference = DeductBaseNumber(difference, second, baseX);               
             }
-            first = ConvertToBase(index, baseX);
-            return first;
+            var result = ConvertToBase(index, baseX);
+            return result;
         }
 
     }

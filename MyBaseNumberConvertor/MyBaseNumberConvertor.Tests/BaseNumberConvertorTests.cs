@@ -10,11 +10,22 @@ namespace MyBaseNumberConvertor.Tests
         public void RisezeArrayTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var oldArray =      new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
-            var correctResult = new byte[] { 0, 0, 1, 0, 1, 0, 1, 0, 1, 1 };
-            byte[] newArray = baseNumberConvertor.ResizeArrayAndShiftRight(oldArray,2);
-            CollectionAssert.AreEqual(correctResult,newArray);
-             
+            var oldArray = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0 };
+            byte[] newArray = baseNumberConvertor.ResizeArray(oldArray, 3);
+            CollectionAssert.AreEqual(correctResult, newArray);
+
+        }
+
+        [TestMethod]
+        public void RisezeArrayAndRightShiftTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var oldArray = new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
+            var correctResult = new byte[] { 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1 };
+            byte[] newArray = baseNumberConvertor.ResizeArrayAndShiftRight(oldArray, 3);
+            CollectionAssert.AreEqual(correctResult, newArray);
+
         }
 
         [TestMethod]
@@ -146,7 +157,7 @@ namespace MyBaseNumberConvertor.Tests
             var baseNumberConvertor = new BaseNumberConvertor();
             var firstByte =  new byte[] { 1, 0, 1, 0, 1, 0, 1, 1 };
             var secondByte = new byte[] { 1, 0, 1, 0, 1, 1, 0, 1 };
-            var firstlassthansecond = baseNumberConvertor.LessThanBytes(firstByte, secondByte);
+            var firstlassthansecond = baseNumberConvertor.LessThan(firstByte, secondByte);
             Assert.AreEqual(firstlassthansecond, true);
         }
 
@@ -156,7 +167,7 @@ namespace MyBaseNumberConvertor.Tests
             var baseNumberConvertor = new BaseNumberConvertor();
             var firstByte =  new byte[] { 1, 0, 1, 0, 1, 1, 1, 1 };
             var secondByte = new byte[] { 1, 0, 1, 0, 1, 1, 0, 1 };
-            var secondlassthanfirst = baseNumberConvertor.LessThanBytes(secondByte, firstByte);
+            var secondlassthanfirst = baseNumberConvertor.GraterThan(firstByte, secondByte);
             Assert.AreEqual(secondlassthanfirst, true);
         }
 
@@ -166,10 +177,17 @@ namespace MyBaseNumberConvertor.Tests
             var baseNumberConvertor = new BaseNumberConvertor();
             var firstByte =  new byte[] { 1, 0, 1, 0, 1, 1, 1, 1 };
             var secondByte = new byte[] { 1, 0, 1, 0, 1, 1, 1, 1 };
-            var firstlassthansecond = baseNumberConvertor.LessThanBytes(firstByte, secondByte);
-            var secondlassthanfirst = baseNumberConvertor.LessThanBytes(secondByte, firstByte);
-            Assert.AreEqual(firstlassthansecond,false);
-            Assert.AreEqual(secondlassthanfirst, false);
+            var equals = baseNumberConvertor.Equal(firstByte, secondByte);
+            Assert.AreEqual(equals, true);
+        }
+        [TestMethod]
+        public void NotEgualBytesTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var firstByte = new byte[] { 1, 1, 1, 0, 1, 1, 1, 1 };
+            var secondByte = new byte[] { 1, 0, 1, 0, 1, 1, 1, 1 };
+            var equals = baseNumberConvertor.NotEqual(firstByte, secondByte);
+            Assert.AreEqual(equals, true);
         }
 
         [TestMethod]
@@ -228,6 +246,17 @@ namespace MyBaseNumberConvertor.Tests
         }
 
         [TestMethod]
+        public void DeductArrayOfByteWhenFirstArrayIsSmallerThanSecondTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var firstBytes = new byte[] { 2,4 };
+            var secondBytes = new byte[] { 3,5 };
+            var correctResult = new byte[] {0};
+            var actualResult = baseNumberConvertor.DeductBaseNumber(firstBytes, secondBytes, 8);
+            CollectionAssert.AreEqual(actualResult, correctResult);
+        }     
+
+        [TestMethod]
         public void MultiplyArrayOfBytesInOctalBaseTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
@@ -255,7 +284,18 @@ namespace MyBaseNumberConvertor.Tests
             var firstBytes = new byte[] {1, 1, 1, 0, 0, 1, 1};
             var secondBytes = new byte[] {1, 1, 1};
             var correctResult = new byte[] {1, 0, 0, 0, 0}; 
-            var actualResult = baseNumberConvertor.DivisionBaseBytesArray(ref firstBytes, secondBytes, 2);
+            var actualResult = baseNumberConvertor.DivisionBaseBytesArray(firstBytes, secondBytes, 2);
+            CollectionAssert.AreEqual(actualResult, correctResult);
+        }
+
+        [TestMethod]
+        public void DivisionArrayOfByteWhenFirstArrayIsSmallerThanSecondTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var firstBytes = new byte[] { 2, 3 };
+            var secondBytes = new byte[] { 2, 5 };
+            var correctResult = new byte[] { 0 };
+            var actualResult = baseNumberConvertor.DivisionBaseBytesArray(firstBytes, secondBytes, 8);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
@@ -263,12 +303,23 @@ namespace MyBaseNumberConvertor.Tests
         public void DivisionArrayOfByteInOctalBaseTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var firstBytes = new byte[] { 2, 3, 7 };
+            var firstBytes = new byte[] { 4, 3 ,7};
             var secondBytes = new byte[] { 2, 5 };
-            var correctResult = new byte[] { 7 };
-            var actualResult = baseNumberConvertor.DivisionBaseBytesArray(ref firstBytes, secondBytes, 8);
+            var correctResult = new byte[] { 1, 5 };
+            var actualResult = baseNumberConvertor.DivisionBaseBytesArray(firstBytes, secondBytes, 8);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
+        [TestMethod]
+        public void DivisionArrayOfByteInOctalBaseWhenTheArrayAreEqualsTest()
+        {
+            var baseNumberConvertor = new BaseNumberConvertor();
+            var firstBytes = new byte[] { 2, 3, 7 };
+            var secondBytes = new byte[] { 2, 3, 7 };
+            var correctResult = new byte[] { 1 };
+            var actualResult = baseNumberConvertor.DivisionBaseBytesArray(firstBytes, secondBytes, 8);
+            CollectionAssert.AreEqual(actualResult, correctResult);
+        }
+
     }
 }
 
