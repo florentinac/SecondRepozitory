@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{33394CB6-E2F7-4168-AF6D-7BE8154B160C}</ProjectGuid>
+    <ProjectGuid>{A26989F0-FB89-4FAF-86DA-142E51FCC294}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyWeatherForecastTests</RootNamespace>
-    <AssemblyName>MyWeatherForecastTests</AssemblyName>
+    <RootNamespace>MyRecursivityProblems.Tests</RootNamespace>
+    <AssemblyName>MyRecursivityProblems.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,8 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="RecursivityProblemsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyRecursivityProblems\MyRecursivityProblems.csproj">
+      <Project>{a0be179b-d2b1-4c12-a054-6a3b8257c639}</Project>
+      <Name>MyRecursivityProblems</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
