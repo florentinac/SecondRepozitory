@@ -10,53 +10,98 @@ namespace MyShopping
     {
         public struct ShoppingCart
         {
-            public string ProducName;
+            public string ProductName;
             public int Price;
-                   
+        };
 
-        }
-
-        public static int GetTotalPaymentOfShoppingCart(ShoppingCart[] cart)
+        public static float GetTotalPrice(ShoppingCart[] cart)
         {
-            var totalPayment = 0;
+            float totalPrice = 0;
             for (var i = 0; i < cart.Length; i++)
-                totalPayment += cart[i].Price;
-
-            return totalPayment;
+                totalPrice += cart[i].Price;
+            return totalPrice;
         }
 
-        public static string GetTheCheapestProduct(ShoppingCart[] cart)
+        public static float GetMinim(ShoppingCart[] cart)
         {
-            var cheapestProduct = cart[0].ProducName;
-            var minPrice = cart[0].Price;
-            for (var i=0;i<cart.Length;i++)
-                if (cart[i].Price < minPrice)
-                {                   
-                    minPrice = cart[i].Price;
-                    cheapestProduct = cart[i].ProducName;
+            float minValue = cart[0].Price;
+            for (var i = 0; i < cart.Length; i++)
+                if (cart[i].Price < minValue)
+                    minValue = cart[i].Price;
+            return minValue;
+        }
+
+        public static ShoppingCart[] AddToArray(ref ShoppingCart[] array, ShoppingCart newValue)
+        {
+            array = ResizeArray(array, 1);
+            array[array.Length - 1] = newValue;
+            return array;
+        }
+
+        public static ShoppingCart[] ResizeArray(ShoppingCart[] oldArray, int difference)
+        {
+            var newArray = new ShoppingCart[oldArray.Length + difference];
+            for (var i = 0; i < oldArray.Length; i++)
+                newArray[i] = oldArray[i];
+            return newArray;
+        }
+
+        public static ShoppingCart[] GetProductWithMinimPrice(ShoppingCart[] cart)
+        {
+            var minPrice = GetMinim(cart);
+            var productsMinim = new ShoppingCart[0];
+
+            for (var i = 0; i < cart.Length; i++)
+            {
+                if (cart[i].Price == minPrice)
+                {
+                    productsMinim = AddToArray(ref productsMinim, cart[i]);
                 }
-
-            return cheapestProduct;
+            }
+            return productsMinim;
         }
 
-        public static int GetMaximPrice(ShoppingCart[] cart)
+        public static float GetAveregePrice(ShoppingCart[] cart)
         {
-            var maxPrice = cart[0].Price;
-            for(var i=0;i<cart.Length;i++)
+            float averegePrice = 0;
+            float totalPrice = GetTotalPrice(cart);
+            averegePrice = totalPrice / cart.Length;
+
+            return averegePrice;
+        }
+
+        public static float GetMaxim(ShoppingCart[] cart)
+        {
+            float maxPrice = cart[0].Price;
+            for (var i = 0; i < cart.Length; i++)
                 if (cart[i].Price > maxPrice)
                     maxPrice = cart[i].Price;
             return maxPrice;
         }
 
-        public static ShoppingCart[] DeleteProduct(ShoppingCart[] cart)
+        public static ShoppingCart[] RemoveAtIndex(ShoppingCart[] array, int index)
         {
-            var maxPrice = GetMaximPrice(cart);
-            var newCart = new ShoppingCart[cart.Length-1];
-            for( var i=1;i<cart.Length;i++)
-                if (cart[i].Price != maxPrice)
-                    newCart[i-1] = cart[i];
-            return newCart;
+            var count = array.Length - 1;
+            var newArray = new ShoppingCart[count];
 
+            if (index > 0)
+                Array.Copy(array, 0, newArray, 0, index);
+            if (index < count)
+                Array.Copy(array, index + 1, newArray, index, count - index);
+            return newArray;
+        }
+
+        public static ShoppingCart[] RemoveProduct(ShoppingCart[] cart)
+        {
+            var maxPrice = GetMaxim(cart);
+            var newArray = new ShoppingCart[cart.Length - 1];
+
+            for (var i = 0; i < cart.Length; i++)
+            {
+                if (cart[i].Price == maxPrice)
+                    newArray = RemoveAtIndex(cart, i);
+            }
+            return newArray;
         }
     }
 }

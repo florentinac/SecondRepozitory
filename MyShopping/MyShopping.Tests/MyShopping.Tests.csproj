@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3D88D1F8-E1BA-4785-95C6-681D1A16097D}</ProjectGuid>
+    <ProjectGuid>{93669087-3EC7-4BE2-8687-37074971FB37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyShopping.Tests</RootNamespace>
@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyShopping\MyShopping.csproj">
-      <Project>{ccc149a8-08b7-4783-90d2-b27e5c6f6f96}</Project>
+      <Project>{a394f450-16fc-479e-ae54-192a5d552a2d}</Project>
       <Name>MyShopping</Name>
     </ProjectReference>
   </ItemGroup>
