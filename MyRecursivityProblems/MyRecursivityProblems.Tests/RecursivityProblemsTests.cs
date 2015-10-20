@@ -9,7 +9,7 @@ namespace MyRecursivityProblems.Tests
         [TestMethod]
         public void FibonacciTest()
         {
-            var expectedRezult = 13;
+            const int expectedRezult = 13;
             var actualRezult = RecursivityProblems.GetFibonacciNumber(7);
             Assert.AreEqual(expectedRezult,actualRezult);
         }
@@ -17,7 +17,7 @@ namespace MyRecursivityProblems.Tests
         [TestMethod]
         public void ReverseStringTest()
         {
-            var expectedResult = "dcba";
+            const string expectedResult = "dcba";
             var actualResult = RecursivityProblems.ReverseString("abcd");
             Assert.AreEqual(expectedResult,actualResult);
         }   
@@ -25,16 +25,32 @@ namespace MyRecursivityProblems.Tests
         [TestMethod]
         public void ReplaceLeterWithStringTest()
         {
-            var expectedResult = "xxxnxxxnxxx";
+            const string expectedResult = "xxxnxxxnxxx";
             var actualResult = RecursivityProblems.ReplaceLeterWithString("anana", 'a', "xxx");
             Assert.AreEqual(expectedResult, actualResult);
         }
 
         [TestMethod]
-        public void RecursivityTest()
+        public void ReversePolishNotationTest()
         {
-            var expectedResult = 6;
-            var actualResult = RecursivityProblems.CalculateRecursiv("+ + + 2.5 3.5 4 7");
+            const double expectedResult = 11.25;
+            var actualResult = RecursivityProblems.CallsRecursivity("* / * + 1 2 3 4 5");
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        [TestMethod]
+        public void ReversePolishNotationWehnIsValueOperandValueTest()
+        {
+            const double expectedResult = 21;
+            var actualResult = RecursivityProblems.CallsRecursivity("* + 1 2 + 3 4");
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void TowerOfHanoiTest()
+        {
+            const long expectedResult = 511;
+            var index = 0;
+            var actualResult = RecursivityProblems.MoveTower(9, 'A', 'B', 'C',  ref index);
             Assert.AreEqual(expectedResult, actualResult);
         }
     }
