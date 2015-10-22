@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MyRecursivityProblems.Tests
@@ -34,24 +35,44 @@ namespace MyRecursivityProblems.Tests
         public void ReversePolishNotationTest()
         {
             const double expectedResult = 11.25;
-            var actualResult = RecursivityProblems.CallsRecursivity("* / * + 1 2 3 4 5");
+            var actualResult = RecursivityProblems.CallsReversePolishNotation("* / * + 1 2 3 4 5");
             Assert.AreEqual(expectedResult, actualResult);
         }
         [TestMethod]
         public void ReversePolishNotationWehnIsValueOperandValueTest()
         {
             const double expectedResult = 21;
-            var actualResult = RecursivityProblems.CallsRecursivity("* + 1 2 + 3 4");
+            var actualResult = RecursivityProblems.CallsReversePolishNotation("* + 1 2 + 3 4");
             Assert.AreEqual(expectedResult, actualResult);
         }
 
         [TestMethod]
         public void TowerOfHanoiTest()
         {
-            const long expectedResult = 511;
+            var source = new List<int>() {5, 4, 3, 2, 1}; 
             var index = 0;
-            var actualResult = RecursivityProblems.MoveTower(9, 'A', 'B', 'C',  ref index);
+            var dest = new List<int>();
+            var help = new List<int>();
+            var expectedResult = new int[] {5, 4, 3, 2, 1}; 
+            var actualResult = RecursivityProblems.MoveTower(source.Count, source, dest, help, ref index);       
+            Assert.AreEqual(index,31);    
+            CollectionAssert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void ValueForPascalTriangleTest()
+        {
+            const long expectedResult = 6;
+            var actualResult = RecursivityProblems.GetValueForPascalTriangle(4,2);
             Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RowXForPascalTriangle()
+        {
+            var expectedResult = new int[] {1, 10, 45, 120, 210, 252, 210, 120, 45, 10, 1};
+            var actualResult = RecursivityProblems.GetRowFromPascalTriangle(10, 10);
+            CollectionAssert.AreEqual(expectedResult, actualResult);
         }
     }
 }
