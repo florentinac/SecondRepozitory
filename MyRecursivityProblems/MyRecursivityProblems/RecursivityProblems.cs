@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
@@ -150,25 +151,29 @@ namespace MyRecursivityProblems
             return n* CalculateArrangements(n - 1, k - 1);
         }
 
-        public static int PlayGame(ref char[,] start)
+        public static int PlayGame(char[,] start, int n)
         {
             var nrMove = 0;
-            for (var i = 0; i < 4; i++)
-                for (var j=0; j < 4; j++)
+            for (var i = 0; i < n; i++)
+                for (var j=0; j < n; j++)
             {
-                int minI = ((i - 1) < 0) ? i : i - 1;
-                int minJ = ((j - 1) < 0) ? i : j - 1;
-                int maxI = ((i + 1) > 3) ? i : i + 1;
-                int maxJ = ((j + 1) > 3) ? i : j + 1;
-                if (start[i,j] != 'X' && start[i,minJ] != 'X' && start[minI,j] != 'X' && start[maxI,j] != 'X' &&
-                    start[i,maxJ] != 'X')
-                {
-                    start[i,j] = 'X';
-                    nrMove++;
-                }
+                nrMove += NrMove(start, i, j,n);               
+            }           
+            return (nrMove%2==1)?nrMove:0;
+        }
 
+        private static int NrMove(char[,] start, int i, int j, int n)
+        {
+            var nrMove = 0;
+            var minI = ((i - 1) < 0) ? i : i - 1;
+            var minJ = ((j - 1) < 0) ? j : j - 1;
+            var maxI = ((i + 1) > n-1) ? i : i + 1;
+            var maxJ = ((j + 1) > n-1) ? j : j + 1;
+            if (start[i, j] != 'X' && start[i, minJ] != 'X' && start[minI, j] != 'X' && start[maxI, j] != 'X' &&
+                start[i, maxJ] != 'X')
+            {
+                nrMove++;
             }
-
             return nrMove;
         }
     }

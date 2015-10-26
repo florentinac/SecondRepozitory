@@ -85,13 +85,28 @@ namespace MyRecursivityProblems.Tests
 
 
         [TestMethod]
+        public void WinGameTest()
+        {
+            const long expectedResult = 11;
+            var startGame = new char[,] { {'-','-', '-', '-'}, { '-' , '-', '-', '-'}, {'-', '-', 'X', '-'}, {'-', '-', '-', '-' }};         
+            var actualResult = RecursivityProblems.PlayGame(startGame,4);          
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void PlayGameWithoutPosibilityToWinTest()
+        {
+            const long expectedResult = 0;
+            var startGame = new char[,] { { '-', '-', '-', '-' }, { '-', '-', '-', '-' }, { '-', '-', '-', '-' }, { '-', '-', '-', '-' } };
+            var actualResult = RecursivityProblems.PlayGame(startGame, 4);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        [TestMethod]
         public void PlayGameTest()
         {
-            const long expectedResult = 8;
-            var startGame = new char[,] { {'-','-', '-', '-'}, { '-' , '-', '-', '-'}, {'-', '-', '-', '-'}, {'-', '-', '-', '-' }};
-            var finalGame = new char[,] { { 'X', '-', 'X', '-'}, { '-', 'X', '-', 'X'}, { 'X', '-', 'X', '-'}, {'-', 'X', '-', 'X'}};
-            var actualResult = RecursivityProblems.PlayGame(ref startGame);
-            CollectionAssert.AreEqual(startGame,finalGame);
+            const long expectedResult = 0;
+            var startGame = new char[,] { { '-', 'X', '-', 'X' }, { '-', '-', 'X', '-' }, { 'X', '-', '-', 'X' }, { '-', 'X', '-', '-' } };
+            var actualResult = RecursivityProblems.PlayGame(startGame, 4);
             Assert.AreEqual(expectedResult, actualResult);
         }
     }
