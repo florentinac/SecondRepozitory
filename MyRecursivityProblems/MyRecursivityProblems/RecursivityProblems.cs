@@ -142,5 +142,34 @@ namespace MyRecursivityProblems
                 result[i] = GetValueForPascalTriangle(nrRow, i);
             return result;
         }
+
+        public static long CalculateArrangements(int n, int k)
+        {
+            if (k == 1) return n;
+            if (k == 0) return 1;
+            return n* CalculateArrangements(n - 1, k - 1);
+        }
+
+        public static int PlayGame(ref char[,] start)
+        {
+            var nrMove = 0;
+            for (var i = 0; i < 4; i++)
+                for (var j=0; j < 4; j++)
+            {
+                int minI = ((i - 1) < 0) ? i : i - 1;
+                int minJ = ((j - 1) < 0) ? i : j - 1;
+                int maxI = ((i + 1) > 3) ? i : i + 1;
+                int maxJ = ((j + 1) > 3) ? i : j + 1;
+                if (start[i,j] != 'X' && start[i,minJ] != 'X' && start[minI,j] != 'X' && start[maxI,j] != 'X' &&
+                    start[i,maxJ] != 'X')
+                {
+                    start[i,j] = 'X';
+                    nrMove++;
+                }
+
+            }
+
+            return nrMove;
+        }
     }
 }

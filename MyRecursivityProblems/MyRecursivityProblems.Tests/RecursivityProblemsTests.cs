@@ -74,5 +74,25 @@ namespace MyRecursivityProblems.Tests
             var actualResult = RecursivityProblems.GetRowFromPascalTriangle(10, 10);
             CollectionAssert.AreEqual(expectedResult, actualResult);
         }
+
+        [TestMethod]
+        public void CalculateArrangementsTest()
+        {
+            const long expectedResult = 12;
+            var actualResult = RecursivityProblems.CalculateArrangements(4, 2);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+
+        [TestMethod]
+        public void PlayGameTest()
+        {
+            const long expectedResult = 8;
+            var startGame = new char[,] { {'-','-', '-', '-'}, { '-' , '-', '-', '-'}, {'-', '-', '-', '-'}, {'-', '-', '-', '-' }};
+            var finalGame = new char[,] { { 'X', '-', 'X', '-'}, { '-', 'X', '-', 'X'}, { 'X', '-', 'X', '-'}, {'-', 'X', '-', 'X'}};
+            var actualResult = RecursivityProblems.PlayGame(ref startGame);
+            CollectionAssert.AreEqual(startGame,finalGame);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }
