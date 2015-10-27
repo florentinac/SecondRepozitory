@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,12 @@ namespace MySortingAndSearchingAlgorithms
 {
     public class SortingAndSearchingAlgorithms
     {
+        public enum Priority
+        {
+            Low = 0,
+            Medium = 1,
+            High = 2
+        } 
 
         public static void QuickSortForOrderAscendingText(char[] text, int left, int right)
         {           
@@ -42,7 +49,8 @@ namespace MySortingAndSearchingAlgorithms
                 else return highIndex;
 
             }
-        }
+        }  
+       
         public static void Swap(ref char x, ref char y)
         {
             var temp = y;
@@ -99,6 +107,40 @@ namespace MySortingAndSearchingAlgorithms
         //   QuickSort3Way(priority, lowIndex, lowIndex-1);
         //   QuickSort3Way(priority, highIndex+1, highIndex);
         //}
+        public static void QuickSort3Way(char[] letters, int lowIndex, int highIndex)
+        {
+            if (letters.Length <= 1)
+                return;
+            if (lowIndex < highIndex)
+            {
+                var pivot = letters[highIndex];
+                var i = 0;
+                var k = 0;
+                var n = highIndex;
+                var p = n;
+                Partition(letters, ref i, ref p, pivot, ref k);
+                var m = GetMinim(p - k, n - p + 1);
+                Swap(letters, k, k + m - 1, n - m + 1, n);
+
+                if (p > 1)
+                {
+                    QuickSort3Way(letters, 0, p - 1);
+                }
+                QuickSort3Way(letters, p, n);
+            }
+        }
+
+        private static void Partition(char[] letters, ref int i, ref int p, char pivot, ref int k)
+        {
+            while (i < p)
+            {
+                if (letters[i] < pivot)
+                    Swap(ref letters[i++], ref letters[k++]);
+                else if (letters[i] == pivot)
+                    Swap(ref letters[i], ref letters[--p]);
+                else i++;
+            }
+        }
 
         public static bool Less(string x, string y)
         {
@@ -113,5 +155,26 @@ namespace MySortingAndSearchingAlgorithms
                 }
             return isLess;
         }
+
+        public static void Swap(char[] letters, int xStart, int xEnd, int yStart, int yEnd)
+        {
+            if (xStart < xEnd)
+            {
+                while (xEnd >= xStart)
+                {
+                    var temp = letters[yStart];
+                    letters[yStart] = letters[xStart];
+                    letters[xStart] = temp;
+                    xStart++;
+                    yStart++;
+                }                
+            }            
+        }
+
+        public static int GetMinim(int x, int y)
+        {
+            return (x < y) ? x : y;
+        }
+
     }
 }
