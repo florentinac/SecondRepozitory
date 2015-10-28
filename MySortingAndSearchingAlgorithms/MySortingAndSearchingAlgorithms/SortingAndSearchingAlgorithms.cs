@@ -16,10 +16,10 @@ namespace MySortingAndSearchingAlgorithms
             Low = 0,
             Medium = 1,
             High = 2
-        } 
+        }
 
         public static void QuickSortForOrderAscendingText(char[] text, int left, int right)
-        {           
+        {
             if (text.Length <= 1)
                 return;
             if (left < right)
@@ -27,13 +27,13 @@ namespace MySortingAndSearchingAlgorithms
                 var pivot = Partition(text, left, right);
 
                 if (pivot > 1)
-                   QuickSortForOrderAscendingText(text, left, pivot - 1);
+                    QuickSortForOrderAscendingText(text, left, pivot - 1);
                 if (pivot + 1 < right)
-                   QuickSortForOrderAscendingText(text, pivot + 1, right);
-            }           
+                    QuickSortForOrderAscendingText(text, pivot + 1, right);
+            }
         }
 
-        public static int Partition(char[] text,int lowIndex ,int highIndex)
+        public static int Partition(char[] text, int lowIndex, int highIndex)
         {
             int pivot = text[lowIndex];
             while (true)
@@ -49,8 +49,8 @@ namespace MySortingAndSearchingAlgorithms
                 else return highIndex;
 
             }
-        }  
-       
+        }
+
         public static void Swap(ref char x, ref char y)
         {
             var temp = y;
@@ -61,8 +61,8 @@ namespace MySortingAndSearchingAlgorithms
         public static string GetDescendingText(char[] text, int lowIndex, int highIndex)
         {
             QuickSortForOrderAscendingText(text, lowIndex, highIndex);
-            var textDescending=text.Reverse();
-            return  ToArrayString(textDescending);
+            var textDescending = text.Reverse();
+            return ToArrayString(textDescending);
 
         }
 
@@ -74,7 +74,7 @@ namespace MySortingAndSearchingAlgorithms
         public static char[] BubbleSort(char[] number)
         {
             var isSorted = false;
-            while (!isSorted) 
+            while (!isSorted)
             {
                 isSorted = true;
                 for (var i = 0; i < number.Length - 1; i++)
@@ -87,57 +87,45 @@ namespace MySortingAndSearchingAlgorithms
                 }
             }
             return number;
-        }
-
-        //public static void QuickSort3Way(string[] priority, int lowIndex, int highIndex)
-        //{
-        //    if (highIndex <= lowIndex) return;
-
-        //    var i = lowIndex + 1;
-        //    var pivot = priority[lowIndex];
-
-        //    while (i <= highIndex)
-        //    {
-        //        if (Less(priority[i],pivot))
-        //            Swap(priority[i++], priority[lowIndex++]);
-        //        if(Less(pivot, input[i]))
-        //            Swap(priority[i], priority[higtIndex--]);
-        //        else i++;
-        //    }
-        //   QuickSort3Way(priority, lowIndex, lowIndex-1);
-        //   QuickSort3Way(priority, highIndex+1, highIndex);
-        //}
+        }      
+        
         public static void QuickSort3Way(char[] letters, int lowIndex, int highIndex)
         {
             if (letters.Length <= 1)
                 return;
+            if ((lowIndex + 1) == highIndex)
+            {
+                if (letters[lowIndex] >= letters[highIndex])
+                {
+                    Swap(ref letters[lowIndex], ref letters[highIndex]);
+                    return;
+                }
+                else return;
+            }           
             if (lowIndex < highIndex)
             {
-                var pivot = letters[highIndex];
-                var i = 0;
-                var k = 0;
-                var n = highIndex;
-                var p = n;
-                Partition(letters, ref i, ref p, pivot, ref k);
-                var m = GetMinim(p - k, n - p + 1);
-                Swap(letters, k, k + m - 1, n - m + 1, n);
+                var pivot = letters[lowIndex];
+                var i = lowIndex;
+                var k = lowIndex;
+                var p = highIndex;
 
-                if (p > 1)
-                {
-                    QuickSort3Way(letters, 0, p - 1);
-                }
-                QuickSort3Way(letters, p, n);
+                Partition(letters, ref i, ref p, pivot, ref k);
+
+                QuickSort3Way(letters, lowIndex, k -1);
+
+                QuickSort3Way(letters, p-1 , highIndex);
+
             }
         }
 
         private static void Partition(char[] letters, ref int i, ref int p, char pivot, ref int k)
         {
-            while (i < p)
+            while (i <= p)
             {
                 if (letters[i] < pivot)
                     Swap(ref letters[i++], ref letters[k++]);
-                else if (letters[i] == pivot)
-                    Swap(ref letters[i], ref letters[--p]);
+                else if (letters[i] > pivot)
+                    Swap(ref letters[i], ref letters[p--]);
                 else i++;
             }
         }
@@ -148,7 +136,7 @@ namespace MySortingAndSearchingAlgorithms
             for (var i = 0; i < x.Length; i++)
                 if (x[i] <= y[i])
                     isLess = true;
-                else    
+                else
                 {
                     isLess = false;
                     break;
@@ -162,13 +150,12 @@ namespace MySortingAndSearchingAlgorithms
             {
                 while (xEnd >= xStart)
                 {
-                    var temp = letters[yStart];
-                    letters[yStart] = letters[xStart];
-                    letters[xStart] = temp;
+                    Swap(ref letters[xStart], ref letters[yStart]);
+                  
                     xStart++;
                     yStart++;
-                }                
-            }            
+                }
+            }
         }
 
         public static int GetMinim(int x, int y)
@@ -176,5 +163,36 @@ namespace MySortingAndSearchingAlgorithms
             return (x < y) ? x : y;
         }
 
+        public static void InsertionSort(int[] number)
+        {
+            for(var i=1;i<number.Length;i++)
+                for (var k = i; k > 0; k--)
+                {
+                    if (number[k] < number[k - 1])
+                    {
+                        Swap(ref number[k], ref number[k - 1]);
+                    }
+                }
+        }
+        public static void Swap(ref int x, ref int y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
+        }
+
+        public static int[] GetPriorities(string[] priority)
+        {
+            var result = new int[priority.Length];
+            for (var i = 0; i < priority.Length; i++)
+            {
+                if (priority[i] == Priority.High.ToString())
+                    result[i] = 2;
+                else if (priority[i] == Priority.Medium.ToString())
+                    result[i] = 1;
+                else result[i] = 0;
+            }
+            return result;
+        }
     }
 }
