@@ -13,10 +13,10 @@ namespace MySortingAndSearchingAlgorithms
     {
         public enum Priority
         {
-            Low = 0,
-            Medium = 1,
-            High = 2
-        }
+            Low,
+            Medium,
+            High
+        }       
 
         public static void QuickSortForOrderAscendingText(char[] text, int left, int right)
         {
@@ -92,16 +92,7 @@ namespace MySortingAndSearchingAlgorithms
         public static void QuickSort3Way(char[] letters, int lowIndex, int highIndex)
         {
             if (letters.Length <= 1)
-                return;
-            if ((lowIndex + 1) == highIndex)
-            {
-                if (letters[lowIndex] >= letters[highIndex])
-                {
-                    Swap(ref letters[lowIndex], ref letters[highIndex]);
-                    return;
-                }
-                else return;
-            }           
+                return;                 
             if (lowIndex < highIndex)
             {
                 var pivot = letters[lowIndex];
@@ -113,7 +104,7 @@ namespace MySortingAndSearchingAlgorithms
 
                 QuickSort3Way(letters, lowIndex, k -1);
 
-                QuickSort3Way(letters, p-1 , highIndex);
+                QuickSort3Way(letters, p , highIndex);
 
             }
         }
@@ -128,6 +119,8 @@ namespace MySortingAndSearchingAlgorithms
                     Swap(ref letters[i], ref letters[p--]);
                 else i++;
             }
+            if (letters[p] == pivot)
+                p++;
         }
 
         public static bool Less(string x, string y)
@@ -156,7 +149,7 @@ namespace MySortingAndSearchingAlgorithms
                     yStart++;
                 }
             }
-        }
+        }        
 
         public static int GetMinim(int x, int y)
         {
@@ -180,19 +173,54 @@ namespace MySortingAndSearchingAlgorithms
             y = x;
             x = temp;
         }
-
-        public static int[] GetPriorities(string[] priority)
+        
+        public static Priority[] BubbleSortPriority(Priority[] number)
         {
-            var result = new int[priority.Length];
-            for (var i = 0; i < priority.Length; i++)
+            var isSorted = false;
+            while (!isSorted)
             {
-                if (priority[i] == Priority.High.ToString())
-                    result[i] = 2;
-                else if (priority[i] == Priority.Medium.ToString())
-                    result[i] = 1;
-                else result[i] = 0;
+                isSorted = true;
+                for (var i = 0; i < number.Length - 1; i++)
+                {
+                    if (number[i] > number[i + 1])
+                    {
+                        Swap(ref number[i], ref number[i + 1]);
+                        isSorted = false;
+                    }
+                }
             }
-            return result;
+            return number;
+        }
+
+        public static void Swap(ref Priority x, ref Priority y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
+        }
+
+        public struct Words
+        {
+            public string Word;
+            public int NrApparition;
+        }
+
+        public static void GetWordsOrdonate(Words[] text)
+        {
+            for(var i=0;i<text.Length;i++)
+                for (var k = i; k > 0; k--)
+                {
+                    if (string.CompareOrdinal(text[k].Word, text[k - 1].Word)>0)
+                    {
+                        Swap(ref text[k].Word, ref text[k - 1].Word);
+                    }
+                }
+        }
+        public static void Swap(ref Words x, ref Words y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySortingAndSearchingAlgorithms;
 
@@ -34,14 +35,39 @@ namespace MySortingAndSearching.Tests
             CollectionAssert.AreEqual(actualResult, expectedResult);
         }
 
+        //[TestMethod]
+        //public void PriorityTest()
+        //{
+        //    var expectedResult = new int[] {2, 2, 1, 1, 1, 0, 0};
+        //    var priority = new string[] { "High", "High", "Medium", "Medium", "Medium", "Low", "Low" };
+        //    var actualResult = SortingAndSearchingAlgorithms.GetPriorities(priority);
+        //    CollectionAssert.AreEqual(actualResult, expectedResult);
+        //}
+
         [TestMethod]
-        public void PriorityTest()
+        public void EnumTest()
         {
-            var expectedResult = new int[] {2, 2, 1, 1, 1, 0, 0};
-            var priority = new string[] { "High", "High", "Medium", "Medium", "Medium", "Low", "Low" };
-            var actualResult = SortingAndSearchingAlgorithms.GetPriorities(priority);
-            CollectionAssert.AreEqual(actualResult, expectedResult);
+
+            var myPriority = new SortingAndSearchingAlgorithms.Priority[]
+            {
+                SortingAndSearchingAlgorithms.Priority.Low, SortingAndSearchingAlgorithms.Priority.Medium,
+                SortingAndSearchingAlgorithms.Priority.Low, SortingAndSearchingAlgorithms.Priority.High,
+                SortingAndSearchingAlgorithms.Priority.Low, SortingAndSearchingAlgorithms.Priority.High,
+                SortingAndSearchingAlgorithms.Priority.Medium, SortingAndSearchingAlgorithms.Priority.High
+            };
+            var expectedResult = new SortingAndSearchingAlgorithms.Priority[]
+            {
+                SortingAndSearchingAlgorithms.Priority.Low, SortingAndSearchingAlgorithms.Priority.Low,
+                SortingAndSearchingAlgorithms.Priority.Low, SortingAndSearchingAlgorithms.Priority.Medium,
+                SortingAndSearchingAlgorithms.Priority.Medium, SortingAndSearchingAlgorithms.Priority.High,
+                SortingAndSearchingAlgorithms.Priority.High, SortingAndSearchingAlgorithms.Priority.High
+            };
+            var actualResult = SortingAndSearchingAlgorithms.BubbleSortPriority(myPriority);
+
+
+            CollectionAssert.AreEqual(actualResult,expectedResult);        
         }
+
         [TestMethod]
         public void QuickSort3WayTest()
         {
