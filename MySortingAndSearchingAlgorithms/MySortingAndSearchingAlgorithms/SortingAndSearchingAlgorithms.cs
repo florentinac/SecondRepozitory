@@ -202,52 +202,52 @@ namespace MySortingAndSearchingAlgorithms
         public struct Words
         {
             public string Word;
-            public int NrApparition;
-        }
-
-        public static Words[] GetDistinctWordsAndNumberOfWords(string[] text)
-        {
-            var structOrdonate = new Words[0];           
-            for (var i = 0; i < text.Length; i++)
-            {
-                SearchElementStruct(ref structOrdonate, text[i]);
-            }
-
-            return structOrdonate;
-        }
-
-        public static Words[] SearchElementStruct(ref Words[] structOrdonate, string word)
-        {
-            var newValue = new Words { Word = word, NrApparition = 1 };   
-                    
-            for (var i = 0; i <= structOrdonate.Length - 1; i++)
-                if (string.CompareOrdinal(word, structOrdonate[i].Word) == 0)
-                {
-                    structOrdonate[i].NrApparition++;
-                    return structOrdonate;
-                }
-
-            AddToArray(ref structOrdonate, newValue);
-                
-            return structOrdonate;
+            public int NoOccurences;
         }
 
         public static Words[] GetOrderlyWords(string[] text)
         {
-            var wordsdistinct = GetDistinctWordsAndNumberOfWords(text);
-            
-            GetOrderlyWordsByNumberOfAparition(wordsdistinct);
+            var distinctWords = GetDistinctWordsAndNumberOfWords(text);
 
-            return wordsdistinct;
+            GetOrderedWordsByNumberOfOccurrencesAndAlphabetic(distinctWords);
+
+            return distinctWords;
         }
-      
-        public static void GetOrderlyWordsByNumberOfAparition(Words[] words)
+
+        public static Words[] GetDistinctWordsAndNumberOfWords(string[] text)
+        {
+            var distinctWords = new Words[0];           
+            for (var i = 0; i < text.Length; i++)
+            {
+                SearchElementStruct(ref distinctWords, text[i]);
+            }
+
+            return distinctWords;
+        }
+
+        public static Words[] SearchElementStruct(ref Words[] distinctWords, string word)
+        {
+            var newValue = new Words { Word = word, NoOccurences = 1 };   
+                    
+            for (var i = 0; i <= distinctWords.Length - 1; i++)
+                if (string.CompareOrdinal(word, distinctWords[i].Word) == 0)
+                {
+                    distinctWords[i].NoOccurences++;
+                    return distinctWords;
+                }
+
+            AddToArray(ref distinctWords, newValue);
+                
+            return distinctWords;
+        }
+        
+        public static void GetOrderedWordsByNumberOfOccurrencesAndAlphabetic(Words[] words)
         {
             for (var i = 0; i < words.Length; i++)
                 for (var k = i; k > 0; k--)
                 {
-                    if ((words[k].NrApparition > words[k - 1].NrApparition)||
-                       ((words[k].NrApparition==words[k-1].NrApparition)&& (string.CompareOrdinal(words[k].Word, words[k - 1].Word) < 0)))
+                    if ((words[k].NoOccurences > words[k - 1].NoOccurences)||
+                       ((words[k].NoOccurences==words[k-1].NoOccurences)&& (string.CompareOrdinal(words[k].Word, words[k - 1].Word) < 0)))
                     {
                         Swap(ref words[k], ref words[k - 1]);
                     }
@@ -276,7 +276,7 @@ namespace MySortingAndSearchingAlgorithms
             return newArray;
         }        
       
-        public struct CentralizationVotes
+        public struct VotesCentralization
         {
             public string CandidateName;
             public long TotalVotes;
@@ -288,18 +288,18 @@ namespace MySortingAndSearchingAlgorithms
             public long Votes;
         }
 
-        public struct CentralizationCandidate
+        public struct CandidateCentralization
         {
             public Candidate[] Station;
         }
 
-        public static CentralizationVotes[] CentralizationOrderlyTotalVotes(CentralizationCandidate[] candidates)
+        public static VotesCentralization[] CentralizationOrderedTotalVotes(CandidateCentralization[] candidates)
         {
-            var totalOrderedVotes = new CentralizationVotes[0];
+            var totalOrderedVotes = new VotesCentralization[0];
             for (var i = 0; i < candidates.Length; i++)
             {
                 for (var k = 0; k < candidates[i].Station.Length; k++)
-                    SearchCandidateVotes(ref totalOrderedVotes, candidates[i].Station[k].CandidateName,
+                    SearchCandidate(ref totalOrderedVotes, candidates[i].Station[k].CandidateName,
                         candidates[i].Station[k].Votes);
 
             }
@@ -308,9 +308,9 @@ namespace MySortingAndSearchingAlgorithms
             return totalOrderedVotes;
         }
 
-        public static CentralizationVotes[] SearchCandidateVotes(ref CentralizationVotes[] candidate, string candidateName, long votes)
+        public static VotesCentralization[] SearchCandidate(ref VotesCentralization[] candidate, string candidateName, long votes)
         {
-            var newValue = new CentralizationVotes { CandidateName = candidateName, TotalVotes = votes };
+            var newValue = new VotesCentralization { CandidateName = candidateName, TotalVotes = votes };
            
             for (var k = 0; k < candidate.Length; k++)
             {
@@ -327,7 +327,7 @@ namespace MySortingAndSearchingAlgorithms
 
         }
 
-        public static void GetOrderlyCandidatesByNumberOfVotes(CentralizationVotes[] candidate)
+        public static void GetOrderlyCandidatesByNumberOfVotes(VotesCentralization[] candidate)
         {
             for (var i = 0; i < candidate.Length; i++)
                 for (var k = i; k > 0; k--)
@@ -339,14 +339,14 @@ namespace MySortingAndSearchingAlgorithms
                 }
         }
 
-        public static void Swap(ref CentralizationVotes x, ref CentralizationVotes y)
+        public static void Swap(ref VotesCentralization x, ref VotesCentralization y)
         {
             var temp = y;
             y = x;
             x = temp;
         }
 
-        public static CentralizationVotes[] AddToArray(ref CentralizationVotes[] array, CentralizationVotes newValue)
+        public static VotesCentralization[] AddToArray(ref VotesCentralization[] array, VotesCentralization newValue)
         {
             array = ResizeArray(array, 1);
             array[array.Length - 1] = newValue;
@@ -354,9 +354,9 @@ namespace MySortingAndSearchingAlgorithms
             return array;
         }
 
-        public static CentralizationVotes[] ResizeArray(CentralizationVotes[] oldArray, int difference)
+        public static VotesCentralization[] ResizeArray(VotesCentralization[] oldArray, int difference)
         {
-            var newArray = new CentralizationVotes[oldArray.Length + difference];
+            var newArray = new VotesCentralization[oldArray.Length + difference];
             for (var i = 0; i < oldArray.Length; i++)
                 newArray[i] = oldArray[i];
 

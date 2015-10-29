@@ -92,7 +92,7 @@ namespace MySortingAndSearching.Tests
         }
 
         [TestMethod]
-        public void QuickSort3Way2Test()
+        public void QuickSort3WayDifferentLettersTest()
         {
             var text = new char[] { 'p', 'a', 'd', 'y', 'w', 'p', 'p', 'v', 'p', 'a', 'p', 'c', 'z', 'q' };
             var expectedResult = new char[] { 'a', 'a', 'c', 'd', 'p', 'p', 'p', 'p', 'p', 'q', 'v', 'w', 'y', 'z' };
@@ -155,26 +155,26 @@ namespace MySortingAndSearching.Tests
         }
 
         public SortingAndSearchingAlgorithms.Words[] SimpleWordsOrdonate = {
-            new SortingAndSearchingAlgorithms.Words { Word="ion", NrApparition=3},
-            new SortingAndSearchingAlgorithms.Words { Word="maria", NrApparition=2},
-            new SortingAndSearchingAlgorithms.Words { Word="ana", NrApparition=1}
+            new SortingAndSearchingAlgorithms.Words { Word="ion", NoOccurences=3},
+            new SortingAndSearchingAlgorithms.Words { Word="maria", NoOccurences=2},
+            new SortingAndSearchingAlgorithms.Words { Word="ana", NoOccurences=1}
         };
 
         public SortingAndSearchingAlgorithms.Words[] WordsOrdonate = {
-            new SortingAndSearchingAlgorithms.Words { Word="ion", NrApparition=3},
-            new SortingAndSearchingAlgorithms.Words { Word="maria", NrApparition=2},
-            new SortingAndSearchingAlgorithms.Words { Word="anb", NrApparition=1},
-            new SortingAndSearchingAlgorithms.Words { Word="aca", NrApparition=1},
-            new SortingAndSearchingAlgorithms.Words { Word="ana", NrApparition=1},
+            new SortingAndSearchingAlgorithms.Words { Word="ion", NoOccurences=3},
+            new SortingAndSearchingAlgorithms.Words { Word="maria", NoOccurences=2},
+            new SortingAndSearchingAlgorithms.Words { Word="anb", NoOccurences=1},
+            new SortingAndSearchingAlgorithms.Words { Word="aca", NoOccurences=1},
+            new SortingAndSearchingAlgorithms.Words { Word="ana", NoOccurences=1},
 
         };
 
         public SortingAndSearchingAlgorithms.Words[] WordsOrdonateAlfabetic = {
-          new SortingAndSearchingAlgorithms.Words { Word="ion", NrApparition=3},
-          new SortingAndSearchingAlgorithms.Words { Word="maria", NrApparition=2},
-          new SortingAndSearchingAlgorithms.Words { Word="aca", NrApparition=1},
-          new SortingAndSearchingAlgorithms.Words { Word="ana", NrApparition=1},
-          new SortingAndSearchingAlgorithms.Words { Word="anb", NrApparition=1},
+          new SortingAndSearchingAlgorithms.Words { Word="ion", NoOccurences=3},
+          new SortingAndSearchingAlgorithms.Words { Word="maria", NoOccurences=2},
+          new SortingAndSearchingAlgorithms.Words { Word="aca", NoOccurences=1},
+          new SortingAndSearchingAlgorithms.Words { Word="ana", NoOccurences=1},
+          new SortingAndSearchingAlgorithms.Words { Word="anb", NoOccurences=1},
         };
 
         [TestMethod]
@@ -195,9 +195,9 @@ namespace MySortingAndSearching.Tests
             CollectionAssert.AreEqual(wordsOrdonate, expectedResult);
         }             
 
-        public SortingAndSearchingAlgorithms.CentralizationCandidate[] CentralizationCandidates =
+        public SortingAndSearchingAlgorithms.CandidateCentralization[] CandidateCentralization =
         {
-            new SortingAndSearchingAlgorithms.CentralizationCandidate
+            new SortingAndSearchingAlgorithms.CandidateCentralization
             {
                 Station = new[]
                 {
@@ -207,7 +207,7 @@ namespace MySortingAndSearching.Tests
                     new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Ceausescu", Votes = 26}
                 }
             },
-             new SortingAndSearchingAlgorithms.CentralizationCandidate
+            new SortingAndSearchingAlgorithms.CandidateCentralization
             {
                 Station = new[]
                 {
@@ -219,12 +219,12 @@ namespace MySortingAndSearching.Tests
             }
         };
 
-        public SortingAndSearchingAlgorithms.CentralizationVotes[] CentralizationVotes =
+        public SortingAndSearchingAlgorithms.VotesCentralization[] VotesCentralization =
        {
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Vasilescu", TotalVotes = 68},
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Ceausescu", TotalVotes = 52},
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Constantinescu", TotalVotes = 46},
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Iliescu", TotalVotes = 4}          
+            new SortingAndSearchingAlgorithms.VotesCentralization {CandidateName = "Vasilescu", TotalVotes = 68},
+            new SortingAndSearchingAlgorithms.VotesCentralization {CandidateName = "Ceausescu", TotalVotes = 52},
+            new SortingAndSearchingAlgorithms.VotesCentralization {CandidateName = "Constantinescu", TotalVotes = 46},
+            new SortingAndSearchingAlgorithms.VotesCentralization {CandidateName = "Iliescu", TotalVotes = 4}          
             
         };
 
@@ -232,7 +232,7 @@ namespace MySortingAndSearching.Tests
         public void StructInStructTest()
         {
             var expectedResult = "Constantinescu";
-            var actualResult = CentralizationCandidates[1].Station[2].CandidateName;
+            var actualResult = CandidateCentralization[1].Station[2].CandidateName;
             Assert.AreEqual(expectedResult,actualResult);
 
         }
@@ -240,8 +240,8 @@ namespace MySortingAndSearching.Tests
         [TestMethod]
         public void OrderedCandidateByNomberOfVotes()
         {
-            var expectedResult = CentralizationVotes;
-            var actualResult = SortingAndSearchingAlgorithms.CentralizationOrderlyTotalVotes(CentralizationCandidates);
+            var expectedResult = VotesCentralization;
+            var actualResult = SortingAndSearchingAlgorithms.CentralizationOrderedTotalVotes(CandidateCentralization);
             CollectionAssert.AreEqual(expectedResult,actualResult);
         }
 
