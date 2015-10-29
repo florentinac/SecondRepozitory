@@ -363,8 +363,81 @@ namespace MySortingAndSearchingAlgorithms
             return newArray;
         }
 
-        
-       
+        public struct Student
+        {
+            //public string StudentName;
+            public string Discipline;
+            public int Note;
+        }
+
+        public struct Catalog
+        {
+            public string StudentName;
+            public Student[] Students;
+        }
+
+        public struct GeneralAveregeOfStudents
+        {
+            public string StudentName ;
+            public double GeneralAverage;
+
+        }
+
+        public static GeneralAveregeOfStudents[] GetAllGeneralAveragePerStudent(Catalog[] catalog)
+        {
+            var generalAverage = new GeneralAveregeOfStudents[0];
+            for (var i = 0; i < catalog.Length ; i++)
+            {
+                var newValue = GetGeneralAverage(catalog[i]);
+                AddToArray(ref generalAverage, newValue);
+            }
+            return generalAverage;
+
+        }
+
+        public static GeneralAveregeOfStudents GetGeneralAverage(Catalog student)
+        {
+            var totalNote = 0;
+            double generalAverage = 0;
+
+            totalNote = GetTotalNote(student);
+            generalAverage = Math.Round((double) (totalNote / student.Students.Length), 2);
+
+            var generalAveregeOfStudent = new GeneralAveregeOfStudents
+            {
+                StudentName = student.StudentName,
+                GeneralAverage = generalAverage
+            };
+            return generalAveregeOfStudent;
+        }
+
+        private static int GetTotalNote(Catalog student)
+        {
+            int totalNote = 0;
+            for (var i = 0; i < student.Students.Length; i++)
+            {
+                totalNote += student.Students[i].Note;
+            }
+            return totalNote;
+        }
+
+        public static GeneralAveregeOfStudents[] AddToArray(ref GeneralAveregeOfStudents[] array, GeneralAveregeOfStudents newValue)
+        {
+            array = ResizeArray(array, 1);
+            array[array.Length - 1] = newValue;
+            return array;
+        }
+
+        public static GeneralAveregeOfStudents[] ResizeArray(GeneralAveregeOfStudents[] oldArray, int difference)
+        {
+            var newArray = new GeneralAveregeOfStudents[oldArray.Length + difference];
+            for (var i = 0; i < oldArray.Length; i++)
+                newArray[i] = oldArray[i];
+            return newArray;
+        }
+
+
+
 
     }
 }

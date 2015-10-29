@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MySortingAndSearchingAlgorithms;
@@ -243,6 +244,45 @@ namespace MySortingAndSearching.Tests
             var expectedResult = VotesCentralization;
             var actualResult = SortingAndSearchingAlgorithms.CentralizationOrderedTotalVotes(CandidateCentralization);
             CollectionAssert.AreEqual(expectedResult,actualResult);
+        }
+
+        public SortingAndSearchingAlgorithms.Catalog[] Catalog =
+         {   
+            new SortingAndSearchingAlgorithms.Catalog
+            {
+                Students = new []
+                {
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 6}
+                },
+                StudentName = "Maria"
+            },
+            new SortingAndSearchingAlgorithms.Catalog
+            {
+                Students = new []
+                {
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 9},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 7},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 8}
+                },
+                StudentName = "Alina"
+            }
+        };
+
+        public SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] GeneralAverage =
+        {
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Maria", GeneralAverage = 7.33},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Alina", GeneralAverage = 8}
+        };
+
+        [TestMethod]
+        public void GeneralAverageOfStudents()
+        {
+            var expectedResult = GeneralAverage;
+            var actualResult = SortingAndSearchingAlgorithms.GetAllGeneralAveragePerStudent(Catalog);
+            CollectionAssert.AreEqual(expectedResult,actualResult);
+
         }
 
     }
