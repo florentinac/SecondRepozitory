@@ -16,7 +16,7 @@ namespace MySortingAndSearchingAlgorithms
             Low,
             Medium,
             High
-        }       
+        }
 
         public static void QuickSortForOrderAscendingText(char[] text, int left, int right)
         {
@@ -87,12 +87,12 @@ namespace MySortingAndSearchingAlgorithms
                 }
             }
             return number;
-        }      
-        
+        }
+
         public static void QuickSort3Way(char[] letters, int lowIndex, int highIndex)
         {
             if (letters.Length <= 1)
-                return;                 
+                return;
             if (lowIndex < highIndex)
             {
                 var pivot = letters[lowIndex];
@@ -102,9 +102,9 @@ namespace MySortingAndSearchingAlgorithms
 
                 Partition(letters, ref i, ref p, pivot, ref k);
 
-                QuickSort3Way(letters, lowIndex, k -1);
+                QuickSort3Way(letters, lowIndex, k - 1);
 
-                QuickSort3Way(letters, p , highIndex);
+                QuickSort3Way(letters, p, highIndex);
 
             }
         }
@@ -144,12 +144,12 @@ namespace MySortingAndSearchingAlgorithms
                 while (xEnd >= xStart)
                 {
                     Swap(ref letters[xStart], ref letters[yStart]);
-                  
+
                     xStart++;
                     yStart++;
                 }
             }
-        }        
+        }
 
         public static int GetMinim(int x, int y)
         {
@@ -158,7 +158,7 @@ namespace MySortingAndSearchingAlgorithms
 
         public static void InsertionSort(int[] number)
         {
-            for(var i=1;i<number.Length;i++)
+            for (var i = 1; i < number.Length; i++)
                 for (var k = i; k > 0; k--)
                 {
                     if (number[k] < number[k - 1])
@@ -173,7 +173,7 @@ namespace MySortingAndSearchingAlgorithms
             y = x;
             x = temp;
         }
-        
+
         public static Priority[] BubbleSortPriority(Priority[] number)
         {
             var isSorted = false;
@@ -205,18 +205,177 @@ namespace MySortingAndSearchingAlgorithms
             public int NrApparition;
         }
 
-        public static void GetWordsOrdonate(Words[] text)
+        public static Words[] GetDistinctWordsAndNumberOfWords(string[] text)
         {
-            for(var i=0;i<text.Length;i++)
+            var structOrdonate = new Words[0];           
+            for (var i = 0; i < text.Length; i++)
+            {
+                SearchElementStruct(ref structOrdonate, text[i]);
+            }
+
+            return structOrdonate;
+        }
+
+        public static Words[] SearchElementStruct(ref Words[] structOrdonate, string word)
+        {
+            var newValue = new Words { Word = word, NrApparition = 1 };
+            if (structOrdonate.Length < 1)
+            {
+                AddToArray(ref structOrdonate, newValue);               
+                return structOrdonate;
+            }
+            for (var i = 0; i <= structOrdonate.Length - 1; i++)
+                if (String.CompareOrdinal(word, structOrdonate[i].Word) == 0)
+                {
+                    structOrdonate[i].NrApparition++;
+                    return structOrdonate;
+                }
+
+            AddToArray(ref structOrdonate, newValue);
+                
+            return structOrdonate;
+        }
+
+        public static Words[] GetOrderlyWords(string[] text)
+        {
+            var wordsdistinct = GetDistinctWordsAndNumberOfWords(text);
+
+            GetOrderlyWordsAlphabetic(wordsdistinct);
+            GetOrderlyWordsByNumberOfAparition(wordsdistinct);
+
+            return wordsdistinct;
+        }
+
+        public static void GetOrderlyWordsAlphabetic(Words[] words)
+        {
+            for (var i = 0; i < words.Length; i++)
                 for (var k = i; k > 0; k--)
                 {
-                    if (string.CompareOrdinal(text[k].Word, text[k - 1].Word)>0)
+                    if (string.CompareOrdinal(words[k].Word, words[k - 1].Word) < 0)
                     {
-                        Swap(ref text[k].Word, ref text[k - 1].Word);
+                        Swap(ref words[k], ref words[k - 1]);
                     }
                 }
         }
+
+        public static void GetOrderlyWordsByNumberOfAparition(Words[] words)
+        {
+            for (var i = 0; i < words.Length; i++)
+                for (var k = i; k > 0; k--)
+                {
+                    if (words[k].NrApparition > words[k - 1].NrApparition)
+                    {
+                        Swap(ref words[k], ref words[k - 1]);
+                    }
+                }                     
+        }
+
         public static void Swap(ref Words x, ref Words y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
+        }
+
+        public static Words[] AddToArray(ref Words[] array, Words newValue)
+        {
+            array = ResizeArray(array, 1);
+            array[array.Length - 1] = newValue;
+            return array;
+        }
+
+        public static Words[] ResizeArray(Words[] oldArray, int difference)
+        {
+            var newArray = new Words[oldArray.Length + difference];
+            for (var i = 0; i < oldArray.Length; i++)
+                newArray[i] = oldArray[i];
+            return newArray;
+        }
+
+        public struct CandidateStation
+        {
+            public string Station;
+            public string CandidateName;
+            public long Votes;
+        }
+
+        public struct CentralizationVotes
+        {
+            public string CandidateName;
+            public long TotalVotes;
+        }
+
+        public struct CentralizationCandidate
+        {
+            public CandidateStation[] Station;
+        }
+
+        public static CentralizationVotes[] CentralizationOrderlyTotalVotes(CandidateStation[] candidates)
+        {
+            var totalOrderlyVotes= new CentralizationVotes[0];
+            for (var i = 0; i < candidates.Length; i++)
+            {
+                SearchCandidateVotes(ref totalOrderlyVotes, candidates, candidates[i].CandidateName, candidates[i].Votes);
+
+            }
+            GetOrderlyCandidatesByNumberOfVotes(totalOrderlyVotes);
+
+            return totalOrderlyVotes;
+        }
+
+        public static CentralizationVotes[] SearchCandidateVotes(ref CentralizationVotes[] candidate, CandidateStation[] candidates, string candidateName, long votes)
+        {
+            var newValue = new CentralizationVotes {CandidateName = candidateName, TotalVotes = votes};
+            if (candidate.Length < 1)
+            {
+                AddToArray(ref candidate, newValue);
+                return candidate;
+            }
+            for(var k = 0; k < candidate.Length; k++)
+            {
+                if (string.CompareOrdinal(candidateName, candidate[k].CandidateName) == 0)
+                {
+                    candidate[k].TotalVotes += votes;
+                    return candidate;
+                }
+                
+            }
+            AddToArray(ref candidate, newValue);  
+                      
+            return candidate;
+
+        }
+
+        public static CentralizationVotes[] AddToArray(ref CentralizationVotes[] array, CentralizationVotes newValue)
+        {
+            array = ResizeArray(array, 1);
+            array[array.Length - 1] = newValue;
+
+            return array;
+        }
+
+        public static CentralizationVotes[] ResizeArray(CentralizationVotes[] oldArray, int difference)
+        {
+            var newArray = new CentralizationVotes[oldArray.Length + difference];
+            for (var i = 0; i < oldArray.Length; i++)
+                newArray[i] = oldArray[i];
+
+            return newArray;
+        }
+
+        public static void GetOrderlyCandidatesByNumberOfVotes(CentralizationVotes[] candidate)
+        {
+            for (var i = 0; i < candidate.Length; i++)
+                for (var k = i; k > 0; k--)
+                {
+                    if (candidate[k].TotalVotes > candidate[k - 1].TotalVotes)
+                    {
+                        Swap(ref candidate[k], ref candidate[k - 1]);
+                    }
+                }
+        }
+
+        public static void Swap(ref CentralizationVotes x, ref CentralizationVotes y)
         {
             var temp = y;
             y = x;
