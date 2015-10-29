@@ -218,14 +218,10 @@ namespace MySortingAndSearchingAlgorithms
 
         public static Words[] SearchElementStruct(ref Words[] structOrdonate, string word)
         {
-            var newValue = new Words { Word = word, NrApparition = 1 };
-            if (structOrdonate.Length < 1)
-            {
-                AddToArray(ref structOrdonate, newValue);               
-                return structOrdonate;
-            }
+            var newValue = new Words { Word = word, NrApparition = 1 };   
+                    
             for (var i = 0; i <= structOrdonate.Length - 1; i++)
-                if (String.CompareOrdinal(word, structOrdonate[i].Word) == 0)
+                if (string.CompareOrdinal(word, structOrdonate[i].Word) == 0)
                 {
                     structOrdonate[i].NrApparition++;
                     return structOrdonate;
@@ -239,25 +235,12 @@ namespace MySortingAndSearchingAlgorithms
         public static Words[] GetOrderlyWords(string[] text)
         {
             var wordsdistinct = GetDistinctWordsAndNumberOfWords(text);
-
-            //GetOrderlyWordsAlphabetic(wordsdistinct);
+            
             GetOrderlyWordsByNumberOfAparition(wordsdistinct);
 
             return wordsdistinct;
         }
-
-        public static void GetOrderlyWordsAlphabetic(Words[] words)
-        {
-            for (var i = 0; i < words.Length; i++)
-                for (var k = i; k > 0; k--)
-                {
-                    if (string.CompareOrdinal(words[k].Word, words[k - 1].Word) < 0)
-                    {
-                        Swap(ref words[k], ref words[k - 1]);
-                    }
-                }
-        }
-
+      
         public static void GetOrderlyWordsByNumberOfAparition(Words[] words)
         {
             for (var i = 0; i < words.Length; i++)
@@ -291,77 +274,57 @@ namespace MySortingAndSearchingAlgorithms
             for (var i = 0; i < oldArray.Length; i++)
                 newArray[i] = oldArray[i];
             return newArray;
-        }
-
-        public struct CandidateStation
-        {
-            public string Station;
-            public string CandidateName;
-            public long Votes;
-        }
-
+        }        
+      
         public struct CentralizationVotes
         {
             public string CandidateName;
             public long TotalVotes;
         }
 
+        public struct Candidate
+        {
+            public string CandidateName;
+            public long Votes;
+        }
+
         public struct CentralizationCandidate
         {
-            public CandidateStation[] Station;
+            public Candidate[] Station;
         }
 
-        public static CentralizationVotes[] CentralizationOrderlyTotalVotes(CandidateStation[] candidates)
+        public static CentralizationVotes[] CentralizationOrderlyTotalVotes(CentralizationCandidate[] candidates)
         {
-            var totalOrderlyVotes= new CentralizationVotes[0];
+            var totalOrderedVotes = new CentralizationVotes[0];
             for (var i = 0; i < candidates.Length; i++)
             {
-                SearchCandidateVotes(ref totalOrderlyVotes, candidates, candidates[i].CandidateName, candidates[i].Votes);
+                for (var k = 0; k < candidates[i].Station.Length; k++)
+                    SearchCandidateVotes(ref totalOrderedVotes, candidates[i].Station[k].CandidateName,
+                        candidates[i].Station[k].Votes);
 
             }
-            GetOrderlyCandidatesByNumberOfVotes(totalOrderlyVotes);
+            GetOrderlyCandidatesByNumberOfVotes(totalOrderedVotes);
 
-            return totalOrderlyVotes;
+            return totalOrderedVotes;
         }
 
-        public static CentralizationVotes[] SearchCandidateVotes(ref CentralizationVotes[] candidate, CandidateStation[] candidates, string candidateName, long votes)
+        public static CentralizationVotes[] SearchCandidateVotes(ref CentralizationVotes[] candidate, string candidateName, long votes)
         {
-            var newValue = new CentralizationVotes {CandidateName = candidateName, TotalVotes = votes};
-            if (candidate.Length < 1)
-            {
-                AddToArray(ref candidate, newValue);
-                return candidate;
-            }
-            for(var k = 0; k < candidate.Length; k++)
+            var newValue = new CentralizationVotes { CandidateName = candidateName, TotalVotes = votes };
+           
+            for (var k = 0; k < candidate.Length; k++)
             {
                 if (string.CompareOrdinal(candidateName, candidate[k].CandidateName) == 0)
                 {
                     candidate[k].TotalVotes += votes;
                     return candidate;
                 }
-                
+
             }
-            AddToArray(ref candidate, newValue);  
-                      
+            AddToArray(ref candidate, newValue);
+
             return candidate;
 
-        }
-
-        public static CentralizationVotes[] AddToArray(ref CentralizationVotes[] array, CentralizationVotes newValue)
-        {
-            array = ResizeArray(array, 1);
-            array[array.Length - 1] = newValue;
-
-            return array;
-        }
-
-        public static CentralizationVotes[] ResizeArray(CentralizationVotes[] oldArray, int difference)
-        {
-            var newArray = new CentralizationVotes[oldArray.Length + difference];
-            for (var i = 0; i < oldArray.Length; i++)
-                newArray[i] = oldArray[i];
-
-            return newArray;
         }
 
         public static void GetOrderlyCandidatesByNumberOfVotes(CentralizationVotes[] candidate)
@@ -382,5 +345,26 @@ namespace MySortingAndSearchingAlgorithms
             y = x;
             x = temp;
         }
+
+        public static CentralizationVotes[] AddToArray(ref CentralizationVotes[] array, CentralizationVotes newValue)
+        {
+            array = ResizeArray(array, 1);
+            array[array.Length - 1] = newValue;
+
+            return array;
+        }
+
+        public static CentralizationVotes[] ResizeArray(CentralizationVotes[] oldArray, int difference)
+        {
+            var newArray = new CentralizationVotes[oldArray.Length + difference];
+            for (var i = 0; i < oldArray.Length; i++)
+                newArray[i] = oldArray[i];
+
+            return newArray;
+        }
+
+        
+       
+
     }
 }

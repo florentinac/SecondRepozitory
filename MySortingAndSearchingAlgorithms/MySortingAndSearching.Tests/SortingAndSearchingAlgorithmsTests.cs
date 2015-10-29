@@ -175,7 +175,7 @@ namespace MySortingAndSearching.Tests
           new SortingAndSearchingAlgorithms.Words { Word="aca", NrApparition=1},
           new SortingAndSearchingAlgorithms.Words { Word="ana", NrApparition=1},
           new SortingAndSearchingAlgorithms.Words { Word="anb", NrApparition=1},
-      };
+        };
 
         [TestMethod]
         public void SimpleOrderedWordsTest()
@@ -193,36 +193,55 @@ namespace MySortingAndSearching.Tests
             var expectedResult = WordsOrdonateAlfabetic;
             var wordsOrdonate = SortingAndSearchingAlgorithms.GetOrderlyWords(inputText);
             CollectionAssert.AreEqual(wordsOrdonate, expectedResult);
-        }
+        }             
 
-       
-
-        public SortingAndSearchingAlgorithms.CandidateStation[] CentruPolling =
-       {
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StationOne", CandidateName = "Iliescu", Votes = 235},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StationOne", CandidateName = "Vasilescu", Votes = 235},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StationOne", CandidateName = "Constantinescu", Votes = 235},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StationOne", CandidateName = "Ceausescu", Votes = 235},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StatioTwo", CandidateName = "Iliescu", Votes =520},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StatioTwo", CandidateName = "Vasilescu", Votes = 715},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StatioTwo", CandidateName = "Constantinescu", Votes = 54},
-            new SortingAndSearchingAlgorithms.CandidateStation {Station = "StatioTwo", CandidateName = "Ceausescu", Votes = 12}
+        public SortingAndSearchingAlgorithms.CentralizationCandidate[] CentralizationCandidates =
+        {
+            new SortingAndSearchingAlgorithms.CentralizationCandidate
+            {
+                Station = new[]
+                {
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Vasilescu", Votes = 34},
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Iliescu", Votes = 2},
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Constantinescu", Votes = 23},
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Ceausescu", Votes = 26}
+                }
+            },
+             new SortingAndSearchingAlgorithms.CentralizationCandidate
+            {
+                Station = new[]
+                {
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Vasilescu", Votes = 34},
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Iliescu", Votes = 2},
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Constantinescu", Votes = 23},
+                    new SortingAndSearchingAlgorithms.Candidate {CandidateName = "Ceausescu", Votes = 26}
+                }
+            }
         };
 
-        public SortingAndSearchingAlgorithms.CentralizationVotes[] CentralizationTotalVotes =
+        public SortingAndSearchingAlgorithms.CentralizationVotes[] CentralizationVotes =
        {
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Vasilescu", TotalVotes = 950},
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Iliescu", TotalVotes = 755},            
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Constantinescu", TotalVotes = 289},
-            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Ceausescu", TotalVotes = 247},            
+            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Vasilescu", TotalVotes = 68},
+            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Ceausescu", TotalVotes = 52},
+            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Constantinescu", TotalVotes = 46},
+            new SortingAndSearchingAlgorithms.CentralizationVotes {CandidateName = "Iliescu", TotalVotes = 4}          
+            
         };
-
 
         [TestMethod]
-        public void CentralizationTotalVotesTest()
-        {          
-            var expectedResult = CentralizationTotalVotes;
-            var actualResult = SortingAndSearchingAlgorithms.CentralizationOrderlyTotalVotes(CentruPolling);
+        public void StructInStructTest()
+        {
+            var expectedResult = "Constantinescu";
+            var actualResult = CentralizationCandidates[1].Station[2].CandidateName;
+            Assert.AreEqual(expectedResult,actualResult);
+
+        }
+
+        [TestMethod]
+        public void OrderedCandidateByNomberOfVotes()
+        {
+            var expectedResult = CentralizationVotes;
+            var actualResult = SortingAndSearchingAlgorithms.CentralizationOrderlyTotalVotes(CentralizationCandidates);
             CollectionAssert.AreEqual(expectedResult,actualResult);
         }
 
