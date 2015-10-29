@@ -240,7 +240,7 @@ namespace MySortingAndSearchingAlgorithms
         {
             var wordsdistinct = GetDistinctWordsAndNumberOfWords(text);
 
-            GetOrderlyWordsAlphabetic(wordsdistinct);
+            //GetOrderlyWordsAlphabetic(wordsdistinct);
             GetOrderlyWordsByNumberOfAparition(wordsdistinct);
 
             return wordsdistinct;
@@ -263,7 +263,8 @@ namespace MySortingAndSearchingAlgorithms
             for (var i = 0; i < words.Length; i++)
                 for (var k = i; k > 0; k--)
                 {
-                    if (words[k].NrApparition > words[k - 1].NrApparition)
+                    if ((words[k].NrApparition > words[k - 1].NrApparition)||
+                       ((words[k].NrApparition==words[k-1].NrApparition)&& (string.CompareOrdinal(words[k].Word, words[k - 1].Word) < 0)))
                     {
                         Swap(ref words[k], ref words[k - 1]);
                     }

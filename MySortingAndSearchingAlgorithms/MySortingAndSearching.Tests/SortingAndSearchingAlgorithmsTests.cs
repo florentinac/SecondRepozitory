@@ -104,11 +104,11 @@ namespace MySortingAndSearching.Tests
         public void QuickSort3WayDifferentInputTest()
         {
             var text = new char[] { 'p', 'a', 'b', 'x', 'w', 'p', 'p', 'v', 'p', 'd', 'p', 'c', 'y', 'z' };
-            var expectedResult = new char[] { 'a', 'b', 'c', 'd', 'p', 'p', 'p', 'p', 'p', 'v', 'x', 'y', 'w', 'z' };
+            var expectedResult = new char[] { 'a', 'b', 'c', 'd', 'p', 'p', 'p', 'p', 'p', 'v', 'w', 'x', 'y', 'z' };
             SortingAndSearchingAlgorithms.QuickSort3Way(text, 0, text.Length - 1);
             CollectionAssert.AreEqual(text, expectedResult);
         }
-
+        
         [TestMethod]
         public void QuickSort3WaySmallInputTest()
         {
@@ -116,6 +116,24 @@ namespace MySortingAndSearching.Tests
             var expectedResult = new char[] { 'a', 'a', 'p', 'x' };
             SortingAndSearchingAlgorithms.QuickSort3Way(text, 0, text.Length - 1);
             CollectionAssert.AreEqual(text, expectedResult);
+        }
+
+        [TestMethod]
+        public void QuickSort3WayDifferentSmallInputTest()
+        {
+            var text = new char[] { 'v', 'w', 'y', 'z','x'};
+            var expectedResult = new char[] { 'v', 'w', 'x', 'y', 'z' };
+            SortingAndSearchingAlgorithms.QuickSort3Way(text, 0, text.Length - 1);
+            CollectionAssert.AreEqual(text, expectedResult);
+        }
+
+        [TestMethod]
+        public void QuickSort3WayWithAllElementRandom()
+        {
+            var text = new char[] {'x', 'r', 'a', 'p', 'i'};
+            var expectedResult = new char[] {'a', 'i', 'p', 'r', 'x'};
+            SortingAndSearchingAlgorithms.QuickSort3Way(text,0,text.Length-1);
+            CollectionAssert.AreEqual(text,expectedResult);
         }
 
         [TestMethod]
