@@ -338,7 +338,7 @@ namespace MySortingAndSearching.Tests
         };
 
         [TestMethod]
-        public void GetStudentWithGeneralAverageFormALargeRange()
+        public void StudentWithGeneralAverageFormALargeRange()
         {
             var expectedResult = new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
             {
@@ -346,6 +346,17 @@ namespace MySortingAndSearching.Tests
                 GeneralAverage = 5.3
             };
             var actualResult = SortingAndSearchingAlgorithms.GetStudentWithGeneralAverage(GeneralAveregeOfStudent, 5.3);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        public void StudentWithSmallestGeneralAverage()
+        {
+            var expectedResult = new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
+            {
+                StudentName = "Nicu",
+                GeneralAverage = 5
+            };
+            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithSmallestGeneralAverage(Catalog, 5);
             Assert.AreEqual(expectedResult, actualResult);
         }
     }

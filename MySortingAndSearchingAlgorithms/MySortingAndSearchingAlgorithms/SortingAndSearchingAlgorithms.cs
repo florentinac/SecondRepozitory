@@ -459,7 +459,20 @@ namespace MySortingAndSearchingAlgorithms
                 StudentName = "Null",
                 GeneralAverage = 0
             };
+        }
 
+        public static GeneralAveregeOfStudents GetStudentWithSmallestGeneralAverage(Catalog[] catalog,
+            double generalAverage)
+        {
+            var orderedStudents = GetOrderedSudentsByGeneralAverege(catalog);
+            if (orderedStudents[orderedStudents.Length - 1].GeneralAverage == generalAverage)
+                return orderedStudents[orderedStudents.Length - 1];
+          
+            return   new GeneralAveregeOfStudents
+                {
+                    StudentName = "Null",
+                    GeneralAverage = 0
+                };
         }
 
         public static void Swap(ref GeneralAveregeOfStudents x, ref GeneralAveregeOfStudents y)
