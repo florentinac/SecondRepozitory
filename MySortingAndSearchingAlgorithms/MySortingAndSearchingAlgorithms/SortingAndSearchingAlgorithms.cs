@@ -435,44 +435,72 @@ namespace MySortingAndSearchingAlgorithms
             return totalNote;
         }
 
-        public static GeneralAveregeOfStudents GetStudentWithGeneralAverage(GeneralAveregeOfStudents[] students,
+        public static GeneralAveregeOfStudents[] GetStudentWithGeneralAverage(GeneralAveregeOfStudents[] students,
             double generalAverage)
         {
             var min = 0;
             var max = students.Length-1;
-            
+            var studentWithGeneralAverage=new GeneralAveregeOfStudents[0];
+
             while (min <= max)
             {
                 var middle = (min + max)/2;
                 if (generalAverage == students[middle].GeneralAverage)
-                    return students[middle];
+                    AddToArray(ref studentWithGeneralAverage, students[middle]);
                 if (generalAverage > students[middle].GeneralAverage)
                     max = middle - 1;
                 else
                 {
                     min = middle + 1;
                 }
-
             }
-            return  new GeneralAveregeOfStudents
-            {
-                StudentName = "Null",
-                GeneralAverage = 0
-            };
+            return studentWithGeneralAverage;
         }
 
-        public static GeneralAveregeOfStudents GetStudentWithSmallestGeneralAverage(Catalog[] catalog,
+        public static GeneralAveregeOfStudents[] GetStudentWithSmallestGeneralAverage(Catalog[] catalog,
             double generalAverage)
         {
+            var studentsWithSmallestGeneralAverege = new GeneralAveregeOfStudents[0];
             var orderedStudents = GetOrderedSudentsByGeneralAverege(catalog);
-            if (orderedStudents[orderedStudents.Length - 1].GeneralAverage == generalAverage)
-                return orderedStudents[orderedStudents.Length - 1];
-          
-            return   new GeneralAveregeOfStudents
-                {
-                    StudentName = "Null",
-                    GeneralAverage = 0
-                };
+
+            for(var i=0;i<orderedStudents.Length;i++)
+                if (orderedStudents[i].GeneralAverage == generalAverage)
+                    AddToArray(ref studentsWithSmallestGeneralAverege, orderedStudents[i]);
+                
+
+            return studentsWithSmallestGeneralAverege;
+        }
+
+        public static GeneralAveregeOfStudents[] GetStudentWithMostNoteOfTen(Catalog[] catalog)
+        {           
+            var studentsWithNoMax = new GeneralAveregeOfStudents[0];
+
+            var generalAverage = GetAllGeneralAveragePerStudent(catalog);
+            var arrayNoNote = GetNoOfNotePerStudent(catalog);
+
+            var NoMax = arrayNoNote[0];
+            for(int i=0;i<arrayNoNote.Length-1;i++)
+                if (NoMax < arrayNoNote[i])
+                    NoMax = arrayNoNote[i];
+            for(int i=0;i<arrayNoNote.Length-1;i++)
+                if (arrayNoNote[i] == NoMax)
+                    AddToArray(ref studentsWithNoMax, generalAverage[i]);
+            return studentsWithNoMax;
+
+        }
+
+        private static int[] GetNoOfNotePerStudent(Catalog[] catalog)
+        {
+            var arrayNoNote = new int[0];
+            for (int i = 0; i < catalog.Length; i++)
+            {
+                var noNote = 0;
+                for (int k = 0; k < catalog[i].Students.Length; k++)
+                    if (catalog[i].Students[k].Note == 10)
+                        noNote++;
+                AddToArray(ref arrayNoNote, noNote);
+            }
+            return arrayNoNote;
         }
 
         public static void Swap(ref GeneralAveregeOfStudents x, ref GeneralAveregeOfStudents y)
@@ -496,6 +524,20 @@ namespace MySortingAndSearchingAlgorithms
             return newArray;
         }
 
+        public static int[] AddToArray(ref int[] array, int newValue)
+        {
+            array = ResizeArray(array, 1);
+            array[array.Length - 1] = newValue;
+            return array;
+        }
+
+        public static int[] ResizeArray(int[] oldArray, int difference)
+        {
+            var newArray = new int[oldArray.Length + difference];
+            for (var i = 0; i < oldArray.Length; i++)
+                newArray[i] = oldArray[i];
+            return newArray;
+        }
 
 
 
