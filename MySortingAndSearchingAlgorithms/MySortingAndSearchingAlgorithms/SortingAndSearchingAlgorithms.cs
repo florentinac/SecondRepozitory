@@ -364,8 +364,7 @@ namespace MySortingAndSearchingAlgorithms
         }
 
         public struct Student
-        {
-            //public string StudentName;
+        {            
             public string Discipline;
             public int Note;
         }
@@ -382,6 +381,20 @@ namespace MySortingAndSearchingAlgorithms
             public double GeneralAverage;
 
         }
+
+        public static GeneralAveregeOfStudents[] GetOrderedSudentsByGeneralAverege(Catalog[] catalog)
+        {
+            var students = GetAllGeneralAveragePerStudent(catalog);
+            for(var i=0;i< students.Length;i++)
+                for (var k = i; k > 0; k--)
+                {
+                    if (students[k].GeneralAverage > students[k - 1].GeneralAverage)
+                        Swap(ref students[k], ref students[k - 1]);
+                }
+
+            return students;
+
+        } 
 
         public static GeneralAveregeOfStudents[] GetAllGeneralAveragePerStudent(Catalog[] catalog)
         {
@@ -401,7 +414,7 @@ namespace MySortingAndSearchingAlgorithms
             double generalAverage = 0;
 
             totalNote = GetTotalNote(student);
-            generalAverage = Math.Round((double) (totalNote / student.Students.Length), 2);
+            generalAverage = Math.Round((double) totalNote / student.Students.Length, 2);
 
             var generalAveregeOfStudent = new GeneralAveregeOfStudents
             {
@@ -420,7 +433,12 @@ namespace MySortingAndSearchingAlgorithms
             }
             return totalNote;
         }
-
+        public static void Swap(ref GeneralAveregeOfStudents x, ref GeneralAveregeOfStudents y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
+        }
         public static GeneralAveregeOfStudents[] AddToArray(ref GeneralAveregeOfStudents[] array, GeneralAveregeOfStudents newValue)
         {
             array = ResizeArray(array, 1);

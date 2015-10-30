@@ -275,6 +275,12 @@ namespace MySortingAndSearching.Tests
             new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Maria", GeneralAverage = 7.33},
             new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Alina", GeneralAverage = 8}
         };
+        public SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] OrderedStudent =
+        {
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Alina", GeneralAverage = 8},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Maria", GeneralAverage = 7.33}
+            
+        };
 
         [TestMethod]
         public void GeneralAverageOfStudents()
@@ -282,6 +288,15 @@ namespace MySortingAndSearching.Tests
             var expectedResult = GeneralAverage;
             var actualResult = SortingAndSearchingAlgorithms.GetAllGeneralAveragePerStudent(Catalog);
             CollectionAssert.AreEqual(expectedResult,actualResult);
+
+        }
+
+        [TestMethod]
+        public void OrderedStudentsByGeneralAverage()
+        {
+            var expectedResult = OrderedStudent;
+            var actualResult = SortingAndSearchingAlgorithms.GetOrderedSudentsByGeneralAverege(Catalog);
+            CollectionAssert.AreEqual(expectedResult, actualResult);
 
         }
 
