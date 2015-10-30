@@ -539,7 +539,46 @@ namespace MySortingAndSearchingAlgorithms
             return newArray;
         }
 
+        public static int[] GetDigitsFromANumber(int number)
+        {
+            var digitsNumber = new int[0];
+            int i = 0;
+            while (number > 0)
+            {
+                var digits = number % 10;
+                number = number / 10;
+                digits = (int) (digits * (Math.Pow(10 ,i)));
+                i++;
+                AddToArray(ref digitsNumber, digits);
+            }
+            return digitsNumber;
+        }
 
+        public static string ConversionsFromNumbersIntoRomanNumerals(int number)
+        {
+            if (number > 44000 || number < 0) return "Insert value betwheen 1 and 43999";
+            if (number >= 40000) return "XL" + ConversionsFromNumbersIntoRomanNumerals(number - 40000);
+            if (number >= 10000) return "X" + ConversionsFromNumbersIntoRomanNumerals(number - 10000);
+            if (number >= 9000) return "MX" + ConversionsFromNumbersIntoRomanNumerals(number - 9000);
+            if (number >= 5000) return "V" + ConversionsFromNumbersIntoRomanNumerals(number - 5000);
+            if (number >= 4000) return "MV" + ConversionsFromNumbersIntoRomanNumerals(number - 4000);
+            if (number >= 1000) return "M" + ConversionsFromNumbersIntoRomanNumerals(number - 1000);
+            if (number >= 900) return "CM" + ConversionsFromNumbersIntoRomanNumerals(number - 900);
+            if (number >= 500) return "D" + ConversionsFromNumbersIntoRomanNumerals(number - 500);
+            if (number >= 400) return "CD" + ConversionsFromNumbersIntoRomanNumerals(number - 400);
+            if (number >= 100) return "C" + ConversionsFromNumbersIntoRomanNumerals(number - 100);
+            if (number >= 90) return "XC" + ConversionsFromNumbersIntoRomanNumerals(number - 90);
+            if (number >= 50) return "L" + ConversionsFromNumbersIntoRomanNumerals(number - 50);
+            if (number >= 40) return "XL" + ConversionsFromNumbersIntoRomanNumerals(number - 40);
+            if (number >= 10) return "X" + ConversionsFromNumbersIntoRomanNumerals(number - 10);
+            if (number >= 9) return "IX" + ConversionsFromNumbersIntoRomanNumerals(number - 9);
+            if (number >= 5) return "V" + ConversionsFromNumbersIntoRomanNumerals(number - 5);
+            if (number >= 4) return "IV" + ConversionsFromNumbersIntoRomanNumerals(number - 4);
+            if (number >= 1) return "I" + ConversionsFromNumbersIntoRomanNumerals(number - 1);
+            return String.Empty;
+           
+
+        }
 
     }
 }

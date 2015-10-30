@@ -290,7 +290,7 @@ namespace MySortingAndSearching.Tests
         };
 
         public SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] StudentWithGeneralAverage =
-        {          
+        {
             new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Maria", GeneralAverage = 7.33}
         };
 
@@ -436,7 +436,7 @@ namespace MySortingAndSearching.Tests
         }
 
         public new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] TheStudentDoesentExists = {};
-        
+
 
         [TestMethod]
         public void StudentWithSmallestGeneralAverage()
@@ -446,24 +446,26 @@ namespace MySortingAndSearching.Tests
             CollectionAssert.AreEqual(expectedResult, actualResult);
         }
 
-        public new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] StudentsWithSmallestGeneralAverage = 
+        public new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] StudentsWithSmallestGeneralAverage =
+        {
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
             {
-                new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
-                {
-                    StudentName = "Matei",
-                    GeneralAverage = 7.33
-                },
-                new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
-                {
-                    StudentName = "Izabela",
-                    GeneralAverage = 7.33
-                }
-            };
+                StudentName = "Matei",
+                GeneralAverage = 7.33
+            },
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
+            {
+                StudentName = "Izabela",
+                GeneralAverage = 7.33
+            }
+        };
+
         [TestMethod]
         public void TwoStudentsWithSmallestGeneralAverage()
         {
             var expectedResult = StudentsWithSmallestGeneralAverage;
-            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithSmallestGeneralAverage(CatalogWithStudents, 7.33);
+            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithSmallestGeneralAverage(CatalogWithStudents,
+                7.33);
             CollectionAssert.AreEqual(expectedResult, actualResult);
         }
 
@@ -472,10 +474,151 @@ namespace MySortingAndSearching.Tests
         {
             var expectedResult = StudentWithMOst10Note;
             var actualResult = SortingAndSearchingAlgorithms.GetStudentWithMostNoteOfTen(CatalogWithStudents);
-            CollectionAssert.AreEqual(expectedResult,actualResult);
+            CollectionAssert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void GetDigitsFromANumber()
+        {
+            var expectedResult = new int[] {8, 40, 900, 1000};
+            var actualResult = SortingAndSearchingAlgorithms.GetDigitsFromANumber(1948);
+            CollectionAssert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void ZeroInRomanNumber()
+        {
+            var expectedResult = "";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(0);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void OneInRomanNumber()
+        {
+            var expectedResult = "I";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(1);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void FiveInRomanNumber()
+        {
+            var expectedResult = "IV";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(4);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberSmallerThen10()
+        {
+            var expectedResult = "VII";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(7);
+            Assert.AreEqual(expectedResult,actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberfor49()
+        {
+            var expectedResult = "XLIX";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(49);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen50()
+        {
+            var expectedResult = "LXXXIX";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(89);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen90()
+        {
+            var expectedResult = "XCIII";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(93);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen100()
+        {
+            var expectedResult = "CXXXV";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(135);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen140()
+        {
+            var expectedResult = "CXLVII";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(147);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen150()
+        {
+            var expectedResult = "CL";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(150);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen190()
+        {
+            var expectedResult = "CXCIV";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(194);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen200()
+        {
+            var expectedResult = "CCXXIV";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(224);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen500()
+        {
+            var expectedResult = "DCCCLXXV";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(875);
+            Assert.AreEqual(expectedResult, actualResult);
         }
 
 
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen2000()
+        {
+            var expectedResult = "MMXIV";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(2014);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        [TestMethod]
+        public void RomanNumberforNumberBiggerThen5000()
+        {
+            var expectedResult = "VCMXLIII";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(5943);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void RomanNumberfor43567()
+        {
+            var expectedResult = "XLMMMDLXVII";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(43567);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+        
+        [TestMethod]
+        public void RomanNumberforAnInvalidValue()
+        {
+            var expectedResult = "Insert value betwheen 1 and 43999";
+            var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(4443567);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 
  }
