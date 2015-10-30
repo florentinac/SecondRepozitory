@@ -300,6 +300,54 @@ namespace MySortingAndSearching.Tests
 
         }
 
+        [TestMethod]
+        public void GetStudentWithGeneralAverage()
+        {
+            var expectedResult = new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
+            {
+                StudentName = "Maria",
+                GeneralAverage = 7.33
+            };
+            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithGeneralAverage(OrderedStudent, 7.33);
+            Assert.AreEqual(expectedResult,actualResult);
+        }
+
+        [TestMethod]
+        public void GetStudentWithGeneralAverageWhenIsNotStudent()
+        {
+            var expectedResult = new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
+            {
+                StudentName = "Null",
+                GeneralAverage = 0
+            };
+            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithGeneralAverage(OrderedStudent, 6);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        public SortingAndSearchingAlgorithms.GeneralAveregeOfStudents[] GeneralAveregeOfStudent =
+        {
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Alina", GeneralAverage = 10},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Maria", GeneralAverage = 9.5},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Sabina", GeneralAverage = 9.3},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Daria", GeneralAverage = 9.1},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Matei", GeneralAverage = 8.2},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Alexandru", GeneralAverage = 7.33},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Izabela", GeneralAverage = 6.7},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "David", GeneralAverage = 5.3},
+            new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents {StudentName = "Nicu", GeneralAverage = 5}
+        };
+
+        [TestMethod]
+        public void GetStudentWithGeneralAverageFormALargeRange()
+        {
+            var expectedResult = new SortingAndSearchingAlgorithms.GeneralAveregeOfStudents
+            {
+                StudentName = "David",
+                GeneralAverage = 5.3
+            };
+            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithGeneralAverage(GeneralAveregeOfStudent, 5.3);
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 
  }

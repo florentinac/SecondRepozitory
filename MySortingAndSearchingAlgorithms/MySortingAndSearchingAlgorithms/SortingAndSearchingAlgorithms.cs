@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -433,6 +434,34 @@ namespace MySortingAndSearchingAlgorithms
             }
             return totalNote;
         }
+
+        public static GeneralAveregeOfStudents GetStudentWithGeneralAverage(GeneralAveregeOfStudents[] students,
+            double generalAverage)
+        {
+            var min = 0;
+            var max = students.Length-1;
+            
+            while (min <= max)
+            {
+                var middle = (min + max)/2;
+                if (generalAverage == students[middle].GeneralAverage)
+                    return students[middle];
+                if (generalAverage > students[middle].GeneralAverage)
+                    max = middle - 1;
+                else
+                {
+                    min = middle + 1;
+                }
+
+            }
+            return  new GeneralAveregeOfStudents
+            {
+                StudentName = "Null",
+                GeneralAverage = 0
+            };
+
+        }
+
         public static void Swap(ref GeneralAveregeOfStudents x, ref GeneralAveregeOfStudents y)
         {
             var temp = y;
