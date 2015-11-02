@@ -660,7 +660,46 @@ namespace MySortingAndSearching.Tests
             SortingAndSearchingAlgorithms.MergeSort(array);
             CollectionAssert.AreEqual(expectedResult, array);
         }
-
+        [TestMethod]
+        public void ShellSortForOneElementTest()
+        {
+            var expectedResult = new int[] { 1 };
+            var array = new int[] { 1 };
+            SortingAndSearchingAlgorithms.ShellSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void ShellSortTest()
+        {
+            var expectedResult = new int[] { 1, 2 };
+            var array = new int[] { 2, 1 };
+            SortingAndSearchingAlgorithms.ShellSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void ShellSortFor3NumberTest()
+        {
+            var expectedResult = new int[] { 1, 2, 3 };
+            var array = new int[] { 3, 2, 1 };
+            SortingAndSearchingAlgorithms.ShellSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void ShellSortFor4NumberTest()
+        {
+            var expectedResult = new int[] { 1, 2, 3, 4 };
+            var array = new int[] { 4, 3, 2, 1 };
+            SortingAndSearchingAlgorithms.ShellSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void ShellSortForABigArrayTest()
+        {
+            var expectedResult = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+            var array = new int[] { 2, 4, 1, 6, 8, 5, 3, 7, 13, 12, 9, 11, 10 };
+            SortingAndSearchingAlgorithms.ShellSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
     }
 
  }

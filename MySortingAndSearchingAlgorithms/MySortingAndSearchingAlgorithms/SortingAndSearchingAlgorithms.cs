@@ -638,5 +638,31 @@ namespace MySortingAndSearchingAlgorithms
 
         }
 
+        public static void ShellSort(int[] array)
+        {
+            var h = 1;
+            while (h < array.Length)
+                h = 3*h;
+            while (h > 0)
+            {
+                h /= 3;
+                InsertionSort(array, h);
+            }
+        }
+
+        private static void InsertionSort(int[] array, int h)
+        {
+            for (var k = h; k < array.Length; k++)
+            {
+                var v = array[k];
+                var j = k;
+                while (j >= h && array[j - h] > v)
+                {
+                    array[j] = array[j - h];
+                    j = j - h;
+                }
+                array[j] = v;
+            }
+        }
     }
 }
