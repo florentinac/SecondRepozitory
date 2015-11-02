@@ -258,9 +258,9 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 6}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 6}
                 },
                 StudentName = "Maria"
             },
@@ -268,9 +268,9 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 9},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 7},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 8}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 9},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 7},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 8}
                 },
                 StudentName = "Alina"
             }
@@ -334,10 +334,10 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 9}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 9}
                 },
                 StudentName = "Maria"
             },
@@ -345,12 +345,12 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 9},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 8},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 9}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 9},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 8},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 9}
 
                 },
                 StudentName = "Alina"
@@ -359,12 +359,12 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 9},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 7},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 9}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 9},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 7},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 9}
 
                 },
                 StudentName = "Nicu"
@@ -373,12 +373,12 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 9},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 7},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 7},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 9}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 9},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 7},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 7},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 9}
 
                 },
                 StudentName = "Matei"
@@ -387,12 +387,12 @@ namespace MySortingAndSearching.Tests
             {
                 Students = new[]
                 {
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 10},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Note = 7},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Note = 6},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Note = 8},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 4},
-                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Note = 9}
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 10},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "English", Mark = 7},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Franch", Mark = 6},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Math", Mark = 8},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 4},
+                    new SortingAndSearchingAlgorithms.Student {Discipline = "Programming", Mark = 9}
 
                 },
                 StudentName = "Izabela"
@@ -473,7 +473,7 @@ namespace MySortingAndSearching.Tests
         public void StudentsWithMostNoteNoteOfTen()
         {
             var expectedResult = StudentWithMOst10Note;
-            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithMostNoteOfTen(CatalogWithStudents);
+            var actualResult = SortingAndSearchingAlgorithms.GetStudentWithMostMarkOfTen(CatalogWithStudents);
             CollectionAssert.AreEqual(expectedResult, actualResult);
         }
 
@@ -619,6 +619,48 @@ namespace MySortingAndSearching.Tests
             var actualResult = SortingAndSearchingAlgorithms.ConversionsFromNumbersIntoRomanNumerals(4443567);
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [TestMethod]
+        public void MergeSortForOneElementTest()
+        {
+            var expectedResult = new int[] { 1 };
+            var array = new int[] { 1 };
+            SortingAndSearchingAlgorithms.MergeSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void MergeSortTest()
+        {
+            var expectedResult = new int[] {1, 2};
+            var array = new int[] {2, 1};
+            SortingAndSearchingAlgorithms.MergeSort(array);
+            CollectionAssert.AreEqual(expectedResult,array);       
+        }
+        [TestMethod]
+        public void MergeSortFor3NumberTest()
+        {
+            var expectedResult = new int[] { 1, 2, 3};
+            var array = new int[] {  3, 2, 1 };
+            SortingAndSearchingAlgorithms.MergeSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void MergeSortFor4NumberTest()
+        {
+            var expectedResult = new int[] { 1, 2, 3, 4 };
+            var array = new int[] {4 ,3, 2, 1 };
+            SortingAndSearchingAlgorithms.MergeSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+        [TestMethod]
+        public void MergeSortForABigArrayTest()
+        {
+            var expectedResult = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+            var array = new int[] {2, 4, 1, 6, 8, 5, 3, 7, 13, 12, 9, 11, 10};
+            SortingAndSearchingAlgorithms.MergeSort(array);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+
     }
 
  }

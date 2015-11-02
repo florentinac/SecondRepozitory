@@ -367,7 +367,7 @@ namespace MySortingAndSearchingAlgorithms
         public struct Student
         {            
             public string Discipline;
-            public int Note;
+            public int Mark;
         }
 
         public struct Catalog
@@ -411,28 +411,25 @@ namespace MySortingAndSearchingAlgorithms
 
         public static GeneralAveregeOfStudents GetGeneralAverage(Catalog student)
         {
-            var totalNote = 0;
-            double generalAverage = 0;
-
-            totalNote = GetTotalNote(student);
-            generalAverage = Math.Round((double) totalNote / student.Students.Length, 2);
-
-            var generalAveregeOfStudent = new GeneralAveregeOfStudents
+                      
+            var totalMark = GetTotalNote(student);
+            var generalAverage = Math.Round((double) totalMark / student.Students.Length, 2);
+           
+            return new GeneralAveregeOfStudents
             {
                 StudentName = student.StudentName,
                 GeneralAverage = generalAverage
-            };
-            return generalAveregeOfStudent;
+            }; 
         }
 
         private static int GetTotalNote(Catalog student)
         {
-            int totalNote = 0;
+            var totalMark = 0;
             for (var i = 0; i < student.Students.Length; i++)
             {
-                totalNote += student.Students[i].Note;
+                totalMark += student.Students[i].Mark;
             }
-            return totalNote;
+            return totalMark;
         }
 
         public static GeneralAveregeOfStudents[] GetStudentWithGeneralAverage(GeneralAveregeOfStudents[] students,
@@ -461,7 +458,8 @@ namespace MySortingAndSearchingAlgorithms
             double generalAverage)
         {
             var studentsWithSmallestGeneralAverege = new GeneralAveregeOfStudents[0];
-            var orderedStudents = GetOrderedSudentsByGeneralAverege(catalog);
+           
+             var orderedStudents = GetOrderedSudentsByGeneralAverege(catalog);
 
             for(var i=0;i<orderedStudents.Length;i++)
                 if (orderedStudents[i].GeneralAverage == generalAverage)
@@ -471,36 +469,49 @@ namespace MySortingAndSearchingAlgorithms
             return studentsWithSmallestGeneralAverege;
         }
 
-        public static GeneralAveregeOfStudents[] GetStudentWithMostNoteOfTen(Catalog[] catalog)
+        public static GeneralAveregeOfStudents[] GetStudentWithMostMarkOfTen(Catalog[] catalog)
         {           
             var studentsWithNoMax = new GeneralAveregeOfStudents[0];
 
             var generalAverage = GetAllGeneralAveragePerStudent(catalog);
-            var arrayNoNote = GetNoOfNotePerStudent(catalog);
+            var arrayNoMark = GetNoOfMarkPerStudent(catalog);
+            var noMax = GetMaxVaule(arrayNoMark);
 
-            var NoMax = arrayNoNote[0];
-            for(int i=0;i<arrayNoNote.Length-1;i++)
-                if (NoMax < arrayNoNote[i])
-                    NoMax = arrayNoNote[i];
-            for(int i=0;i<arrayNoNote.Length-1;i++)
-                if (arrayNoNote[i] == NoMax)
+            for(var i=0;i<arrayNoMark.Length-1;i++)
+                if (arrayNoMark[i] == noMax)
                     AddToArray(ref studentsWithNoMax, generalAverage[i]);
+
             return studentsWithNoMax;
 
         }
 
-        private static int[] GetNoOfNotePerStudent(Catalog[] catalog)
+        private static int GetMaxVaule(int[] arrayNoNote)
+        {
+            var noMax = arrayNoNote[0];
+            for (var i = 0; i < arrayNoNote.Length - 1; i++)
+                if (noMax < arrayNoNote[i])
+                    noMax = arrayNoNote[i];
+            return noMax;
+        }
+
+        private static int[] GetNoOfMarkPerStudent(Catalog[] catalog)
         {
             var arrayNoNote = new int[0];
-            for (int i = 0; i < catalog.Length; i++)
+            for (var i = 0; i < catalog.Length; i++)
             {
-                var noNote = 0;
-                for (int k = 0; k < catalog[i].Students.Length; k++)
-                    if (catalog[i].Students[k].Note == 10)
-                        noNote++;
+                var noNote = GetNoMarkOfTen(catalog, i);
                 AddToArray(ref arrayNoNote, noNote);
             }
             return arrayNoNote;
+        }
+
+        private static int GetNoMarkOfTen(Catalog[] catalog, int i)
+        {
+            var noNote = 0;
+            for (var k = 0; k < catalog[i].Students.Length; k++)
+                if (catalog[i].Students[k].Mark == 10)
+                    noNote++;
+            return noNote;
         }
 
         public static void Swap(ref GeneralAveregeOfStudents x, ref GeneralAveregeOfStudents y)
@@ -574,9 +585,56 @@ namespace MySortingAndSearchingAlgorithms
             if (number >= 9) return "IX" + ConversionsFromNumbersIntoRomanNumerals(number - 9);
             if (number >= 5) return "V" + ConversionsFromNumbersIntoRomanNumerals(number - 5);
             if (number >= 4) return "IV" + ConversionsFromNumbersIntoRomanNumerals(number - 4);
-            if (number >= 1) return "I" + ConversionsFromNumbersIntoRomanNumerals(number - 1);
-            return String.Empty;
+            if(number>=1) return "I" + ConversionsFromNumbersIntoRomanNumerals(number - 1);
+            return string.Empty;
            
+
+        }
+
+        public static void MergeSort(int[] array)
+        {
+            var n = array.Length;
+            if (n < 2)
+                return;           
+            var middle = n/2;
+            var leftArray = new int[middle];
+            var rightArray = new int[n-middle];
+
+            leftArray=CopyArray(array, ref leftArray, 0, middle-1);
+            rightArray = CopyArray(array, ref rightArray, middle, n-1);
+
+            MergeSort(leftArray);
+            MergeSort(rightArray);
+
+            Merge(leftArray,rightArray, array);
+
+        }
+
+        public static int[] CopyArray(int[] arrayOld, ref int[] newArray, int left, int right)
+        {
+            for (int i = left; i <= right; i++)
+                newArray[i-left] = arrayOld[i];
+            return newArray;
+        }
+
+        public static void Merge(int[] leftArray, int[] rightArray, int[] array)
+        {
+            var i = 0;
+            var k = 0;
+            var j = 0;
+            while (i < leftArray.Length && j < rightArray.Length)
+            {
+                if(leftArray[i]<rightArray[j])
+                    array[k++] = leftArray[i++];
+                else
+                {
+                    array[k++] = rightArray[j++];
+                }
+            }
+            while (i < leftArray.Length)
+                array[k++] = leftArray[i++];
+            while (j < rightArray.Length)
+                array[k++] = rightArray[j++];
 
         }
 
