@@ -11,22 +11,36 @@ namespace MyOOP
 {
     public class ArrayClass
     {
-        public ArrayClass(object[] data)
+        public ArrayClass()
         {
-            _data = data;
+            this.data = new object[8];
+            this.count = 0;
         }
 
-        private object[] _data;       
-        private int _count;
+        public ArrayClass(object[] data, ref int count)
+        {
+            this.data = data;
+            this.count = count;
+        }
 
+        private object[] data;       
+        private int count;
+
+        public void Add2(object newElement)
+        {
+            if (count > 8)
+                Resize(ref data, 2*data.Length);            
+            data[count] = newElement;
+            count++;                               
+        }
         public object[] Add(object newElement)
         {
             var newArray = new object[8];
 
-            newArray = ResizeNewArray(_data.Length, newArray);
+            newArray = ResizeNewArray(data.Length, newArray);
 
-            Copy(_data, newArray, _data.Length);
-            newArray[_data.Length] = newElement;
+            Copy(data, newArray, data.Length);
+            newArray[data.Length] = newElement;
 
             return newArray;
         }
@@ -34,17 +48,17 @@ namespace MyOOP
         public object[] Insert(object newElement, int position)
         {
             var newArray = new object[8];
-            newArray = ResizeNewArray(_data.Length, newArray);
+            newArray = ResizeNewArray(data.Length, newArray);
 
-            for (var i = 0; i <= _data.Length; i++)
+            for (var i = 0; i <= data.Length; i++)
             {              
                 if (i < position)
-                    newArray[i] = _data[i];
+                    newArray[i] = data[i];
                 else if (i == position)
                     newArray[i] = newElement;
                 else
                 {
-                    newArray[i] = _data[i - 1];
+                    newArray[i] = data[i - 1];
                 }
             }
             return newArray;
@@ -59,15 +73,15 @@ namespace MyOOP
 
         public object[] Remove(object elementToRemove)
         {
-            var newArray = new object[_data.Length];
+            var newArray = new object[data.Length];
             var index = 0;           
 
-            for (var i = 0; i < _data.Length; i++)
+            for (var i = 0; i < data.Length; i++)
             {
                 
-                if (!(_data[i].Equals(elementToRemove)))
+                if (!(data[i].Equals(elementToRemove)))
                 {
-                    newArray[index++] = _data[i];
+                    newArray[index++] = data[i];
                 }
             }
             return newArray;
@@ -75,12 +89,12 @@ namespace MyOOP
 
         public object[] Remove(int index)
         {
-            var newArray = new object[_data.Length];
+            var newArray = new object[data.Length];
             var indexNewArray = 0;
 
-            for(var i=0;i<_data.Length;i++)
+            for(var i=0;i<data.Length;i++)
                 if (i != index)
-                    newArray[indexNewArray++] = _data[i];
+                    newArray[indexNewArray++] = data[i];
 
             return newArray;
         }
