@@ -54,5 +54,17 @@ namespace MyOOPTests
 
             CollectionAssert.AreEqual(expectedResult, newArray);
         }
+        [TestMethod]
+        public void InsertIntElementInObjectArray()
+        {
+            var intArray = new object[] { 1, 2, 3 };
+            var newElement = 1;
+            var expectedResult = new object[] { 1, 2, 1, 3, null, null, null, null };
+            var array = new ArrayClass(intArray);
+            var newArray = array.Insert(newElement,2);
+
+            CollectionAssert.AreEqual(expectedResult, newArray);
+        }
+
     }
 }

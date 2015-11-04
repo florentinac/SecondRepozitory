@@ -13,7 +13,7 @@ namespace MyOOP
     {
         public ArrayClass(object[] data)
         {
-            this._data = data;
+            _data = data;
         }
 
         private object[] _data;       
@@ -32,6 +32,20 @@ namespace MyOOP
             return newArray;
         }
 
+        public object[] Insert(object newElement, int position)
+        {
+            var newArray = new object[8];
+            for(var i=0;i<=_data.Length;i++)
+                if (i < position)
+                    newArray[i] = _data[i];
+                else if (i == position)
+                    newArray[i] = newElement;
+                else
+                {
+                    newArray[i] = _data[i-1];
+                }
+            return newArray;
 
+        }
     }
 }
