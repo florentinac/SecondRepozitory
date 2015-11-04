@@ -23,7 +23,7 @@ namespace MyOOP
         {
             var newArray = new object[8];
 
-            if (_data.Length > newArray.Length)          
+            while (_data.Length > newArray.Length)          
                 Resize(ref newArray, 2 * newArray.Length);
 
             Copy(_data, newArray, _data.Length);
