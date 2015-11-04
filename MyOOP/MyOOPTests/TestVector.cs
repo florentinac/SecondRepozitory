@@ -33,7 +33,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddIntElementInObjectArrayWithLenght9()
+        public void AddIntElementInObjectArrayWithLength9()
         {
             var intArray = new object[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
             var newElement = 10;
@@ -44,7 +44,7 @@ namespace MyOOPTests
             CollectionAssert.AreEqual(expectedResult, newArray);
         }
         [TestMethod]
-        public void AddIntElementInObjectArrayWithLenght17()
+        public void AddIntElementInObjectArrayWithLength17()
         {
             var intArray = new object[] { 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17 };
             var newElement = 18;
@@ -65,6 +65,19 @@ namespace MyOOPTests
 
             CollectionAssert.AreEqual(expectedResult, newArray);
         }
+        [TestMethod]
+        public void InsertIntElementInObjectArrayWithLength8()
+        {
+            var intArray = new object[] {1, 2, 3, 4, 5, 6, 7, 8};
+            var newElement = 1;
+            var expectedResult = new object[] {1, 2, 1, 3, 4, 5, 6, 7, 8, null, null, null, null, null, null, null};
+            var array = new ArrayClass(intArray);
+            var newArray = array.Insert(newElement, 2);
+
+            CollectionAssert.AreEqual(expectedResult, newArray);
+        }
+
+
 
     }
 }

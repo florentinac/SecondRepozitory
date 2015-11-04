@@ -23,8 +23,7 @@ namespace MyOOP
         {
             var newArray = new object[8];
 
-            while (_data.Length > newArray.Length)          
-                Resize(ref newArray, 2 * newArray.Length);
+            newArray = ResizeNewArray(_data.Length, newArray);
 
             Copy(_data, newArray, _data.Length);
             newArray[_data.Length] = newElement;
@@ -35,17 +34,27 @@ namespace MyOOP
         public object[] Insert(object newElement, int position)
         {
             var newArray = new object[8];
-            for(var i=0;i<=_data.Length;i++)
+            newArray = ResizeNewArray(_data.Length, newArray);
+
+            for (var i = 0; i <= _data.Length; i++)
+            {              
                 if (i < position)
                     newArray[i] = _data[i];
                 else if (i == position)
                     newArray[i] = newElement;
                 else
                 {
-                    newArray[i] = _data[i-1];
+                    newArray[i] = _data[i - 1];
                 }
+            }
             return newArray;
+        }
 
+        private static object[] ResizeNewArray(int size, object[] newArray)
+        {
+            while (size >= newArray.Length)
+                Resize(ref newArray, 2*newArray.Length);
+            return newArray;
         }
     }
 }
