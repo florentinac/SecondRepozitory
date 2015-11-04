@@ -77,6 +77,30 @@ namespace MyOOPTests
             CollectionAssert.AreEqual(expectedResult, newArray);
         }
 
+        [TestMethod]
+        public void RemoveIntElementInObjectArray()
+        {
+            var intArray = new object[] { 1, 2, 3, 4, 5, 6, 7 };
+            object elementToRemove = 1;
+            var expectedResult = new object[] { 2, 3, 4, 5, 6, 7, null };
+            var array = new ArrayClass(intArray);
+            var newArray = array.Remove(elementToRemove);
+
+            CollectionAssert.AreEqual(expectedResult, newArray);
+        }
+
+        [TestMethod]
+        public void RemoveElementFromIndexInObjectArray()
+        {
+            var intArray = new object[] { 7, 6, 5, 4, 3, 2, 1 };
+            int elementToRemove = 2;
+            var expectedResult = new object[] {7, 6, 4, 3, 2, 1, null};
+            var array = new ArrayClass(intArray);
+            var newArray = array.Remove(elementToRemove);
+
+            CollectionAssert.AreEqual(expectedResult, newArray);
+        }
+
 
 
     }

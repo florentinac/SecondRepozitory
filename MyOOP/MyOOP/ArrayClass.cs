@@ -56,5 +56,33 @@ namespace MyOOP
                 Resize(ref newArray, 2*newArray.Length);
             return newArray;
         }
+
+        public object[] Remove(object elementToRemove)
+        {
+            var newArray = new object[_data.Length];
+            var index = 0;           
+
+            for (var i = 0; i < _data.Length; i++)
+            {
+                
+                if (!(_data[i].Equals(elementToRemove)))
+                {
+                    newArray[index++] = _data[i];
+                }
+            }
+            return newArray;
+        }
+
+        public object[] Remove(int index)
+        {
+            var newArray = new object[_data.Length];
+            var indexNewArray = 0;
+
+            for(var i=0;i<_data.Length;i++)
+                if (i != index)
+                    newArray[indexNewArray++] = _data[i];
+
+            return newArray;
+        }
     }
 }
