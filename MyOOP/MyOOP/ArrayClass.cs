@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using static System.Array;
 
 namespace MyOOP
 {
-    public class ArrayClass
+    public class ArrayClass:IEnumerable
     {
         public ArrayClass()
         {
@@ -17,86 +16,97 @@ namespace MyOOP
             this.count = 0;
         }
 
-        public ArrayClass(object[] data, ref int count)
+        public ArrayClass(object[] data, int count)
         {
             this.data = data;
             this.count = count;
         }
 
-        private object[] data;       
+        private object[] data;
         private int count;
+
+        
 
         public void Add2(object newElement)
         {
-            if (count > 8)
-                Resize(ref data, 2*data.Length);            
+            ResizeArray();
             data[count] = newElement;
-            count++;                               
-        }
-        public object[] Add(object newElement)
-        {
-            var newArray = new object[8];
-
-            newArray = ResizeNewArray(data.Length, newArray);
-
-            Copy(data, newArray, data.Length);
-            newArray[data.Length] = newElement;
-
-            return newArray;
+            count++;
         }
 
-        public object[] Insert(object newElement, int position)
+        private void ResizeArray()
         {
-            var newArray = new object[8];
-            newArray = ResizeNewArray(data.Length, newArray);
-
-            for (var i = 0; i <= data.Length; i++)
-            {              
-                if (i < position)
-                    newArray[i] = data[i];
-                else if (i == position)
-                    newArray[i] = newElement;
-                else
-                {
-                    newArray[i] = data[i - 1];
-                }
-            }
-            return newArray;
+            if (count >= data.Length)
+                Resize(ref data, 2*data.Length);
         }
 
-        private static object[] ResizeNewArray(int size, object[] newArray)
+        public void Insert(object newElement, int position)
         {
-            while (size >= newArray.Length)
-                Resize(ref newArray, 2*newArray.Length);
-            return newArray;
+            ResizeArray();
+            ShiftRight(position);
+            InsertElement(newElement, position);
         }
 
-        public object[] Remove(object elementToRemove)
+        private void InsertElement(object newElement, int position)
         {
-            var newArray = new object[data.Length];
-            var index = 0;           
+            data[position] = newElement;
+            count++;
+        }
 
-            for (var i = 0; i < data.Length; i++)
+        private void ShiftRight(int position)
+        {
+            for (var i = count + 1; i >= position; i--)
+                data[i] = data[i - 1];
+        }
+
+        public void Remove(object elementToRemove)
+        {
+            var index = 0;
+            var countInitial = count;
+            for (var i = 0; i < countInitial; i++)
             {
-                
                 if (!(data[i].Equals(elementToRemove)))
                 {
-                    newArray[index++] = data[i];
+                    data[index++] = data[i];
                 }
+                else
+                    count--;
             }
-            return newArray;
+            data[countInitial - 1] = null;
         }
 
-        public object[] Remove(int index)
+        public void Remove(int index)
         {
-            var newArray = new object[data.Length];
-            var indexNewArray = 0;
+            ShiftLeft(index);
+            count--;
+            data[data.Length - 1] = null;
+        }
 
-            for(var i=0;i<data.Length;i++)
-                if (i != index)
-                    newArray[indexNewArray++] = data[i];
+        private void ShiftLeft(int index)
+        {
+            for (var i = index; i < data.Length - 1; i++)
+                data[i] = data[i + 1];
+        }
 
-            return newArray;
+        public int GetCount()
+        {
+            return count;
+        }
+        public object[] GetData()
+        {
+            return data;
+        }
+
+       
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public ArrayEnum GetEnumerator()
+        {
+            
+            return new ArrayEnum(data);
         }
     }
 }
