@@ -9,11 +9,10 @@ namespace MyOOP
 {
     public class ArrayEnum : IEnumerator
     {
-       // public ArrayClass[] array;
-        private int position = -1;
-        private object[] array;
+        private ArrayClass array;
+        private int position = -1;        
 
-        public ArrayEnum(object[] array)
+        public ArrayEnum(ArrayClass array)
         {
             this.array = array;
         }
@@ -21,30 +20,14 @@ namespace MyOOP
         public bool MoveNext()
         {
             position++;
-            return (position < array.Length);
+            return (position < array.GetCount());
         }
-
 
         public void Reset()
         {
             position = -1;
         }
         
-        public object Current
-        {
-            get
-            {
-                try
-                {
-                    return array[position];
-                }
-                catch (IndexOutOfRangeException)
-                {
-
-                    throw new IndexOutOfRangeException();
-                }
-               
-            }
-        }
+        public object Current => array.GetElemenetAt(position);
     }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Array;
 
 namespace MyOOP
 {
-    public class ArrayClass:IEnumerable
+    public class ArrayClass : IEnumerable
     {
         public ArrayClass()
         {
@@ -18,14 +20,16 @@ namespace MyOOP
 
         public ArrayClass(object[] data, int count)
         {
-            this.data = data;
+            var copyData = new object[data.Length];
+            Copy(data, copyData, data.Length);        
+            this.data = copyData;
             this.count = count;
         }
 
         private object[] data;
         private int count;
 
-        
+
 
         public void Add2(object newElement)
         {
@@ -42,44 +46,61 @@ namespace MyOOP
 
         public void Insert(object newElement, int position)
         {
-            ResizeArray();
-            ShiftRight(position);
-            InsertElement(newElement, position);
+            
+            ResizeArray();            
+            if(position<data.Length)
+            { 
+                ShiftRight(position);
+                InsertElement(newElement, position);              
+            }
         }
 
         private void InsertElement(object newElement, int position)
         {
+
             data[position] = newElement;
             count++;
         }
 
         private void ShiftRight(int position)
         {
-            for (var i = count + 1; i >= position; i--)
+
+            for (var i = count; i >= position; i--)
                 data[i] = data[i - 1];
         }
 
-        public void Remove(object elementToRemove)
+        public object GetElemenetAt(int position)
         {
-            var index = 0;
-            var countInitial = count;
-            for (var i = 0; i < countInitial; i++)
-            {
-                if (!(data[i].Equals(elementToRemove)))
-                {
-                    data[index++] = data[i];
-                }
-                else
-                    count--;
-            }
-            data[countInitial - 1] = null;
+            if(position<data.Length)
+                return data[position];
+            return null;
+        }
+
+        public int GetPosition(object element)
+        {
+            var position = -1;
+            for (var i=0;i<count;i++)
+                if (data[i].Equals(element))
+                    return i;
+            return position;
+        }
+
+        public void Remove(object elementToRemove)
+        {           
+            var index = GetPosition(elementToRemove);
+
+            if (index>-1)                
+                Remove(index);                  
         }
 
         public void Remove(int index)
         {
-            ShiftLeft(index);
-            count--;
-            data[data.Length - 1] = null;
+            if (index < data.Length)
+            {
+                ShiftLeft(index);
+                count--;
+                data[data.Length - 1] = null;
+            }
         }
 
         private void ShiftLeft(int index)
@@ -96,17 +117,12 @@ namespace MyOOP
         {
             return data;
         }
-
        
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
-            return GetEnumerator();
+            return new ArrayEnum(this);
         }
 
-        public ArrayEnum GetEnumerator()
-        {
-            
-            return new ArrayEnum(data);
-        }
+        
     }
 }
