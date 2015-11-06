@@ -48,37 +48,37 @@ namespace MyOOP
         {
             
             ResizeArray();            
-            if(position<data.Length)
+            if(position<data.Length &&position>=0)
             { 
                 ShiftRight(position);
                 InsertElement(newElement, position);              
             }
         }
 
-        private void InsertElement(object newElement, int position)
+        public void InsertElement(object newElement, int position)
         {
 
             data[position] = newElement;
             count++;
         }
 
-        private void ShiftRight(int position)
+        public void ShiftRight(int position)
         {
-
+            if (position <= 0 || data.Length<=count) return;
             for (var i = count; i >= position; i--)
                 data[i] = data[i - 1];
         }
 
         public object GetElemenetAt(int position)
         {
-            if(position<data.Length)
+            if(position<data.Length && position>=0)
                 return data[position];
             return null;
         }
 
         public int GetPosition(object element)
         {
-            var position = -1;
+            const int position = -1;
             for (var i=0;i<count;i++)
                 if (data[i].Equals(element))
                     return i;
@@ -95,7 +95,7 @@ namespace MyOOP
 
         public void Remove(int index)
         {
-            if (index < data.Length)
+            if (index < data.Length && index>=0)
             {
                 ShiftLeft(index);
                 count--;
@@ -103,7 +103,7 @@ namespace MyOOP
             }
         }
 
-        private void ShiftLeft(int index)
+        public void ShiftLeft(int index)
         {
             for (var i = index; i < data.Length - 1; i++)
                 data[i] = data[i + 1];
@@ -113,9 +113,10 @@ namespace MyOOP
         {
             return count;
         }
-        public object[] GetData()
+
+        public object GetData(int index)
         {
-            return data;
+            return data[index];
         }
        
         public IEnumerator GetEnumerator()
