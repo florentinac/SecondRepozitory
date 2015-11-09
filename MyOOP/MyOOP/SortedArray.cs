@@ -31,14 +31,14 @@ namespace MyOOP
                 }
             }
         }
-        public void SortArray(T[] array)
+        public void SortArray()
         {
             for (var i = 1; i < count; i++)
                 for (var k = i; k > 0; k--)
                 {
-                    if (array[k].CompareTo(array[k - 1])<=0)
+                    if (data[k].CompareTo(data[k - 1])<=0)
                     {
-                        Swap(ref array[k], ref array[k - 1]);
+                        Swap(ref data[k], ref data[k - 1]);
                     }
                 }
         }
@@ -47,6 +47,27 @@ namespace MyOOP
             var temp = y;
             y = x;
             x = temp;
+        }
+
+        public override int Find( T newElement)
+        {
+            var min = 0;
+            var max = count - 1;
+            while (min <= max)
+            {
+                var middle = (min + max) / 2;
+                if (newElement.Equals(data[middle]))
+                    return middle;
+                if (newElement.CompareTo(data[middle]) <= 0)
+                {
+                    max = middle - 1;
+                }
+                else
+                {
+                    min = middle + 1;
+                }
+            }
+            return -1;
         }
 
     }

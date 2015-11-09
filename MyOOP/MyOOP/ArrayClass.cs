@@ -74,7 +74,7 @@ namespace MyOOP
             return null;
         }
 
-        public int Find(T element)
+        public virtual int Find(T element)
         {
             const int position = -1;
             for (var i = 0; i < count; i++)

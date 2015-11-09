@@ -444,7 +444,7 @@ namespace MyOOPTests
 
             var array=new SortedArray<string>(data,3);
             array.Add(newElement);
-            array.SortArray(data);
+            array.SortArray();
 
             Assert.AreEqual(newElement,array.GetData(1));
         }
@@ -456,9 +456,22 @@ namespace MyOOPTests
 
             var array = new SortedArray<string>(data, 4);
             array.Add(newElement);
-            array.SortArray(data);
+            array.SortArray();
 
             Assert.AreEqual(newElement, array.GetData(2));
+        }
+
+        [TestMethod]
+        public void FindPostionForElementTest()
+        {
+            var data = new[] { "aba", "maria", "ana", "ioana", null, null, null, null };
+            var element = "ana";
+
+            var array = new SortedArray<string>(data, 4);   
+            array.SortArray();        
+            var expectedResult=array.Find(element);
+
+            Assert.AreEqual(1, expectedResult);
         }
 
 
