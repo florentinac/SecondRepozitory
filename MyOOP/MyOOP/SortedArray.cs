@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Array;
 
 namespace MyOOP
 {
@@ -10,19 +11,17 @@ namespace MyOOP
     {
         public SortedArray(T[] data, int count)
         {
-            this.count = count;
+            var copyData = new T[data.Length];
+            Copy(data, copyData, data.Length);
+            this.count = count;           
             this.data = data;
+            SortArray();
         }
              
         public override void Add(T newElement)
         {
-            var oldCount = count;
-            if (newElement.CompareTo(data[0]) <= 0 || count==0)
-            {
-                Insert(newElement, 0);
-                return;
-            }
-            for (var i = oldCount - 1; i >= 0; i--)
+             
+            for (var i = count - 1; i >= 0; i--)
             {
                 if (newElement.CompareTo(data[i]) >= 0)
                 {
@@ -30,32 +29,21 @@ namespace MyOOP
                     return;
                 }
             }
+            Insert(newElement, 0);
         }
-        public void SortArray()
+        
+        public override int Find( T newElement)
         {
-            for (var i = 1; i < count; i++)
-                for (var k = i; k > 0; k--)
-                {
-                    if (data[k].CompareTo(data[k - 1])<=0)
-                    {
-                        Swap(ref data[k], ref data[k - 1]);
-                    }
-                }
-        }
-        public static void Swap(ref T x, ref T y)
-        {
-            var temp = y;
-            y = x;
-            x = temp;
+            return BinarySearch(newElement);
         }
 
-        public override int Find( T newElement)
+        private int BinarySearch(T newElement)
         {
             var min = 0;
             var max = count - 1;
             while (min <= max)
             {
-                var middle = (min + max) / 2;
+                var middle = (min + max)/2;
                 if (newElement.Equals(data[middle]))
                     return middle;
                 if (newElement.CompareTo(data[middle]) <= 0)
@@ -68,6 +56,25 @@ namespace MyOOP
                 }
             }
             return -1;
+        }
+
+        public void SortArray()
+        {
+            for (var i = 1; i < count; i++)
+                for (var k = i; k > 0; k--)
+                {
+                    if (data[k].CompareTo(data[k - 1]) <= 0)
+                    {
+                        Swap(ref data[k], ref data[k - 1]);
+                    }
+                }
+        }
+
+        public static void Swap(ref T x, ref T y)
+        {
+            var temp = y;
+            y = x;
+            x = temp;
         }
 
     }

@@ -43,6 +43,7 @@
     <Compile Include="ArrayClass.cs" />
     <Compile Include="ArrayEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleLinkList.cs" />
     <Compile Include="SortedArray.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

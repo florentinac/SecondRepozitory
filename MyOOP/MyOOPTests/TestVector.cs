@@ -214,7 +214,7 @@ namespace MyOOPTests
             int elementToRemove = 1;
 
             var array = new ArrayClass<int>(data, 6);
-            array.Remove(elementToRemove);
+            array.RemoveAt(elementToRemove);
             var count = array.GetCount();
 
             Assert.AreEqual(5, count);
@@ -240,8 +240,8 @@ namespace MyOOPTests
             int elementToRemove = 1;
 
             var array = new ArrayClass<int>(data, 6);
-            array.Remove(elementToRemove);
-            array.Remove(elementToRemove);
+            array.RemoveAt(elementToRemove);
+            array.RemoveAt(elementToRemove);
             var count = array.GetCount();
 
             Assert.AreEqual(4, count);
@@ -254,7 +254,7 @@ namespace MyOOPTests
             int elementToRemove = 7;
 
             var array = new ArrayClass<int>(data, 6);
-            array.Remove(elementToRemove);
+            array.RemoveAt(elementToRemove);
             var count = array.GetCount();
 
             Assert.AreEqual(6, count);
@@ -267,7 +267,7 @@ namespace MyOOPTests
             var data = new int[] { 7, 6, 5, 4, 3, 2, 1 };
 
             var array = new ArrayClass<int>(data, 7);
-            array.Remove(6);
+            array.RemoveAt(6);
             var count = array.GetCount();
 
             Assert.AreEqual(6, count);
@@ -279,7 +279,7 @@ namespace MyOOPTests
             var data = new int[] { 7, 6, 5, 4, 3, 2, 1 };
 
             var array = new ArrayClass<int>(data, 7);
-            array.Remove(8);
+            array.RemoveAt(8);
             var count = array.GetCount();
 
             Assert.AreEqual(7, count);
@@ -456,7 +456,7 @@ namespace MyOOPTests
 
             var array = new SortedArray<string>(data, 4);
             array.Add(newElement);
-            array.SortArray();
+            //array.SortArray();
 
             Assert.AreEqual(newElement, array.GetData(2));
         }

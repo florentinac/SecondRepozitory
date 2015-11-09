@@ -88,10 +88,10 @@ namespace MyOOP
             var index = Find(elementToRemove);
 
             if (index > -1)
-                Remove(index);
+                RemoveAt(index);
         }
 
-        public void Remove(int index)
+        public void RemoveAt(int index)
         {
             if (index < data.Length && index >= 0)
             {
