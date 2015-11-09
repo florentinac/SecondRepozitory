@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MyOOP
 {
-    public class ArrayEnum : IEnumerator
+    public class ArrayEnum<T> : IEnumerator
     {
-        private ArrayClass array;
-        private int position = -1;        
+        private ArrayClass<T> array;
+        private int position = -1;
 
-        public ArrayEnum(ArrayClass array)
+        public ArrayEnum(ArrayClass<T> array)
         {
             this.array = array;
         }
@@ -27,7 +27,9 @@ namespace MyOOP
         {
             position = -1;
         }
-        
+
         public object Current => array.GetElemenetAt(position);
     }
 }
+
+

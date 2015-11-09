@@ -10,28 +10,26 @@ using static System.Array;
 
 namespace MyOOP
 {
-    public class ArrayClass : IEnumerable
+    public class ArrayClass<T> : IEnumerable
     {
+        protected T[] data;
+        protected int count;
+
         public ArrayClass()
         {
-            this.data = new object[8];
+            this.data = new T[8];
             this.count = 0;
         }
 
-        public ArrayClass(object[] data, int count)
+        public ArrayClass(T[] data, int count)
         {
-            var copyData = new object[data.Length];
-            Copy(data, copyData, data.Length);        
+            var copyData = new T[data.Length];
+            Copy(data, copyData, data.Length);
             this.data = copyData;
             this.count = count;
         }
 
-        private object[] data;
-        private int count;
-
-
-
-        public void Add2(object newElement)
+        public virtual void Add(T newElement)
         {
             ResizeArray();
             data[count] = newElement;
@@ -41,21 +39,21 @@ namespace MyOOP
         private void ResizeArray()
         {
             if (count >= data.Length)
-                Resize(ref data, 2*data.Length);
+                Resize(ref data, 2 * data.Length);
         }
 
-        public void Insert(object newElement, int position)
+        public void Insert(T newElement, int position)
         {
-            
-            ResizeArray();            
-            if(position<data.Length &&position>=0)
-            { 
+
+            ResizeArray();
+            if (position < data.Length && position >= 0)
+            {
                 ShiftRight(position);
-                InsertElement(newElement, position);              
+                InsertElement(newElement, position);
             }
         }
 
-        public void InsertElement(object newElement, int position)
+        public void InsertElement(T newElement, int position)
         {
 
             data[position] = newElement;
@@ -64,42 +62,42 @@ namespace MyOOP
 
         public void ShiftRight(int position)
         {
-            if (position <= 0 || data.Length<=count) return;
-            for (var i = count; i >= position; i--)
+            if (position < 0 || data.Length <= count) return;
+            for (var i = count; i > position; i--)
                 data[i] = data[i - 1];
         }
 
         public object GetElemenetAt(int position)
         {
-            if(position<data.Length && position>=0)
+            if (position < data.Length && position >= 0)
                 return data[position];
             return null;
         }
 
-        public int GetPosition(object element)
+        public int Find(T element)
         {
             const int position = -1;
-            for (var i=0;i<count;i++)
+            for (var i = 0; i < count; i++)
                 if (data[i].Equals(element))
                     return i;
             return position;
         }
 
-        public void Remove(object elementToRemove)
-        {           
-            var index = GetPosition(elementToRemove);
+        public void Remove(T elementToRemove)
+        {
+            var index = Find(elementToRemove);
 
-            if (index>-1)                
-                Remove(index);                  
+            if (index > -1)
+                Remove(index);
         }
 
         public void Remove(int index)
         {
-            if (index < data.Length && index>=0)
+            if (index < data.Length && index >= 0)
             {
                 ShiftLeft(index);
                 count--;
-                data[data.Length - 1] = null;
+                data[data.Length - 1] = default(T);
             }
         }
 
@@ -118,12 +116,12 @@ namespace MyOOP
         {
             return data[index];
         }
-       
+
         public IEnumerator GetEnumerator()
         {
-            return new ArrayEnum(this);
+            return new ArrayEnum<T>(this);
         }
 
-        
+
     }
 }
