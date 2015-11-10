@@ -14,42 +14,18 @@ namespace MyOOP
         private Node<T> begin;
         private int count;
 
-        public class Node<T>
+        private class Node<T>
         {
             public T value;
             public Node<T> next;           
            
-        }       
+        }              
 
-        public void PrintAllNodes()
-        {
-            Node<T> current = begin;
-            while (current != null)
-            {             
-                current = current.next;
-            }
-        }
-
-        public void AddFirst(T data)
-        {
-            Node<T> toAdd=new Node<T>();
-            toAdd.value = data;
-            toAdd.next = begin;
-           
-            begin = toAdd;
-            count++;
-
-        }
-
-        public void AddLast(T data)
+        public void Add(T data)
         {
             if (begin == null)
             {
-                begin = new Node<T>();
-
-                begin.value = data;
-                begin.next = null;
-                count++;
+                InsertFirstValue(data);
             }
             else
             {
@@ -57,41 +33,104 @@ namespace MyOOP
                 toAdd.value = data;
 
                 Node<T> current = begin;
-                while (current.next != null) 
-                {
-                    current = current.next;
-                }
-                current.next = toAdd;
-                count++;
+                InsertLastValue(current, toAdd);
             }
+        }
+
+        private void InsertLastValue(Node<T> current, Node<T> toAdd)
+        {
+            while (current.next != null)
+            {
+                current = current.next;
+            }
+            current.next = toAdd;
+            count++;
+        }
+
+        public void Insert(T elementToFollow, T data)
+        {
+            if (begin == null && elementToFollow == null)
+            {
+                InsertFirstValue(data);
+            }
+            else
+            {
+                Node<T> toInsert = new Node<T>();
+                toInsert.value = data;
+
+                Node<T> current = begin;
+                InsertElement(elementToFollow, current, toInsert);
+            }
+        }
+
+        private void InsertElement(T elementToFollow, Node<T> current, Node<T> toInsert)
+        {
+            while (current.next != null)
+            {
+                if (current.value.Equals(elementToFollow))
+                {
+                    toInsert.next = current.next;
+                    current.next = toInsert;
+                    count++;
+                }
+                current = current.next;
+            }
+        }
+
+        private void InsertFirstValue(T data)
+        {
+            begin = new Node<T>();
+
+            begin.value = data;
+            begin.next = null;
+            count++;
         }
 
         public void Delete(T n)
         {
-            Node<T> node = new Node<T>();
-            node = begin;
+            Node<T> current = begin;
             if (begin.value.Equals(n))
             {
-                begin = node.next;
-                node.next = null;
-                count--;
+                DeleteFirstElement(current);
             }
             else
             {
-                Node<T> current = begin;
                 while (current.next != null)
                 {
-                    if (current.value.Equals(n))
+                    if (current.next.value.Equals(n))
                     {
-                        current.next = begin.next;
-                        current.next = null;
-                        break;
+                        current = current.next.next;
+                        count--;                       
                     }
-                    current = current.next;
-                    
+                    if(current.next!=null)
+                        current = current.next;          
                 }
-                count--;
             }
+        }
+
+        private void DeleteFirstElement(Node<T> current)
+        {
+            begin = current.next;
+            //current.next = current.next;
+            count--;
+        }
+
+        public void Update(T n, T newvalue)
+        {
+            Node<T> current = begin;
+            while (current.next != null)
+            {
+                if (current.value.Equals(n))
+                {
+                    UpdateNode(newvalue, current);
+                }
+                current = current.next;
+            }
+        }
+
+        private static void UpdateNode(T newvalue, Node<T> current)
+        {
+            current.value = newvalue;
         }
 
         public int GetCount()
