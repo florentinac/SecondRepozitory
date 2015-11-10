@@ -154,12 +154,12 @@ namespace MyOOP
 
         public void Add(T item)
         {
-
+          
             var addNode=new Node<T>();
             addNode.value = item;
             addNode.next = begin;
             begin = addNode;
-            count++;
+           count++;
 
         }
 
@@ -180,7 +180,29 @@ namespace MyOOP
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            var isItem = false;
+            Node<T> current = begin;
+            if (begin.value.Equals(item))
+            {
+                DeleteFirstElement(current);
+            }
+            else
+            {
+                while (current.next != null)
+                {
+                    var next = current?.next;
+                    var eqauls = next?.value.Equals(item);
+                    if (eqauls.HasValue && eqauls.Value)
+                    {
+                        current.next = current.next;
+                        count--;
+                        isItem = true;
+                    }
+                    if (current.next != null)
+                        current = current.next;
+                }
+            }
+            return isItem;
         }
 
         public int Count => count;
