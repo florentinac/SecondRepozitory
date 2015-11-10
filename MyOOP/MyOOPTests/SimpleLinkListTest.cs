@@ -21,7 +21,7 @@ namespace MyOOPTests
         {
             var simpleLinkList = new SimpleLinkList<int>();
             simpleLinkList.Add(2);
-            simpleLinkList.Add(3);
+        
             simpleLinkList.ShouldContain(2);
         }
 
@@ -32,7 +32,7 @@ namespace MyOOPTests
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
-            simpleLinkList.ShouldContain(3);
+            simpleLinkList.ShouldContain(2);
         }
 
         [TestMethod]

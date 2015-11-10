@@ -17,12 +17,23 @@ namespace MyOOP
         private Node<T> begin;
         private int count;
 
-        private class Node<T>
+        public class Node<T>
         {
             public T value;
             public Node<T> next;
-           
-        }       
+
+            public Node()
+            {
+                next = null;
+                value = default(T);
+            }
+        }
+
+        public SimpleLinkList()
+        {
+            begin = new Node<T>();
+            count = 0;
+        }
 
         public void AddLast(T data)
         {
@@ -153,12 +164,11 @@ namespace MyOOP
         }
 
         public void Add(T item)
-        {
-          
+        {           
             var addNode=new Node<T>();
             addNode.value = item;
-            addNode.next = begin;
-            begin = addNode;
+            addNode.next = begin.next;
+            begin.next = addNode;
            count++;
 
         }
@@ -180,29 +190,20 @@ namespace MyOOP
 
         public bool Remove(T item)
         {
-            var isItem = false;
-            Node<T> current = begin;
-            if (begin.value.Equals(item))
+
+            var found = false;
+            for (var current = begin; current != null; current = current.next)
             {
-                DeleteFirstElement(current);
-            }
-            else
-            {
-                while (current.next != null)
+                var next = current.next;
+                var equals = next?.value.Equals(item);
+                if (equals.Value && equals.HasValue)
                 {
-                    var next = current?.next;
-                    var eqauls = next?.value.Equals(item);
-                    if (eqauls.HasValue && eqauls.Value)
-                    {
-                        current.next = current.next;
-                        count--;
-                        isItem = true;
-                    }
-                    if (current.next != null)
-                        current = current.next;
+                    current.next = next.next;
+                    found = true;
+                    return found;
                 }
-            }
-            return isItem;
+            }             
+            return found;
         }
 
         public int Count => count;
