@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MyOOP
 {
-    public class SimpleLinkList<T>
+    public class SimpleLinkList<T>:ICollection<T>
     {
         private Node<T> begin;
         private int count;
@@ -17,11 +20,11 @@ namespace MyOOP
         private class Node<T>
         {
             public T value;
-            public Node<T> next;           
+            public Node<T> next;
            
-        }              
+        }       
 
-        public void Add(T data)
+        public void AddLast(T data)
         {
             if (begin == null)
             {
@@ -47,7 +50,7 @@ namespace MyOOP
             count++;
         }
 
-        public void Insert(T elementToFollow, T data)
+        public void Insert2(T elementToFollow, T data)
         {
             if (begin == null && elementToFollow == null)
             {
@@ -86,7 +89,7 @@ namespace MyOOP
             count++;
         }
 
-        public void Delete(T n)
+        public void Delete2(T n)
         {
             Node<T> current = begin;
             if (begin.value.Equals(n))
@@ -139,6 +142,78 @@ namespace MyOOP
         }
 
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new EnumSimpleLinkList(this);
+        }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(T item)
+        {
+
+            var addNode=new Node<T>();
+            addNode.value = item;
+            addNode.next = begin;
+            begin = addNode;
+            count++;
+
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Remove(T item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count => count;
+        public bool IsReadOnly => false;
+
+        private class EnumSimpleLinkList : IEnumerator<T>
+        {
+            private SimpleLinkList<T> simpleLinkList;
+            private Node<T> current;           
+
+            public EnumSimpleLinkList(SimpleLinkList<T> simpleLinkList)
+            {
+                this.simpleLinkList = simpleLinkList;
+                Reset();               
+              
+            }            
+
+            public bool MoveNext()
+            {
+                current=current?.next;
+                return current != null;
+            }
+
+            public void Reset()
+            {             
+                this.current=simpleLinkList.begin;
+            }
+
+            void IDisposable.Dispose() { }
+
+            public T Current => current.value;
+
+            object IEnumerator.Current => current.value;
+        }
     }
 }
