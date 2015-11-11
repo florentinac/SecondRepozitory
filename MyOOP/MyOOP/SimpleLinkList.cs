@@ -31,19 +31,19 @@ namespace MyOOP
         }
 
         public void AddLast(T data)
-        {
-            if (begin == null)
-            {
-                InsertFirstValue(data);
-            }
-            else
-            {
-                Node<T> toAdd=new Node<T>();
-                toAdd.value = data;
+        {         
+            var toAdd= NewNodeWithValue(data);
 
-                Node<T> current = begin;
-                InsertLastValue(current, toAdd);
-            }
+            Node<T> current = begin;
+            InsertLastValue(current, toAdd);
+           
+        }
+
+        private static Node<T> NewNodeWithValue(T data)
+        {
+            Node<T> toInsert = new Node<T>();
+            toInsert.value = data;
+            return toInsert;
         }
 
         private void InsertLastValue(Node<T> current, Node<T> toAdd)
@@ -57,26 +57,19 @@ namespace MyOOP
         }
 
         public void InsertRight(T elementToFollow, T data)
-        {
-            if (begin == null && elementToFollow == null)
-            {
-                InsertFirstValue(data);
-            }
-            else
-            {
-                Node<T> toInsert = new Node<T>();
-                toInsert.value = data;
+        {          
+            var toInsert = NewNodeWithValue(data);
 
-                Node<T> current = begin;
-                InsertElement(elementToFollow, current, toInsert);
-            }
-        }
+            Node<T> current = begin;
+            InsertElement(elementToFollow, current, toInsert);
+            
+        }     
 
-        private void InsertElement(T elementToFollow, Node<T> current, Node<T> toInsert)
+        private void InsertElement(T referenceElement, Node<T> current, Node<T> toInsert)
         {
             while (current.next != null)
             {
-                if (current.value.Equals(elementToFollow))
+                if (current.value.Equals(referenceElement))
                 {
                     toInsert.next = current.next;
                     current.next = toInsert;
@@ -84,15 +77,6 @@ namespace MyOOP
                 }
                 current = current.next;
             }
-        }
-
-        private void InsertFirstValue(T data)
-        {
-            begin = new Node<T>();
-
-            begin.value = data;
-            begin.next = null;
-            count++;
         }
 
         public void Update(T n, T newvalue)
@@ -128,12 +112,11 @@ namespace MyOOP
 
         public void Add(T item)
         {           
-            var addNode=new Node<T>();
-            addNode.value = item;
+            var addNode= NewNodeWithValue(item);
+
             addNode.next = begin.next;
             begin.next = addNode;
-           count++;
-
+            count++;
         }
 
         public void Clear()
@@ -143,10 +126,9 @@ namespace MyOOP
 
         public bool Contains(T item)
         {
-            for (var current = begin; current.next != null; current = current.next)
-            {
-                var equals = current?.value.Equals(item);
-                if (equals.Value && equals.HasValue)
+            for (var current = begin.next; current!=null; current = current.next)
+            {               
+                if (current.value.Equals(item))
                     return true;
             }
             return false;
@@ -164,15 +146,20 @@ namespace MyOOP
         {
             
             for (var current = begin; current.next != null; current = current.next)
-            {
-                var next = current.next;
-                var equals = next?.value.Equals(item);
-                if (equals.Value && equals.HasValue)
-                {
-                    current.next = next.next;                    
-                    return true;
-                }
+            {            
+                if (FoundElementAndRemove(item, current)) return true;
             }             
+            return false;
+        }
+
+        private bool FoundElementAndRemove(T item, Node<T> current)
+        {
+            if (current.next.value.Equals(item))
+            {
+                current.next = current.next.next;
+                count--;
+                return true;
+            }
             return false;
         }
 
