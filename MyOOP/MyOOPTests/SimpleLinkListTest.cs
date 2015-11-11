@@ -44,7 +44,7 @@ namespace MyOOPTests
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
 
-            simpleLinkList.Count.ShouldEqual(3);
+            simpleLinkList.Count.Equals(3);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace MyOOPTests
             simpleLinkList.Add(4);
             simpleLinkList.Remove(4);
            
-            simpleLinkList.Count.ShouldEqual(2);
+            simpleLinkList.Count.Equals(2);
         }
 
         [TestMethod]
@@ -162,14 +162,14 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void VerifyContainsItemLinkList()
+        public void VerifyContaindItemLinkList()
         {
             var simpleLinkList = new SimpleLinkList<int>();
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
 
-            simpleLinkList.Contains(2).ShouldBeTrue();           
+            simpleLinkList.Contains(2).ShouldBeTrue("true");           
         }
 
         [TestMethod]
@@ -182,7 +182,7 @@ namespace MyOOPTests
             simpleLinkList.InsertRight(3,5);
 
             simpleLinkList.ShouldContain(5);
-            simpleLinkList.Count.ShouldEqual(4);
+            simpleLinkList.Count.Equals(4);
         }
 
         [TestMethod]
