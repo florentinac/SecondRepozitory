@@ -17,16 +17,11 @@ namespace MyOOP
         private Node<T> begin;
         private int count;
 
-        public class Node<T>
+        private class Node<T>
         {
             public T value;
             public Node<T> next;
-
-            public Node()
-            {
-                next = null;
-                value = default(T);
-            }
+         
         }
 
         public SimpleLinkList()
@@ -61,7 +56,7 @@ namespace MyOOP
             count++;
         }
 
-        public void Insert2(T elementToFollow, T data)
+        public void InsertRight(T elementToFollow, T data)
         {
             if (begin == null && elementToFollow == null)
             {
@@ -100,45 +95,14 @@ namespace MyOOP
             count++;
         }
 
-        public void Delete2(T n)
-        {
-            Node<T> current = begin;
-            if (begin.value.Equals(n))
-            {
-                DeleteFirstElement(current);
-            }
-            else
-            {
-                while (current.next != null)
-                {
-                    if (current.next.value.Equals(n))
-                    {
-                        current = current.next.next;
-                        count--;                       
-                    }
-                    if(current.next!=null)
-                        current = current.next;          
-                }
-            }
-        }
-
-        private void DeleteFirstElement(Node<T> current)
-        {
-            begin = current.next;
-            //current.next = current.next;
-            count--;
-        }
-
         public void Update(T n, T newvalue)
         {
-            Node<T> current = begin;
-            while (current.next != null)
+            for (var current = begin; current != null; current = current.next)
             {
                 if (current.value.Equals(n))
                 {
                     UpdateNode(newvalue, current);
-                }
-                current = current.next;
+                }               
             }
         }
 
@@ -151,7 +115,6 @@ namespace MyOOP
         {
             return count;
         }
-
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -175,35 +138,42 @@ namespace MyOOP
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            begin=null;
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            for (var current = begin; current.next != null; current = current.next)
+            {
+                var equals = current?.value.Equals(item);
+                if (equals.Value && equals.HasValue)
+                    return true;
+            }
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            for (var current = begin.next; current!= null; current = current.next)
+            {
+                array[arrayIndex++] = current.value;
+            }          
         }
 
         public bool Remove(T item)
         {
-
-            var found = false;
-            for (var current = begin; current != null; current = current.next)
+            
+            for (var current = begin; current.next != null; current = current.next)
             {
                 var next = current.next;
                 var equals = next?.value.Equals(item);
                 if (equals.Value && equals.HasValue)
                 {
-                    current.next = next.next;
-                    found = true;
-                    return found;
+                    current.next = next.next;                    
+                    return true;
                 }
             }             
-            return found;
+            return false;
         }
 
         public int Count => count;
