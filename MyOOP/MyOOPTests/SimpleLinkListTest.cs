@@ -263,20 +263,43 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (IndexOutOfRangeException))]
+        [ExpectedException(typeof (ArgumentException))]
         public void VerifyIndexOutOfRangeForCopyToArray()
         {
             var simpleLinkList=new SimpleLinkList<int>();
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
-
             var array = new[] { 1, 2, 0 };        
 
             simpleLinkList.CopyTo(array,2);
                      
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void VerifyArgumentNullExceptionForCopyToArray()
+        {
+            var simpleLinkList = new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+            int[] array = null;
 
+            simpleLinkList.CopyTo(array, 2);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void VerifyArgumentOutOfRangeExceptionForCopyToArray()
+        {
+            var simpleLinkList = new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+            var array = new[] { 1, 2, 0 };
+
+            simpleLinkList.CopyTo(array, -1);
+
+        }
 
     }
 }

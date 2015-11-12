@@ -185,9 +185,15 @@ namespace MyOOP
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            for (var current = begin.next; current!= null; current = current.next)
-            {                
-                    array[arrayIndex++] = current.value;
+            if (array == null)
+                throw new ArgumentNullException();
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException();
+            for (var current = begin.next; current != null; current = current.next)
+            {
+                if (arrayIndex > array.Length - 1)
+                    throw new ArgumentException();
+                array[arrayIndex++] = current.value;
             }
         }
 
