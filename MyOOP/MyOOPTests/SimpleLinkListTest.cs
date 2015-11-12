@@ -44,7 +44,7 @@ namespace MyOOPTests
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
 
-            simpleLinkList.Count.Equals(3);
+            simpleLinkList.Count.ShouldEqual(3);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace MyOOPTests
             simpleLinkList.Add(4);
             simpleLinkList.Remove(4);
            
-            simpleLinkList.Count.Equals(2);
+            simpleLinkList.Count.ShouldEqual(2);
         }
 
         [TestMethod]
@@ -162,14 +162,14 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void VerifyContaindItemLinkList()
+        public void VerifyContainsItemLinkList()
         {
             var simpleLinkList = new SimpleLinkList<int>();
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
 
-            simpleLinkList.Contains(2).ShouldBeTrue("true");           
+            simpleLinkList.Contains(2).ShouldBeTrue();           
         }
 
         [TestMethod]
@@ -182,7 +182,44 @@ namespace MyOOPTests
             simpleLinkList.InsertRight(3,5);
 
             simpleLinkList.ShouldContain(5);
-            simpleLinkList.Count.Equals(4);
+            simpleLinkList.Count.ShouldEqual(4);
+        }
+
+        [TestMethod]
+        public void VerifyInsertLeftInAnEmptyLinkList()
+        {
+            var simpleLinkList = new SimpleLinkList<int?>();
+            
+            simpleLinkList.InsertLeft(null, 5);
+
+            simpleLinkList.ShouldContain(5);
+            simpleLinkList.Count.ShouldEqual(1);
+        }
+
+        [TestMethod]
+        public void VerifyInsertLeftFirstItemInLinkList()
+        {
+            var simpleLinkList = new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+            simpleLinkList.Add(4);
+            simpleLinkList.InsertLeft(4, 5);
+
+            simpleLinkList.ShouldContain(5);
+            simpleLinkList.Count.ShouldEqual(4);
+        }
+
+        [TestMethod]
+        public void VerifyInsertLeftItemInLinkList()
+        {
+            var simpleLinkList = new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+            simpleLinkList.Add(4);
+            simpleLinkList.InsertLeft(3, 5);
+
+            simpleLinkList.ShouldContain(5);
+            simpleLinkList.Count.ShouldEqual(4);
         }
 
         [TestMethod]
@@ -198,8 +235,22 @@ namespace MyOOPTests
 
             simpleLinkList.CopyTo(array, 3);
             CollectionAssert.AreEqual(expectedResult,array);
-
         }
+
+        [TestMethod]
+        [ExpectedException(typeof (IndexOutOfRangeException))]
+        public void VerifyIndexOutOfRangeForCopyToArray()
+        {
+            var simpleLinkList=new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+
+            var array = new[] { 1, 2, 0 };        
+
+            simpleLinkList.CopyTo(array,2);
+                     
+        }
+
 
 
     }

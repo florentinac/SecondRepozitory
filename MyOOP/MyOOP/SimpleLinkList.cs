@@ -21,7 +21,21 @@ namespace MyOOP
         {
             public T value;
             public Node<T> next;
-         
+
+            public override bool Equals(object obj)
+            {
+                if (obj is T)
+                {
+                    var equals = value?.Equals(obj);
+                    return equals.Value&&equals.HasValue;
+                }
+                if (obj is Node<T>)
+                {
+                    var equals = next?.Equals(obj);
+                    return equals.Value&&equals.HasValue;
+                }
+                return base.Equals(obj);
+            }
         }
 
         public SimpleLinkList()
@@ -61,19 +75,50 @@ namespace MyOOP
             var toInsert = NewNodeWithValue(data);
 
             Node<T> current = begin;
-            InsertElement(elementToFollow, current, toInsert);
-            
+            FoundElementAndInsertNodeRight(elementToFollow, current, toInsert);           
         }     
 
-        private void InsertElement(T referenceElement, Node<T> current, Node<T> toInsert)
+        private void FoundElementAndInsertNodeRight(T referenceElement, Node<T> current, Node<T> toInsert)
         {
             while (current.next != null)
             {
-                if (current.value.Equals(referenceElement))
+                if (current.Equals(referenceElement))
                 {
-                    toInsert.next = current.next;
-                    current.next = toInsert;
-                    count++;
+                    InsertNode(current, toInsert);
+                    return;
+                }
+                current = current.next;
+            }
+        }
+
+        private void InsertNode(Node<T> current, Node<T> toInsert)
+        {
+            toInsert.next = current.next;
+            current.next = toInsert;
+            count++;         
+        }
+
+        public void InsertLeft(T elementToPrecced, T data)
+        {
+            var toInsert = NewNodeWithValue(data);
+
+            Node<T> current = begin;
+            if (current.next == null)
+                Add(data);
+            else
+            {
+                FoundElementAndInsertNodeLeft(elementToPrecced, current, toInsert);
+            }
+        }
+
+        private void FoundElementAndInsertNodeLeft(T elementToPrecced, Node<T> current, Node<T> toInsert)
+        {
+            while (current.next != null)
+            {
+                if (current.next.Equals(elementToPrecced))
+                {
+                    InsertNode(current, toInsert);
+                    return;
                 }
                 current = current.next;
             }
@@ -137,9 +182,9 @@ namespace MyOOP
         public void CopyTo(T[] array, int arrayIndex)
         {
             for (var current = begin.next; current!= null; current = current.next)
-            {
-                array[arrayIndex++] = current.value;
-            }          
+            {                
+                    array[arrayIndex++] = current.value;
+            }
         }
 
         public bool Remove(T item)
@@ -154,7 +199,7 @@ namespace MyOOP
 
         private bool FoundElementAndRemove(T item, Node<T> current)
         {
-            if (current.next.value.Equals(item))
+            if (current.next.Equals(item))
             {
                 current.next = current.next.next;
                 count--;
