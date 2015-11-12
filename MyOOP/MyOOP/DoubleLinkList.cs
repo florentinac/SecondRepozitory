@@ -10,24 +10,31 @@ namespace MyOOP
     public class DoubleLinkList<T>:ICollection<T>
     {
         private int count;
-        private Node<T> begin;
-        private Node<T> last;
+        private Node guard;   
           
-        private class Node<T>
+        private class Node
         {
             public T value;
-            public Node<T> next;
-            public Node<T> prev;
+            public Node next;
+            public Node prev;
 
+            public Node()
+            {
+            }
+
+            public Node(T value)
+            {
+                this.value = value;
+            }
         }
 
         public DoubleLinkList()
         {
-            begin=new Node<T>();
-            last=new Node<T>();
+            guard = new Node();
+            guard.next = guard.prev;
+            guard.prev = guard.next;
             count = 0;
         }
-
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -41,20 +48,31 @@ namespace MyOOP
 
         public void Add(T item)
         {
-            var toAdd=new Node<T>();
-            toAdd.value = item;
+            var toAdd = new Node(item);           
 
-            toAdd.next = begin.next;
-            toAdd.prev = last.next;
-            begin.next = toAdd;
-            last.prev = toAdd;
+            toAdd.next = guard.prev;          
+            toAdd.prev = guard.next;         
+            guard.next = toAdd;                      
             count++;         
+        }
+        public void AddLast(T item)
+        {
+            var toAdd = new Node
+            {
+                value = item
+            };
+
+            toAdd.prev = guard.next;           
+            toAdd.next = guard;
+            guard.prev = toAdd;
+            guard.next = toAdd;
+
+            count++;
         }
 
         public void Clear()
         {
-            begin=null;
-            last = null;
+            guard=null;           
         }
 
         public bool Contains(T item)
@@ -78,7 +96,7 @@ namespace MyOOP
         private class DoubleLinkListEnum : IEnumerator<T>
         {
             private DoubleLinkList<T> doubleLinkList;
-            private Node<T> current; 
+            private Node current; 
 
             public DoubleLinkListEnum(DoubleLinkList<T> doubleLinkList)
             {
@@ -96,14 +114,15 @@ namespace MyOOP
 
             public bool MoveNext()
             {
-                current = current?.next;             
+                
+                current = current?.next;                            
                 
                 return current != null;
             }
 
             public void Reset()
             {
-                current=doubleLinkList.begin;
+                current=doubleLinkList.guard;
             }
         }
     }

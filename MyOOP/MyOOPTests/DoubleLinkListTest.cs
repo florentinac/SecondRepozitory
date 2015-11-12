@@ -16,7 +16,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddItemInEmptyDoubleLinkList()
+        public void AddFirstItemInEmptyDoubleLinkList()
         {
             var doubleLinkList=new DoubleLinkList<int>();
             doubleLinkList.Add(1);
@@ -24,7 +24,7 @@ namespace MyOOPTests
         }
         
         [TestMethod]
-        public void AddTwoItemInDoubleLinkList()
+        public void AddFirstTwoItemInDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int>();
             doubleLinkList.Add(1);
@@ -34,7 +34,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddMoreItemInDoubleLinkList()
+        public void AddFirstMoreItemInDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int>();
             doubleLinkList.Add(1);
@@ -44,6 +44,16 @@ namespace MyOOPTests
             doubleLinkList.ShouldContain(1);
             doubleLinkList.ShouldContain(2);
             doubleLinkList.ShouldContain(3);
+        }
+
+        [TestMethod]
+        public void AddLastItemInEmptyDoubleLinkList()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+            doubleLinkList.Add(2);
+            doubleLinkList.AddLast(1);
+            doubleLinkList.ShouldContain(1);
+            doubleLinkList.ShouldContain(2);
         }
 
     }
