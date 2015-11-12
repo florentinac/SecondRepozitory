@@ -74,7 +74,7 @@ namespace MyOOP
         {          
             var toInsert = NewNodeWithValue(data);
 
-            Node<T> current = begin;
+            var current = GetCurrentOrAddData(data);
             FoundElementAndInsertNodeRight(elementToFollow, current, toInsert);           
         }     
 
@@ -102,13 +102,17 @@ namespace MyOOP
         {
             var toInsert = NewNodeWithValue(data);
 
+            var current = GetCurrentOrAddData(data);
+            FoundElementAndInsertNodeLeft(elementToPrecced, current, toInsert);
+            
+        }
+
+        private Node<T> GetCurrentOrAddData(T data)
+        {
             Node<T> current = begin;
             if (current.next == null)
                 Add(data);
-            else
-            {
-                FoundElementAndInsertNodeLeft(elementToPrecced, current, toInsert);
-            }
+            return current;
         }
 
         private void FoundElementAndInsertNodeLeft(T elementToPrecced, Node<T> current, Node<T> toInsert)
