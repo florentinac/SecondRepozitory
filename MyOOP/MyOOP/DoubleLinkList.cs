@@ -15,7 +15,7 @@ namespace MyOOP
           
         private class Node<T>
         {
-            public T data;
+            public T value;
             public Node<T> next;
             public Node<T> prev;
 
@@ -41,7 +41,15 @@ namespace MyOOP
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            var toAdd=new Node<T>();
+            toAdd.value = item;
+
+            toAdd.next = last;
+            toAdd.prev = begin;
+            begin.next = toAdd;
+            last.prev = toAdd;
+            count++;
+            // begin = toAdd;
         }
 
         public void Clear()
@@ -65,7 +73,7 @@ namespace MyOOP
             throw new NotImplementedException();
         }
 
-        public int Count { get; }
+        public int Count => count;
         public bool IsReadOnly { get; }
 
         private class DoubleLinkListEnum : IEnumerator<T>
@@ -76,23 +84,12 @@ namespace MyOOP
             public DoubleLinkListEnum(DoubleLinkList<T> doubleLinkList)
             {
                 this.doubleLinkList = doubleLinkList;
+                Reset();
             }
 
-            public T Current
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            public T Current => current.value;
 
-            object IEnumerator.Current
-            {
-                get
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            object IEnumerator.Current => current.value;
 
             public void Dispose()
             {                
@@ -100,8 +97,8 @@ namespace MyOOP
 
             public bool MoveNext()
             {
-                current = current?.prev;
                 current = current?.next;
+               // current = current?.next;
 
                 
                 return current != null;

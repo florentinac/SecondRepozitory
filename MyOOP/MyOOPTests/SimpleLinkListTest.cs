@@ -67,6 +67,7 @@ namespace MyOOPTests
             simpleLinkList.Remove(3);
 
             simpleLinkList.ShouldContain(2);
+            simpleLinkList.Count.ShouldEqual(1);
         }
 
         [TestMethod]

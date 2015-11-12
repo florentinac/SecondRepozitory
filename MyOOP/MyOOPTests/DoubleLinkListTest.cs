@@ -14,5 +14,14 @@ namespace MyOOPTests
             var doubleLinkList=new DoubleLinkList<int>();
             doubleLinkList.ShouldBeEmpty();
         }
+
+        [TestMethod]
+        public void AddItemInEmptyDoubleLinkList()
+        {
+            var doubleLinkList=new DoubleLinkList<int>();
+            doubleLinkList.Add(1);
+            doubleLinkList.ShouldContain(1);
+        }
+
     }
 }
