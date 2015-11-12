@@ -44,12 +44,11 @@ namespace MyOOP
             var toAdd=new Node<T>();
             toAdd.value = item;
 
-            toAdd.next = last;
-            toAdd.prev = begin;
+            toAdd.next = begin.next;
+            toAdd.prev = last.next;
             begin.next = toAdd;
             last.prev = toAdd;
-            count++;
-            // begin = toAdd;
+            count++;         
         }
 
         public void Clear()
@@ -97,9 +96,7 @@ namespace MyOOP
 
             public bool MoveNext()
             {
-                current = current?.next;
-               // current = current?.next;
-
+                current = current?.next;             
                 
                 return current != null;
             }
