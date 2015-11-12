@@ -14,169 +14,46 @@ namespace MyOOP
 {
     public class SimpleLinkList<T>:ICollection<T>
     {
-        private Node<T> begin;
+        private Node begin;
         private int count;
-
-        private class Node<T>
-        {
-            public T value;
-            public Node<T> next;
-
-            public override bool Equals(object obj)
-            {
-                if (obj is T)
-                {
-                    var equals = value?.Equals(obj);
-                    return equals.Value&&equals.HasValue;
-                }
-                if (obj is Node<T>)
-                {
-                    var equals = next?.Equals(obj);
-                    return equals.Value&&equals.HasValue;
-                }
-                return base.Equals(obj);
-            }
-        }
 
         public SimpleLinkList()
         {
-            begin = new Node<T>();
+            begin = new Node();
             count = 0;
         }
 
-        public void AddLast(T data)
-        {         
-            var toAdd= NewNodeWithValue(data);
+        public int Count => count;
 
-            Node<T> current = begin;
-            InsertLastValue(current, toAdd);
-           
-        }
-
-        private static Node<T> NewNodeWithValue(T data)
-        {
-            Node<T> toInsert = new Node<T>();
-            toInsert.value = data;
-            return toInsert;
-        }
-
-        private void InsertLastValue(Node<T> current, Node<T> toAdd)
-        {
-            while (current.next != null)
-            {
-                current = current.next;
-            }
-            current.next = toAdd;
-            count++;
-        }
-
-        public void InsertRight(T elementToFollow, T data)
-        {          
-            var toInsert = NewNodeWithValue(data);
-
-            var current = GetCurrentOrAddData(data);
-            FoundElementAndInsertNodeRight(elementToFollow, current, toInsert);           
-        }     
-
-        private void FoundElementAndInsertNodeRight(T referenceElement, Node<T> current, Node<T> toInsert)
-        {
-            while (current != null)
-            {
-                if (current.Equals(referenceElement))
-                {
-                    InsertNode(current, toInsert);
-                    return;
-                }
-                current = current.next;
-            }
-        }
-
-        private void InsertNode(Node<T> current, Node<T> toInsert)
-        {
-            toInsert.next = current.next;
-            current.next = toInsert;
-            count++;         
-        }
-
-        public void InsertLeft(T elementToPrecced, T data)
-        {
-            var toInsert = NewNodeWithValue(data);
-
-            var current = GetCurrentOrAddData(data);
-            FoundElementAndInsertNodeLeft(elementToPrecced, current, toInsert);
-            
-        }
-
-        private Node<T> GetCurrentOrAddData(T data)
-        {
-            Node<T> current = begin;
-            if (current.next == null)
-                Add(data);
-            return current;
-        }
-
-        private void FoundElementAndInsertNodeLeft(T elementToPrecced, Node<T> current, Node<T> toInsert)
-        {
-            while (current.next != null)
-            {
-                if (current.next.Equals(elementToPrecced))
-                {
-                    InsertNode(current, toInsert);
-                    return;
-                }
-                current = current.next;
-            }
-        }
-
-        public void Update(T n, T newvalue)
-        {
-            for (var current = begin; current != null; current = current.next)
-            {
-                if (current.value.Equals(n))
-                {
-                    UpdateNode(newvalue, current);
-                }               
-            }
-        }
-
-        private static void UpdateNode(T newvalue, Node<T> current)
-        {
-            current.value = newvalue;
-        }
-
-        public int GetCount()
-        {
-            return count;
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new EnumSimpleLinkList(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public bool IsReadOnly => false;
 
         public void Add(T item)
-        {           
-            var addNode= NewNodeWithValue(item);
+        {
+            var addNode = NewNodeWithValue(item);
 
             addNode.next = begin.next;
             begin.next = addNode;
             count++;
         }
 
+        public void AddLast(T data)
+        {
+            var toAdd = NewNodeWithValue(data);
+
+            Node current = begin;
+            InsertLastValue(current, toAdd);
+
+        }
+
         public void Clear()
         {
-            begin=null;
+            begin = null;
         }
 
         public bool Contains(T item)
         {
-            for (var current = begin.next; current!=null; current = current.next)
-            {               
+            for (var current = begin.next; current != null; current = current.next)
+            {
                 if (current.value.Equals(item))
                     return true;
             }
@@ -197,17 +74,85 @@ namespace MyOOP
             }
         }
 
+        public int GetCount()
+        {
+            return count;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new EnumSimpleLinkList(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void InsertBefore(T referenceItem, T data)
+        {
+            var toInsert = NewNodeWithValue(data);
+            Node nodePrevious;
+            var found = FindElement(referenceItem, out nodePrevious);
+            InsertAfter(found ? nodePrevious : begin, toInsert);
+        }
+
+        public void InsertAfter(T referenceItem, T data)
+        {
+            var toInsert = NewNodeWithValue(data);
+            Node nodePrevious;
+            var found = FindElement(referenceItem, out nodePrevious);
+            InsertAfter(found ? nodePrevious.next : begin, toInsert);
+        }
+
         public bool Remove(T item)
         {
-            
+
             for (var current = begin; current.next != null; current = current.next)
-            {            
-                if (FoundElementAndRemove(item, current)) return true;
-            }             
+            {
+                if (FindElementAndRemove(item, current)) return true;
+            }
             return false;
         }
 
-        private bool FoundElementAndRemove(T item, Node<T> current)
+        public void Update(T n, T newvalue)
+        {
+            for (var current = begin; current != null; current = current.next)
+            {
+                if (current.value.Equals(n))
+                {
+                    UpdateNode(newvalue, current);
+                }
+            }
+        }
+
+        private static Node NewNodeWithValue(T data)
+        {
+            return new Node { value = data };
+
+        }
+
+        private static void UpdateNode(T newvalue, Node current)
+        {
+            current.value = newvalue;
+        }
+
+        private bool FindElement(T elementbefore, out Node nodePrevious)
+        {
+            for (var current = begin; current.next != null; current = current.next)
+            {                
+                if (current.next.Equals(elementbefore))
+                {
+                    nodePrevious = current;
+                    return true;
+                }
+            }
+            nodePrevious = null;
+            return false;
+        }
+
+      
+        private bool FindElementAndRemove(T item, Node current)
         {
             if (current.next.Equals(item))
             {
@@ -216,39 +161,72 @@ namespace MyOOP
                 return true;
             }
             return false;
+        }       
+
+        private void InsertAfter(Node node, Node toInsert)
+        {
+            toInsert.next = node.next;
+            node.next = toInsert;
+            count++;
         }
 
-        public int Count => count;
-        public bool IsReadOnly => false;
+        private void InsertLastValue(Node current, Node toAdd)
+        {
+            while (current.next != null)
+            {
+                current = current.next;
+            }
+            current.next = toAdd;
+            count++;
+        }
 
         private class EnumSimpleLinkList : IEnumerator<T>
         {
+            private Node current;
             private SimpleLinkList<T> simpleLinkList;
-            private Node<T> current;           
-
             public EnumSimpleLinkList(SimpleLinkList<T> simpleLinkList)
             {
                 this.simpleLinkList = simpleLinkList;
-                Reset();               
-              
-            }            
+                Reset();
 
-            public bool MoveNext()
-            {
-                current=current?.next;
-                return current != null;
             }
-
-            public void Reset()
-            {             
-                this.current=simpleLinkList.begin;
-            }
-
-            void IDisposable.Dispose() { }
 
             public T Current => current.value;
 
             object IEnumerator.Current => current.value;
+
+            void IDisposable.Dispose() { }
+
+            public bool MoveNext()
+            {
+                current = current?.next;
+                return current != null;
+            }
+
+            public void Reset()
+            {
+                this.current = simpleLinkList.begin;
+            }
+        }
+
+        private class Node
+        {
+            public Node next;
+            public T value;
+            public override bool Equals(object obj)
+            {
+                if (obj is T)
+                {
+                    var equals = value?.Equals(obj);
+                    return equals.Value&&equals.HasValue;
+                }
+                if (obj is Node)
+                {
+                    var equals = next?.Equals(obj);
+                    return equals.Value&&equals.HasValue;
+                }
+                return false;
+            }
         }
     }
 }

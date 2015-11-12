@@ -178,7 +178,7 @@ namespace MyOOPTests
         {
             var simpleLinkList = new SimpleLinkList<int?>();
 
-            simpleLinkList.InsertRight(null, 5);
+            simpleLinkList.InsertAfter(null, 5);
 
             simpleLinkList.ShouldContain(5);
             simpleLinkList.Count.ShouldEqual(1);
@@ -191,7 +191,7 @@ namespace MyOOPTests
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
-            simpleLinkList.InsertRight(3,5);
+            simpleLinkList.InsertAfter(3,5);
 
             simpleLinkList.ShouldContain(5);
             simpleLinkList.Count.ShouldEqual(4);
@@ -204,7 +204,7 @@ namespace MyOOPTests
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
-            simpleLinkList.InsertRight(2, 5);
+            simpleLinkList.InsertAfter(2, 5);
 
             simpleLinkList.ShouldContain(5);
             simpleLinkList.Count.ShouldEqual(4);
@@ -215,7 +215,7 @@ namespace MyOOPTests
         {
             var simpleLinkList = new SimpleLinkList<int?>();
             
-            simpleLinkList.InsertLeft(null, 5);
+            simpleLinkList.InsertBefore(null, 5);
 
             simpleLinkList.ShouldContain(5);
             simpleLinkList.Count.ShouldEqual(1);
@@ -228,7 +228,7 @@ namespace MyOOPTests
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
-            simpleLinkList.InsertLeft(4, 5);
+            simpleLinkList.InsertBefore(4, 5);
 
             simpleLinkList.ShouldContain(5);
             simpleLinkList.Count.ShouldEqual(4);
@@ -241,7 +241,7 @@ namespace MyOOPTests
             simpleLinkList.Add(2);
             simpleLinkList.Add(3);
             simpleLinkList.Add(4);
-            simpleLinkList.InsertLeft(3, 5);
+            simpleLinkList.InsertBefore(3, 5);
 
             simpleLinkList.ShouldContain(5);
             simpleLinkList.Count.ShouldEqual(4);
