@@ -80,7 +80,7 @@ namespace MyOOP
 
         private void FoundElementAndInsertNodeRight(T referenceElement, Node<T> current, Node<T> toInsert)
         {
-            while (current.next != null)
+            while (current != null)
             {
                 if (current.Equals(referenceElement))
                 {

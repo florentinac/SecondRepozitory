@@ -186,6 +186,19 @@ namespace MyOOPTests
         }
 
         [TestMethod]
+        public void VerifyInsertRightLastItemInLinkList()
+        {
+            var simpleLinkList = new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+            simpleLinkList.Add(4);
+            simpleLinkList.InsertRight(2, 5);
+
+            simpleLinkList.ShouldContain(5);
+            simpleLinkList.Count.ShouldEqual(4);
+        }
+
+        [TestMethod]
         public void VerifyInsertLeftInAnEmptyLinkList()
         {
             var simpleLinkList = new SimpleLinkList<int?>();
