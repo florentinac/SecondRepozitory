@@ -31,8 +31,8 @@ namespace MyOOP
         public DoubleLinkList()
         {
             guard = new Node();
-            guard.next = guard.prev;
-            guard.prev = guard.next;
+            guard.next = guard;
+            guard.prev = guard;
             count = 0;
         }
 
@@ -50,9 +50,11 @@ namespace MyOOP
         {
             var toAdd = new Node(item);           
 
-            toAdd.next = guard.prev;          
-            toAdd.prev = guard.next;         
-            guard.next = toAdd;                      
+            toAdd.next = guard.next;
+            guard.prev = toAdd.next;
+            guard.next = toAdd;      
+              
+                               
             count++;         
         }
         public void AddLast(T item)
@@ -62,9 +64,9 @@ namespace MyOOP
                 value = item
             };
 
-            toAdd.prev = guard.next;           
-            toAdd.next = guard;
-            guard.prev = toAdd;
+            toAdd.prev = guard;           
+            toAdd.next = guard.prev;
+            guard.prev = toAdd.next;
             guard.next = toAdd;
 
             count++;
