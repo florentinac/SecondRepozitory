@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 
 namespace MyOOP
 {
-    public class SimpleLinkList<T>:ICollection<T>
+    public delegate void Insert<T>(T referenceItem, T data, bool before);
+
+    public class SimpleLinkList<T>:ICollection<T>,ICollection
     {
         private Node begin;
         private int count;
@@ -26,6 +28,22 @@ namespace MyOOP
         public int Count => count;
 
         public bool IsReadOnly => false;
+
+        public object SyncRoot
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool IsSynchronized
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public void Add(T item)
         {
@@ -87,6 +105,22 @@ namespace MyOOP
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }       
+
+        public void InsertItem(T referenceItem, T data, bool before)
+        {
+            var toInsert = NewNodeWithValue(data);
+            Node nodePrevious;
+            var found = FindElement(referenceItem, out nodePrevious);
+            switch (before)
+            {
+                case true:
+                    InsertElement(found ? nodePrevious : begin, toInsert);
+                    break;
+                case false:
+                    InsertElement(found ? nodePrevious.next : begin, toInsert);
+                    break;
+            }
         }
 
         public void InsertBefore(T referenceItem, T data)
@@ -94,7 +128,7 @@ namespace MyOOP
             var toInsert = NewNodeWithValue(data);
             Node nodePrevious;
             var found = FindElement(referenceItem, out nodePrevious);
-            InsertAfter(found ? nodePrevious : begin, toInsert);
+            InsertElement(found ? nodePrevious : begin, toInsert);
         }
 
         public void InsertAfter(T referenceItem, T data)
@@ -102,7 +136,7 @@ namespace MyOOP
             var toInsert = NewNodeWithValue(data);
             Node nodePrevious;
             var found = FindElement(referenceItem, out nodePrevious);
-            InsertAfter(found ? nodePrevious.next : begin, toInsert);
+            InsertElement(found ? nodePrevious.next : begin, toInsert);
         }
 
         public bool Remove(T item)
@@ -163,7 +197,7 @@ namespace MyOOP
             return false;
         }       
 
-        private void InsertAfter(Node node, Node toInsert)
+        private void InsertElement(Node node, Node toInsert)
         {
             toInsert.next = node.next;
             node.next = toInsert;
@@ -178,6 +212,11 @@ namespace MyOOP
             }
             current.next = toAdd;
             count++;
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
         }
 
         private class EnumSimpleLinkList : IEnumerator<T>

@@ -211,6 +211,30 @@ namespace MyOOPTests
         }
 
         [TestMethod]
+        public void VerifyInsertDelegateBeforeItemInLinkList()
+        {
+            var simpleLinkList = new SimpleLinkList<int>();
+            simpleLinkList.Add(2);
+            simpleLinkList.Add(3);
+            simpleLinkList.Add(4);
+            Insert<int> del = new Insert<int>(simpleLinkList.InsertItem);
+            del(2, 5, true);
+
+            CollectionAssert.AreEqual(new[] { 4, 3, 5, 2 }, simpleLinkList);
+            
+        }
+        [TestMethod]
+        public void VerifyInsertDelegateAfterItemInLinkList()
+        {
+            var simpleLinkList = new SimpleLinkList<int> {2, 3, 4};
+            var del = new Insert<int>(simpleLinkList.InsertItem);
+            del(2, 5, false);
+
+            CollectionAssert.AreEqual(new[] {4, 3, 2, 5}, simpleLinkList);
+           
+        }
+
+        [TestMethod]
         public void VerifyInsertLeftInAnEmptyLinkList()
         {
             var simpleLinkList = new SimpleLinkList<int?>();
