@@ -64,7 +64,8 @@ namespace MyOOP
 
 
             toAdd.next = guard;
-            guard.next = toAdd.prev;
+            toAdd.prev = guard.prev;
+            guard.next = toAdd;
             guard.prev = toAdd;
 
             count++;
