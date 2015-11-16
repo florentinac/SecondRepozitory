@@ -50,10 +50,10 @@ namespace MyOOP
         {
             var toAdd = new Node(item);
 
-            toAdd.next = guard.next;
             toAdd.prev = guard.prev;
-            guard.next = toAdd;          
-            guard.prev = toAdd.prev;
+            toAdd.next = guard.next;           
+            guard.next = toAdd;           
+            guard.prev = toAdd;
             
             
             count++;         
@@ -62,11 +62,10 @@ namespace MyOOP
         {
             var toAdd = new Node(item);
 
-
-            toAdd.next = guard;
             toAdd.prev = guard.prev;
-            guard.next = toAdd;
+            toAdd.next = guard;
             guard.prev = toAdd;
+            guard.next = toAdd.prev;
 
             count++;
         }
@@ -123,7 +122,7 @@ namespace MyOOP
             public bool MoveNext()
             {
                 
-                current = current?.next;                            
+                current = current?.prev;                            
                 
                 return current != doubleLinkList.guard;
             }

@@ -52,14 +52,27 @@ namespace MyOOPTests
         public void AddLastItemInEmptyDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int>();
-            
-            doubleLinkList.AddLast(1);
-            doubleLinkList.AddLast(2);
+                     
+            doubleLinkList.AddLast(5);
 
-            CollectionAssert.AreEqual(new[] { 1, 2 }, doubleLinkList);
-            doubleLinkList.ShouldContain(1);
-            
+            CollectionAssert.AreEqual(new[] { 5 }, doubleLinkList);          
+            doubleLinkList.ShouldContain(5);
         }
+
+        [TestMethod]
+        public void AddTwoLastItemInEmptyDoubleLinkList()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.AddLast(5);
+            doubleLinkList.AddLast(3);
+
+            CollectionAssert.AreEqual(new[] { 3, 5 }, doubleLinkList);
+            doubleLinkList.ShouldContain(5);
+        }
+
+
+
 
     }
 }
