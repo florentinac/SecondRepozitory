@@ -29,6 +29,7 @@ namespace MyOOPTests
             var doubleLinkList = new DoubleLinkList<int>();
             doubleLinkList.Add(1);
             doubleLinkList.Add(2);
+            CollectionAssert.AreEqual(new[] {2, 1 }, doubleLinkList);
             doubleLinkList.ShouldContain(1);
             doubleLinkList.ShouldContain(2);
         }
@@ -41,6 +42,7 @@ namespace MyOOPTests
             doubleLinkList.Add(2);
             doubleLinkList.Add(3);
 
+            CollectionAssert.AreEqual(new[] {3,2,1},doubleLinkList);
             doubleLinkList.ShouldContain(1);
             doubleLinkList.ShouldContain(2);
             doubleLinkList.ShouldContain(3);

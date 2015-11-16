@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyOOP
 {
-    public class DoubleLinkList<T>:ICollection<T>
+    public class DoubleLinkList<T>:ICollection<T>,ICollection
     {
         private int count;
         private Node guard;   
@@ -48,26 +48,24 @@ namespace MyOOP
 
         public void Add(T item)
         {
-            var toAdd = new Node(item);           
+            var toAdd = new Node(item);
 
             toAdd.next = guard.next;
-            guard.prev = toAdd.next;
-            guard.next = toAdd;      
-              
-                               
+            toAdd.prev = guard.prev;
+            guard.next = toAdd;          
+            guard.prev = toAdd.prev;
+            
+            
             count++;         
         }
         public void AddLast(T item)
         {
-            var toAdd = new Node
-            {
-                value = item
-            };
+            var toAdd = new Node(item);
 
-            toAdd.prev = guard;           
-            toAdd.next = guard.prev;
-            guard.prev = toAdd.next;
-            guard.next = toAdd;
+
+            toAdd.next = guard;
+            guard.next = toAdd.prev;
+            guard.prev = toAdd;
 
             count++;
         }
@@ -92,7 +90,14 @@ namespace MyOOP
             throw new NotImplementedException();
         }
 
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Count => count;
+        public object SyncRoot { get; }
+        public bool IsSynchronized { get; }
         public bool IsReadOnly { get; }
 
         private class DoubleLinkListEnum : IEnumerator<T>
@@ -119,7 +124,7 @@ namespace MyOOP
                 
                 current = current?.next;                            
                 
-                return current != null;
+                return current != doubleLinkList.guard;
             }
 
             public void Reset()
