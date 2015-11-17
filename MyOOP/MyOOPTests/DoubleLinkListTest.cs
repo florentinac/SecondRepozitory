@@ -98,7 +98,7 @@ namespace MyOOPTests
         {
             var doubleLinkList = new DoubleLinkList<int>();
 
-            doubleLinkList.Remove(2);
+            doubleLinkList.Remove(2).ShouldBeFalse();
             doubleLinkList.Count.ShouldEqual(0);
 
         }
@@ -128,5 +128,20 @@ namespace MyOOPTests
             doubleLinkList.ShouldNotContain(2);
 
         }
+
+        [TestMethod]
+        public void VerifyIfAListContainAnItem()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(7);
+            doubleLinkList.Contains(2).ShouldBeTrue();
+         
+
+        }
+
+
     }
 }
