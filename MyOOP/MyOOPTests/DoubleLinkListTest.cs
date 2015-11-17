@@ -29,9 +29,7 @@ namespace MyOOPTests
             var doubleLinkList = new DoubleLinkList<int>();
             doubleLinkList.Add(1);
             doubleLinkList.Add(2);
-            CollectionAssert.AreEqual(new[] {1, 2 }, doubleLinkList);
-            doubleLinkList.ShouldContain(1);
-            doubleLinkList.ShouldContain(2);
+            CollectionAssert.AreEqual(new[] {2, 1}, doubleLinkList);          
         }
 
         [TestMethod]
@@ -42,7 +40,7 @@ namespace MyOOPTests
             doubleLinkList.Add(2);
             doubleLinkList.Add(3);
 
-            CollectionAssert.AreEqual(new[] {1,2,3},doubleLinkList);
+            CollectionAssert.AreEqual(new[] {3,2,1},doubleLinkList);
             doubleLinkList.ShouldContain(1);
             doubleLinkList.ShouldContain(2);
             doubleLinkList.ShouldContain(3);
@@ -67,7 +65,7 @@ namespace MyOOPTests
             doubleLinkList.AddLast(5);
             doubleLinkList.AddLast(3);
 
-            CollectionAssert.AreEqual(new[] { 3, 5 }, doubleLinkList);
+            CollectionAssert.AreEqual(new[] { 5, 3 }, doubleLinkList);
             doubleLinkList.ShouldContain(5);
         }
 
@@ -81,8 +79,32 @@ namespace MyOOPTests
             doubleLinkList.Add(1);
             doubleLinkList.AddLast(3);
 
-            CollectionAssert.AreEqual(new[] { 3,5,2, 1 }, doubleLinkList);
+            CollectionAssert.AreEqual(new[] { 1 ,2, 5, 3 }, doubleLinkList);
             doubleLinkList.ShouldContain(5);
+        }
+
+        [TestMethod]
+        public void ShouldHaveAReverseEnumerableForAListWithOneItem()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            var enumerable = doubleLinkList.GetReverseEnumerable();
+
+            enumerable.ShouldContain(5);
+        }
+
+        [TestMethod]
+        public void ShouldHaveAReverseEnumerableForAListWithTwoItem()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            doubleLinkList.Add(7);
+
+            var enumerable = doubleLinkList.GetReverseEnumerable();
+
+            enumerable.ShouldContain(7);
         }
 
 

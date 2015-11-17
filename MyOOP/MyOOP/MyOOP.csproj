@@ -48,7 +48,7 @@
     <Compile Include="ArrayEnum.cs" />
     <Compile Include="DoubleLinkList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReversIEnumerator.cs" />
+    <Compile Include="ReverseIEnumerator.cs" />
     <Compile Include="SimpleLinkList.cs" />
     <Compile Include="SortedArray.cs" />
   </ItemGroup>

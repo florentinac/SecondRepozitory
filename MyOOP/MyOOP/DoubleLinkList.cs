@@ -66,7 +66,7 @@ namespace MyOOP
 
             toAdd.next = guard;
             toAdd.prev = guard.prev;         
-            toAdd.next.prev = toAdd;          
+            toAdd.prev.next = toAdd;          
             guard.prev = toAdd;            
 
             count++;
@@ -124,7 +124,7 @@ namespace MyOOP
             public bool MoveNext()
             {
                 
-                current = current?.prev;                            
+                current = current?.next;                            
                 
                 return current != doubleLinkList.guard;
             }
@@ -132,6 +132,14 @@ namespace MyOOP
             public void Reset()
             {
                 current=doubleLinkList.guard;
+            }
+        }
+
+        public IEnumerable<T> GetReverseEnumerable()
+        {
+            for (var current = guard.prev; current != guard; current = current.prev)
+            {
+                yield return current.value;
             }
         }
     }
