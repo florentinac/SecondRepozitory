@@ -20,6 +20,7 @@ namespace MyOOP
 
             public Node()
             {
+
             }
 
             public Node(T value)
@@ -50,22 +51,23 @@ namespace MyOOP
         {
             var toAdd = new Node(item);
 
-            toAdd.prev = guard.prev;
-            toAdd.next = guard.next;           
-            guard.next = toAdd;           
-            guard.prev = toAdd;
             
+            toAdd.prev = guard;
+            toAdd.next = guard.next;
+            toAdd.next.prev = toAdd;
+            guard.next = toAdd;                       
             
             count++;         
         }
+
         public void AddLast(T item)
         {
             var toAdd = new Node(item);
 
-            toAdd.prev = guard.prev;
             toAdd.next = guard;
-            guard.prev = toAdd;
-            guard.next = toAdd.prev;
+            toAdd.prev = guard.prev;         
+            toAdd.next.prev = toAdd;          
+            guard.prev = toAdd;            
 
             count++;
         }
