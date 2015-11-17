@@ -104,7 +104,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void DeleteitemFromAListWithOneItem()
+        public void DeleteItemFromAListWithOneItem()
         {
             var doubleLinkList = new DoubleLinkList<int>();
 
@@ -112,6 +112,20 @@ namespace MyOOPTests
             doubleLinkList.ShouldContain(5);
             doubleLinkList.Remove(5);
             doubleLinkList.ShouldNotContain(5);
+
+        }
+
+        [TestMethod]
+        public void DeleteItemFromAListWithThreeItem()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(7);
+            doubleLinkList.ShouldContain(2);
+            doubleLinkList.Remove(2);
+            doubleLinkList.ShouldNotContain(2);
 
         }
     }

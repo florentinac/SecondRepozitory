@@ -122,7 +122,7 @@ namespace MyOOP
             if (current.next.value.Equals(item))
             {
                 current.next = current.next.next;
-                current.next.prev = current.prev;
+                current.next.prev = current;
                 count--;
                 return true;
             }
