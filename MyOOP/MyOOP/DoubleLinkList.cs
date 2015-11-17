@@ -108,7 +108,16 @@ namespace MyOOP
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if (array == null)
+                throw new ArgumentNullException();
+            if (arrayIndex < 0)
+                throw new ArgumentOutOfRangeException();
+            for (var current = guard.next; current != guard; current = current.next)
+            {
+                if (arrayIndex > array.Length - 1)
+                    throw new ArgumentException();
+                array[arrayIndex++] = current.value;
+            }
         }
 
         public bool Remove(T item)

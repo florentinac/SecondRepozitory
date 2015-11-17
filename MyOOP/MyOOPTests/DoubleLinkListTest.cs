@@ -126,7 +126,6 @@ namespace MyOOPTests
             doubleLinkList.ShouldContain(2);
             doubleLinkList.Remove(2);
             doubleLinkList.ShouldNotContain(2);
-
         }
 
         [TestMethod]
@@ -139,6 +138,60 @@ namespace MyOOPTests
             doubleLinkList.Add(7);
             doubleLinkList.Contains(2).ShouldBeTrue();
          
+
+        }
+
+        [TestMethod]
+        public void VerifyCopyToInList()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(3);
+            doubleLinkList.Add(4);
+
+            var array = new[] { 1, 2, 3, 0, 0, 0 };
+            var expectedResult = new[] { 1, 2, 3, 4, 3, 2 };
+
+            doubleLinkList.CopyTo(array, 3);
+            CollectionAssert.AreEqual(expectedResult, array);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyIndexOutOfRangeForCopyToArray()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(3);          
+            var array = new[] { 1, 2, 0 };
+
+            doubleLinkList.CopyTo(array, 2);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void VerifyArgumentNullExceptionForCopyToArray()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(3);
+            int[] array = null;
+
+            doubleLinkList.CopyTo(array, 2);
+
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void VerifyArgumentOutOfRangeExceptionForCopyToArray()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(3);
+            var array = new[] { 1, 2, 0 };
+
+            doubleLinkList.CopyTo(array, -1);
 
         }
 
