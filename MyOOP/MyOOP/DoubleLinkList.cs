@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -50,8 +51,7 @@ namespace MyOOP
         public void Add(T item)
         {
             var toAdd = new Node(item);
-
-            
+           
             toAdd.prev = guard;
             toAdd.next = guard.next;
             toAdd.next.prev = toAdd;
@@ -60,16 +60,37 @@ namespace MyOOP
             count++;         
         }
 
-        public void AddLast(T item)
+        public void Insert(T referenceItem, T item)
         {
+            Node nodePrevious;
+            var found = FindElement(referenceItem, out nodePrevious);
             var toAdd = new Node(item);
 
-            toAdd.next = guard;
-            toAdd.prev = guard.prev;         
-            toAdd.prev.next = toAdd;          
-            guard.prev = toAdd;            
+            InsertBefore(found ? nodePrevious : guard, toAdd);
+        }
+
+        private void InsertBefore(Node nodePrevious, Node toAdd)
+        {
+            toAdd.next = nodePrevious;
+            toAdd.prev = nodePrevious.prev;
+            toAdd.prev.next = toAdd;
+            nodePrevious.prev = toAdd;
 
             count++;
+        }
+
+        private bool FindElement(T referenceItem, out Node nodePrevious)
+        {
+            for (var current = guard; current.next != guard; current = current.next)
+            {
+                if (current.value.Equals(referenceItem))
+                {
+                    nodePrevious = current;
+                    return true;
+                }
+            }
+            nodePrevious = null;
+            return false;
         }
 
         public void Clear()
