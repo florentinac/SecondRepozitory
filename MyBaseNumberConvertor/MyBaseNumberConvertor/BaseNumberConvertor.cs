@@ -36,11 +36,6 @@ namespace MyBaseNumberConvertor
             return array;
         }       
 
-        public byte And(byte first, byte second)
-        {
-            return (byte)((first == 0 || second == 0) ? 0 : 1);
-        }
-
         public byte[] LogicalOperator(byte[] first, byte[] second, DelegateOperator delegateOperator)
         {
             var result = new byte[0];
@@ -51,12 +46,8 @@ namespace MyBaseNumberConvertor
         }
 
         public byte[] AndOperator(byte[] first, byte[] second)
-        {
-            var result = new byte[0];
-            var lengthResult = MaxValue(first.Length, second.Length);
-            for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, And(GetElementFromPosition(first, i), GetElementFromPosition(second, i)));
-            return result;
+        {           
+            return LogicalOperator(first,second,(a,b) => (byte)((a == 0 || b == 0) ? 0 : 1));
         }
 
         public int ConvertFromBase(byte[] numberDigits, int baseX)
@@ -221,20 +212,11 @@ namespace MyBaseNumberConvertor
                 result[i] = Not(number[i]);
             }
             return result;
-        }
-
-        public byte Or(byte firstBytes, byte secondBytes)
-        {
-            return (byte)((firstBytes == 0 && secondBytes == 0) ? 0 : 1);
-        }
+        }       
 
         public byte[] OrOperator(byte[] first, byte[] second)
-        {
-            var result = new byte[0];
-            var lengthResult = MaxValue(first.Length, second.Length);
-            for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, Or(GetElementFromPosition(first, i), GetElementFromPosition(second, i)));
-            return result;
+        {          
+            return LogicalOperator(first,second,(a,b)=> (byte)((a == 0 && b == 0) ? 0 : 1));
         }
 
         public byte[] ResizeArray(byte[] oldArray, int difference)
@@ -268,20 +250,11 @@ namespace MyBaseNumberConvertor
                 result[i] = number[i - count];
             }
             return result;
-        }
-
-        public byte Xor(byte first, byte second)
-        {
-            return (byte)(((first == 0 && second == 0) || (first == 1 && second == 1)) ? 0 : 1);
-        }
+        }      
 
         public byte[] XorOperator(byte[] first, byte[] second)
-        {
-            var result = new byte[0];
-            var lengthResult = MaxValue(first.Length, second.Length);
-            for (var i = 0; i < lengthResult; i++)
-                result = AddToArray(ref result, Xor(GetElementFromPosition(first, i), GetElementFromPosition(second, i)));
-            return result;
+        {      
+            return LogicalOperator(first,second,(a,b)=> (byte)(((a == 0 && b == 0) || (a == 1 && b == 1)) ? 0 : 1));
         }
     }
 }

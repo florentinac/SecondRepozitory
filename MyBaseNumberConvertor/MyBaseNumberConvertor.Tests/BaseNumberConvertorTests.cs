@@ -48,16 +48,7 @@ namespace MyBaseNumberConvertor.Tests
             byte[] newArray = baseNumberConvertor.ReverseArray(oldArray);
             CollectionAssert.AreEqual(correctResult, newArray);
 
-        }
-
-        [TestMethod]
-        public void OrBytesTest()
-        {
-            var baseNumberConvertor = new BaseNumberConvertor();
-            byte newByte= baseNumberConvertor.Or(0,1);
-            Assert.AreEqual(newByte, 1);
-
-        }
+        }      
 
         [TestMethod]
         public void NumberConvertorToBaseTest()
@@ -95,8 +86,8 @@ namespace MyBaseNumberConvertor.Tests
             var firestByte = new byte[] { 1, 1 };
             var secondByte = new byte[] { 1, 0 };
             var correctResult = new byte[] { 1, 1};
-            var delegateOP= new DelegateOperator(baseNumberConvertor.Or);
-            var actualResult = baseNumberConvertor.LogicalOperator(firestByte, secondByte, delegateOP);
+            //var delegateOP= new DelegateOperator(baseNumberConvertor.OrOperator(firestByte, secondByte));
+            var actualResult = baseNumberConvertor.OrOperator(firestByte,secondByte);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
@@ -104,11 +95,10 @@ namespace MyBaseNumberConvertor.Tests
         public void AndDelegateOperatorTest()
         {
             var baseNumberConvertor = new BaseNumberConvertor();
-            var firestByte = new byte[] { 1, 1 };
-            var secondByte = new byte[] { 1, 0 };
-            var correctResult = new byte[] { 1, 0 };
-            var delegateOP = new DelegateOperator(baseNumberConvertor.And);
-            var actualResult = baseNumberConvertor.LogicalOperator(firestByte, secondByte, delegateOP);
+            var firestByte = new byte[] {1, 1};
+            var secondByte = new byte[] {1, 0};
+            var correctResult = new byte[] {1, 0};
+            var actualResult = baseNumberConvertor.AndOperator(firestByte, secondByte);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
@@ -118,9 +108,8 @@ namespace MyBaseNumberConvertor.Tests
             var baseNumberConvertor = new BaseNumberConvertor();
             var firestByte = new byte[] { 1, 0, 1};
             var secondByte = new byte[] { 1, 1, 0};
-            var correctResult = new byte[] { 0, 1, 1};
-            var delegateOP = new DelegateOperator(baseNumberConvertor.Xor);
-            var actualResult = baseNumberConvertor.LogicalOperator(firestByte, secondByte, delegateOP);
+            var correctResult = new byte[] { 0, 1, 1};          
+            var actualResult = baseNumberConvertor.XorOperator(firestByte, secondByte);
             CollectionAssert.AreEqual(actualResult, correctResult);
         }
 
