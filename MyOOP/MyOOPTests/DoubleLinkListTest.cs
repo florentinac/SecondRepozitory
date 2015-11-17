@@ -16,7 +16,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddFirstItemInEmptyDoubleLinkList()
+        public void AddItemInEmptyDoubleLinkList()
         {
             var doubleLinkList=new DoubleLinkList<int>();
             doubleLinkList.Add(1);
@@ -24,7 +24,7 @@ namespace MyOOPTests
         }
         
         [TestMethod]
-        public void AddFirstTwoItemInDoubleLinkList()
+        public void AddTwoItemInDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int>();
             doubleLinkList.Add(1);
@@ -33,7 +33,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddFirstMoreItemInDoubleLinkList()
+        public void AddThreeItemInDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int>();
             doubleLinkList.Add(1);
@@ -47,7 +47,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddLastItemInEmptyDoubleLinkList()
+        public void InsertItemInEmptyDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int?>();
                      
@@ -58,7 +58,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddTwoItemInDoubleLinkList()
+        public void InsertItemInDoubleLinkList()
         {
             var doubleLinkList = new DoubleLinkList<int>();
 
@@ -67,21 +67,7 @@ namespace MyOOPTests
 
             CollectionAssert.AreEqual(new[] { 5, 3 }, doubleLinkList);
             doubleLinkList.ShouldContain(5);
-        }
-
-        [TestMethod]
-        public void AddLastItemInDoubleLinkList()
-        {
-            var doubleLinkList = new DoubleLinkList<int>();
-
-            doubleLinkList.Add(5);
-            doubleLinkList.Add(2);
-            doubleLinkList.Add(1);
-            doubleLinkList.Insert(1, 3);
-
-            CollectionAssert.AreEqual(new[] { 3, 1 ,2, 5 }, doubleLinkList);
-            doubleLinkList.ShouldContain(5);
-        }
+        }      
 
         [TestMethod]
         public void ShouldHaveAReverseEnumerableForAListWithOneItem()
@@ -107,8 +93,26 @@ namespace MyOOPTests
             enumerable.ShouldContain(7);
         }
 
+        [TestMethod]
+        public void DeleteItemFromAnEmptyList()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
 
+            doubleLinkList.Remove(2);
+            doubleLinkList.Count.ShouldEqual(0);
 
+        }
 
+        [TestMethod]
+        public void DeleteitemFromAListWithOneItem()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            doubleLinkList.ShouldContain(5);
+            doubleLinkList.Remove(5);
+            doubleLinkList.ShouldNotContain(5);
+
+        }
     }
 }

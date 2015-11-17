@@ -65,7 +65,6 @@ namespace MyOOP
             Node nodePrevious;
             var found = FindElement(referenceItem, out nodePrevious);
             var toAdd = new Node(item);
-
             InsertBefore(found ? nodePrevious : guard, toAdd);
         }
 
@@ -110,7 +109,24 @@ namespace MyOOP
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+
+            for (var current = guard; current.next != guard; current = current.next)
+            {
+                if (FindElementAndRemove(item, current)) return true;
+            }
+            return false;
+        }
+
+        private bool FindElementAndRemove(T item, Node current)
+        {
+            if (current.next.value.Equals(item))
+            {
+                current.next = current.next.next;
+                current.next.prev = current.prev;
+                count--;
+                return true;
+            }
+            return false;
         }
 
         public void CopyTo(Array array, int index)
