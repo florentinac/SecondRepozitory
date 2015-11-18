@@ -56,6 +56,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DictionaryTests.cs" />
     <Compile Include="DoubleLinkListTest.cs" />
     <Compile Include="SimpleLinkListTest.cs" />
     <Compile Include="TestVector.cs" />

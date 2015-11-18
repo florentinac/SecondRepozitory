@@ -53,22 +53,26 @@ namespace MyOOP
         public bool Contains(T item)
         {
             Node nodePrevious;
-            return FindElement(item, out nodePrevious);
-          
+            return FindElement(item, out nodePrevious);         
         }
 
         public void CopyTo(T[] array, int arrayIndex)
+        {
+            ValidatesParameters(array, arrayIndex);
+            for (var current = guard.next; current != guard; current = current.next)
+            {                
+                array[arrayIndex++] = current.value;
+            }
+        }
+
+        private void ValidatesParameters(T[] array, int arrayIndex)
         {
             if (array == null)
                 throw new ArgumentNullException();
             if (arrayIndex < 0)
                 throw new ArgumentOutOfRangeException();
-            if(count>array.Length-arrayIndex)
+            if (count > array.Length - arrayIndex)
                 throw new ArgumentException();
-            for (var current = guard.next; current != guard; current = current.next)
-            {                
-                array[arrayIndex++] = current.value;
-            }
         }
 
         public void CopyTo(Array array, int index)
@@ -85,7 +89,7 @@ namespace MyOOP
         {
             for (var current = guard.prev; current != guard; current = current.prev)
             {
-                yield return current.value;
+                 yield return current.value;
             }
         }
 
@@ -106,9 +110,8 @@ namespace MyOOP
 
         public bool Remove(T item)
         {
-            Node nodePrevious;
-            var found = FindElement(item, out nodePrevious);
-            if (!found) return false;
+            Node nodePrevious;           
+            if (!FindElement(item, out nodePrevious)) return false;
             RemoveNode(nodePrevious);               
             return true;
         }
