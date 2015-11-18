@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyOOP
 {
+    
     public class DoubleLinkList<T>:ICollection<T>,ICollection
     {
         private int count;
@@ -59,30 +61,33 @@ namespace MyOOP
             
             count++;         
         }
+        private delegate Node InsertDelegate(Node node);
 
-        public void InsertBefore(T referenceItem, T item)
+        private void InsertElement(T referenceItem, T item, InsertDelegate insertDelegate)
         {
             Node nodePrevious;
             var found = FindElement(referenceItem, out nodePrevious);
             var toAdd = new Node(item);
-            InsertElement(found ? nodePrevious.next : guard, toAdd);
+            InsertElement(found ? insertDelegate(nodePrevious) : guard, toAdd);
+        }
+
+        
+        public void InsertBefore(T referenceItem, T item)
+        {
+            InsertElement(referenceItem,item,(node)=>node.next);          
         }
 
         public void InsertAfter(T referenceItem, T item)
         {
-            Node nodePrevious;
-            var found = FindElement(referenceItem, out nodePrevious);
-            var toAdd = new Node(item);
-            InsertElement(found ? nodePrevious : guard, toAdd);
-
+            InsertElement(referenceItem, item, (node) => node);          
         }
 
-        private void InsertElement(Node nodePrevious, Node toAdd)
+        private void InsertElement(Node node, Node toAdd)
         {
-            toAdd.next = nodePrevious;
-            toAdd.prev = nodePrevious.prev;
+            toAdd.next = node;
+            toAdd.prev = node.prev;
             toAdd.prev.next = toAdd;
-            nodePrevious.prev = toAdd;
+            node.prev = toAdd;
 
             count++;
         }
@@ -93,7 +98,7 @@ namespace MyOOP
             {
                 if (current.value.Equals(referenceItem))
                 {
-                    nodePrevious = current.next;
+                    nodePrevious = current.prev;
                     return true;
                 }
             }
@@ -108,10 +113,10 @@ namespace MyOOP
 
         public bool Contains(T item)
         {
-            for (var current = guard; current.next != guard; current = current.next)
-            {
-                if (current.value.Equals(item)) return true;
-            }
+            Node nodePrevious;
+            var found = FindElement(item, out nodePrevious);
+            if (found)
+                return true;            
             return false;
         }
 
@@ -131,25 +136,22 @@ namespace MyOOP
 
         public bool Remove(T item)
         {
-
-            for (var current = guard; current.next != guard; current = current.next)
+            Node nodePrevious;
+            var found = FindElement(item, out nodePrevious);
+            if (found)
             {
-                if (FindElementAndRemove(item, current)) return true;
-            }
-            return false;
-        }
-
-        private bool FindElementAndRemove(T item, Node current)
-        {
-            if (current.next.value.Equals(item))
-            {
-                current.next = current.next.next;
-                current.next.prev = current;
-                count--;
+                RemoveNode(nodePrevious);
                 return true;
-            }
+            }            
             return false;
         }
+
+        private void RemoveNode(Node node)
+        {
+            node.next = node.next.next;
+            node.next.prev = node;
+            count--;
+        }        
 
         public void CopyTo(Array array, int index)
         {

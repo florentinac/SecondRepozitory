@@ -70,6 +70,21 @@ namespace MyOOPTests
         }
 
         [TestMethod]
+        public void InsertItemInAListWithThreeItemBeforeTheReferanceElement()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            doubleLinkList.Add(2);
+            doubleLinkList.Add(3);
+            doubleLinkList.InsertBefore(5, 7);
+
+            CollectionAssert.AreEqual(new[] { 3, 2,7,5 }, doubleLinkList);
+            doubleLinkList.ShouldContain(5);
+            doubleLinkList.Count.ShouldEqual(4);
+        }
+
+        [TestMethod]
         public void InsertItemInDoubleLinkListAfterTheReferanceElement()
         {
             var doubleLinkList = new DoubleLinkList<int>();
@@ -112,7 +127,6 @@ namespace MyOOPTests
 
             doubleLinkList.Remove(2).ShouldBeFalse();
             doubleLinkList.Count.ShouldEqual(0);
-
         }
 
         [TestMethod]
@@ -124,7 +138,6 @@ namespace MyOOPTests
             doubleLinkList.ShouldContain(5);
             doubleLinkList.Remove(5);
             doubleLinkList.ShouldNotContain(5);
-
         }
 
         [TestMethod]
@@ -149,8 +162,8 @@ namespace MyOOPTests
             doubleLinkList.Add(2);
             doubleLinkList.Add(7);
             doubleLinkList.Contains(2).ShouldBeTrue();
-         
-
+            doubleLinkList.Contains(7).ShouldBeTrue();
+            doubleLinkList.Contains(8).ShouldBeFalse();
         }
 
         [TestMethod]
@@ -191,7 +204,6 @@ namespace MyOOPTests
             int[] array = null;
 
             doubleLinkList.CopyTo(array, 2);
-
         }
 
         [TestMethod]
@@ -204,7 +216,6 @@ namespace MyOOPTests
             var array = new[] { 1, 2, 0 };
 
             doubleLinkList.CopyTo(array, -1);
-
         }
 
 
