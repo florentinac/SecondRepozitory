@@ -53,10 +53,8 @@ namespace MyOOP
         public bool Contains(T item)
         {
             Node nodePrevious;
-            var found = FindElement(item, out nodePrevious);
-            if (found)
-                return true;
-            return false;
+            return FindElement(item, out nodePrevious);
+          
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -65,10 +63,10 @@ namespace MyOOP
                 throw new ArgumentNullException();
             if (arrayIndex < 0)
                 throw new ArgumentOutOfRangeException();
+            if(count>array.Length-arrayIndex)
+                throw new ArgumentException();
             for (var current = guard.next; current != guard; current = current.next)
-            {
-                if (arrayIndex > array.Length - 1)
-                    throw new ArgumentException();
+            {                
                 array[arrayIndex++] = current.value;
             }
         }
