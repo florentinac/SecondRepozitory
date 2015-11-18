@@ -10,15 +10,20 @@ namespace MyOOP
 {
     public class DictionaryClass<Key, T>:ICollection
     {
-        private T value;
         private Key key;
-        private List<Library> library;
-        private int count = 100;
+        private Library[] library=new Library[100];
+        private int count = 0;
+    
 
         private class Library
         {
             public T value;
-            public List<T> bucket;
+            public List<T> bucket=new List<T>();
+
+            public Library(T value)
+            {
+                this.value = value;
+            }
 
             public void Add()
             {
@@ -26,19 +31,25 @@ namespace MyOOP
             }
         }
 
-        public DictionaryClass(){ }
-
-        public DictionaryClass(Key key, T value)
-        {
-            this.key = key;
-            this.value=value;
-        }
+        public DictionaryClass(){ }    
 
         public IEnumerator GetEnumerator()
         {
-            for (var i = 0; i < count; i++)
-                if(library!=null)
+            for (var i = 0; i < 100; i++)
+                if(library[i]!=null)
                    yield return library[i].value;
+        }
+
+        public void Add(Key name, T newEntry)
+        {
+            var hash = name.GetHashCode();
+            hash %= library.Length;
+
+            var newBucket = new Library(newEntry);
+            newBucket.Add();
+            library[hash] = newBucket;
+            count++;
+
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -76,19 +87,19 @@ namespace MyOOP
             throw new NotImplementedException();
         }
 
-        public int Count { get; }
+        public int Count => count;
         public object SyncRoot { get; }
         public bool IsSynchronized { get; }
         public bool IsReadOnly { get; }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is List<int>)
-            {
-                var equals = value?.Equals(obj);
-                return equals.Value && equals.HasValue;
-            }
-            return false;
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj is List<int>)
+        //    {
+        //        var equals = value?.Equals(obj);
+        //        return equals.Value && equals.HasValue;
+        //    }
+        //    return false;
+        //}
     }
 }
