@@ -60,15 +60,24 @@ namespace MyOOP
             count++;         
         }
 
-        public void Insert(T referenceItem, T item)
+        public void InsertBefore(T referenceItem, T item)
         {
             Node nodePrevious;
             var found = FindElement(referenceItem, out nodePrevious);
             var toAdd = new Node(item);
-            InsertBefore(found ? nodePrevious : guard, toAdd);
+            InsertElement(found ? nodePrevious.next : guard, toAdd);
         }
 
-        private void InsertBefore(Node nodePrevious, Node toAdd)
+        public void InsertAfter(T referenceItem, T item)
+        {
+            Node nodePrevious;
+            var found = FindElement(referenceItem, out nodePrevious);
+            var toAdd = new Node(item);
+            InsertElement(found ? nodePrevious : guard, toAdd);
+
+        }
+
+        private void InsertElement(Node nodePrevious, Node toAdd)
         {
             toAdd.next = nodePrevious;
             toAdd.prev = nodePrevious.prev;
@@ -80,11 +89,11 @@ namespace MyOOP
 
         private bool FindElement(T referenceItem, out Node nodePrevious)
         {
-            for (var current = guard; current.next != guard; current = current.next)
+            for (var current = guard.next; current != guard; current = current.next)
             {
                 if (current.value.Equals(referenceItem))
                 {
-                    nodePrevious = current;
+                    nodePrevious = current.next;
                     return true;
                 }
             }

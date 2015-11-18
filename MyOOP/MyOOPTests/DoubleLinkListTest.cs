@@ -47,27 +47,39 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void InsertItemInEmptyDoubleLinkList()
+        public void InsertItemInEmptyDoubleLinkListBeforeTheReferanceElement()
         {
             var doubleLinkList = new DoubleLinkList<int?>();
                      
-            doubleLinkList.Insert(null,5);
+            doubleLinkList.InsertBefore(null,5);
 
             CollectionAssert.AreEqual(new[] { 5 }, doubleLinkList);          
             doubleLinkList.ShouldContain(5);
         }
 
         [TestMethod]
-        public void InsertItemInDoubleLinkList()
+        public void InsertItemInDoubleLinkListBeforeTheReferanceElement()
         {
             var doubleLinkList = new DoubleLinkList<int>();
 
             doubleLinkList.Add(5);
-            doubleLinkList.Insert(5, 3);
+            doubleLinkList.InsertBefore(5, 3);
+
+            CollectionAssert.AreEqual(new[] { 3, 5 }, doubleLinkList);
+            doubleLinkList.ShouldContain(5);
+        }
+
+        [TestMethod]
+        public void InsertItemInDoubleLinkListAfterTheReferanceElement()
+        {
+            var doubleLinkList = new DoubleLinkList<int>();
+
+            doubleLinkList.Add(5);
+            doubleLinkList.InsertAfter(5, 3);
 
             CollectionAssert.AreEqual(new[] { 5, 3 }, doubleLinkList);
             doubleLinkList.ShouldContain(5);
-        }      
+        }
 
         [TestMethod]
         public void ShouldHaveAReverseEnumerableForAListWithOneItem()

@@ -36,7 +36,7 @@ namespace MyBaseNumberConvertor
             return array;
         }       
 
-        public byte[] LogicalOperator(byte[] first, byte[] second, DelegateOperator delegateOperator)
+        private byte[] LogicalOperator(byte[] first, byte[] second, DelegateOperator delegateOperator)
         {
             var result = new byte[0];
             var lengthResult = MaxValue(first.Length, second.Length);
