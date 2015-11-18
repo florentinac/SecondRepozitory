@@ -136,8 +136,10 @@ namespace MyOOPTests
 
             doubleLinkList.Add(5);
             doubleLinkList.ShouldContain(5);
+            doubleLinkList.Count.ShouldEqual(1);
             doubleLinkList.Remove(5);
             doubleLinkList.ShouldNotContain(5);
+            doubleLinkList.Count.ShouldEqual(0);
         }
 
         [TestMethod]

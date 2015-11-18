@@ -13,24 +13,7 @@ namespace MyOOP
     public class DoubleLinkList<T>:ICollection<T>,ICollection
     {
         private int count;
-        private Node guard;   
-          
-        private class Node
-        {
-            public T value;
-            public Node next;
-            public Node prev;
-
-            public Node()
-            {
-
-            }
-
-            public Node(T value)
-            {
-                this.value = value;
-            }
-        }
+        private Node guard;
 
         public DoubleLinkList()
         {
@@ -40,75 +23,31 @@ namespace MyOOP
             count = 0;
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new DoubleLinkListEnum(this);
-        }
+        private delegate Node InsertDelegate(Node node);
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public int Count => count;
+
+        public bool IsReadOnly { get; }
+
+        public bool IsSynchronized { get; }
+
+        public object SyncRoot { get; }
 
         public void Add(T item)
         {
             var toAdd = new Node(item);
-           
+
             toAdd.prev = guard;
             toAdd.next = guard.next;
             toAdd.next.prev = toAdd;
-            guard.next = toAdd;                       
-            
-            count++;         
-        }
-        private delegate Node InsertDelegate(Node node);
-
-        private void InsertElement(T referenceItem, T item, InsertDelegate insertDelegate)
-        {
-            Node nodePrevious;
-            var found = FindElement(referenceItem, out nodePrevious);
-            var toAdd = new Node(item);
-            InsertElement(found ? insertDelegate(nodePrevious) : guard, toAdd);
-        }
-
-        
-        public void InsertBefore(T referenceItem, T item)
-        {
-            InsertElement(referenceItem,item,(node)=>node.next);          
-        }
-
-        public void InsertAfter(T referenceItem, T item)
-        {
-            InsertElement(referenceItem, item, (node) => node);          
-        }
-
-        private void InsertElement(Node node, Node toAdd)
-        {
-            toAdd.next = node;
-            toAdd.prev = node.prev;
-            toAdd.prev.next = toAdd;
-            node.prev = toAdd;
+            guard.next = toAdd;
 
             count++;
         }
 
-        private bool FindElement(T referenceItem, out Node nodePrevious)
-        {
-            for (var current = guard.next; current != guard; current = current.next)
-            {
-                if (current.value.Equals(referenceItem))
-                {
-                    nodePrevious = current.prev;
-                    return true;
-                }
-            }
-            nodePrevious = null;
-            return false;
-        }
-
         public void Clear()
         {
-            guard=null;           
+            guard = null;
         }
 
         public bool Contains(T item)
@@ -116,7 +55,7 @@ namespace MyOOP
             Node nodePrevious;
             var found = FindElement(item, out nodePrevious);
             if (found)
-                return true;            
+                return true;
             return false;
         }
 
@@ -134,16 +73,78 @@ namespace MyOOP
             }
         }
 
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new DoubleLinkListEnum(this);
+        }
+
+        public IEnumerable<T> GetReverseEnumerable()
+        {
+            for (var current = guard.prev; current != guard; current = current.prev)
+            {
+                yield return current.value;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void InsertAfter(T referenceItem, T item)
+        {
+            InsertElement(referenceItem, item, (node) => node);
+        }
+
+        public void InsertBefore(T referenceItem, T item)
+        {
+            InsertElement(referenceItem, item, (node) => node.next);
+        }
+
         public bool Remove(T item)
         {
             Node nodePrevious;
             var found = FindElement(item, out nodePrevious);
-            if (found)
+            if (!found) return false;
+            RemoveNode(nodePrevious);               
+            return true;
+        }
+
+        private bool FindElement(T referenceItem, out Node nodePrevious)
+        {
+            for (var current = guard.next; current != guard; current = current.next)
             {
-                RemoveNode(nodePrevious);
-                return true;
-            }            
+                if (current.value.Equals(referenceItem))
+                {
+                    nodePrevious = current.prev;
+                    return true;
+                }
+            }
+            nodePrevious = null;
             return false;
+        }
+
+        private void InsertElement(T referenceItem, T item, InsertDelegate insertDelegate)
+        {
+            Node nodePrevious;
+            var found = FindElement(referenceItem, out nodePrevious);
+            var toAdd = new Node(item);
+            InsertElementAt(found ? insertDelegate(nodePrevious) : guard, toAdd);
+        }
+
+        private void InsertElementAt(Node node, Node toAdd)
+        {
+            toAdd.next = node;
+            toAdd.prev = node.prev;
+            toAdd.prev.next = toAdd;
+            node.prev = toAdd;
+
+            count++;
         }
 
         private void RemoveNode(Node node)
@@ -151,23 +152,12 @@ namespace MyOOP
             node.next = node.next.next;
             node.next.prev = node;
             count--;
-        }        
-
-        public void CopyTo(Array array, int index)
-        {
-            throw new NotImplementedException();
         }
-
-        public int Count => count;
-        public object SyncRoot { get; }
-        public bool IsSynchronized { get; }
-        public bool IsReadOnly { get; }
 
         private class DoubleLinkListEnum : IEnumerator<T>
         {
+            private Node current;
             private DoubleLinkList<T> doubleLinkList;
-            private Node current; 
-
             public DoubleLinkListEnum(DoubleLinkList<T> doubleLinkList)
             {
                 this.doubleLinkList = doubleLinkList;
@@ -178,29 +168,32 @@ namespace MyOOP
 
             object IEnumerator.Current => current.value;
 
-            public void Dispose()
-            {                
-            }
+            public void Dispose(){}
 
             public bool MoveNext()
             {
-                
-                current = current?.next;                            
-                
+                current = current?.next;
+
                 return current != doubleLinkList.guard;
             }
 
             public void Reset()
             {
-                current=doubleLinkList.guard;
+                current = doubleLinkList.guard;
             }
         }
 
-        public IEnumerable<T> GetReverseEnumerable()
+        private class Node
         {
-            for (var current = guard.prev; current != guard; current = current.prev)
+            public Node next;
+            public Node prev;
+            public T value;
+
+            public Node(){}
+
+            public Node(T value)
             {
-                yield return current.value;
+                this.value = value;
             }
         }
     }
