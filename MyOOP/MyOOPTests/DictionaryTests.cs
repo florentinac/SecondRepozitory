@@ -8,16 +8,7 @@ namespace MyOOPTests
 {
     [TestClass]
     public class DictionaryTests
-    {
-        public struct NewEntry
-        {
-            public string Name;
-            public string Description;
-        }
-
-        public NewEntry newEntry = new NewEntry() { Name = "mar", Description = "Este un fruct" };
-        public NewEntry newEntry2 = new NewEntry() { Name = "par", Description = "Este un fruct" };
-        public NewEntry newEntry3 = new NewEntry() { Name = "pastarnac", Description = "Este un leguma" };
+    {              
 
         [TestMethod]
         public void VerifyEmptyDictionary()
@@ -29,6 +20,9 @@ namespace MyOOPTests
         [TestMethod]
         public void VerifyAddANewValueInEmptyDictionary()
         {
+            var newEntry = new NewEntry("mar","este un fruct");
+            var newEntry2 = new NewEntry("par", "este un fruct");
+            var newEntry3 = new NewEntry("rosie", "este o leguma");
             var dictionary = new DictionaryClass<string, NewEntry>();
             dictionary.Add(newEntry.Name, newEntry);
             dictionary.Add(newEntry2.Name, newEntry2);
@@ -39,22 +33,17 @@ namespace MyOOPTests
         [TestMethod]
         public void VerifyAddANewValueInDictionary()
         {
+            var newEntry = new NewEntry("mar", "este un fruct");
+            var newEntry2 = new NewEntry("par", "este un fruct");
             var dictionary = new DictionaryClass<string, NewEntry>();
             dictionary.Add(newEntry.Name, newEntry);
             dictionary.Add(newEntry2.Name, newEntry2);
         }
 
         [TestMethod]
-        public void VerifyAddANewValueWithSameHashCodeDictionary()
-        {
-            var dictionary = new DictionaryClass<string, NewEntry>();
-            dictionary.Add(newEntry.Name, newEntry);
-            dictionary.Add(newEntry.Name, newEntry2);
-        }
-
-        [TestMethod]
         public void FindAWordInEmptyDictionary()
         {
+            var newEntry = new NewEntry("mar", "este un fruct");           
             var dictionary = new DictionaryClass<string, NewEntry>();
             dictionary.Find(newEntry.Name).ShouldBeFalse();
         }
@@ -75,5 +64,26 @@ namespace MyOOPTests
             dictionary.Find("mar").ShouldBeTrue();
         }
 
+        [TestMethod]
+        public void FindASpecificWordInDictionaryWithTwoWordsWithSameHash()
+        {
+            var dictionary = new DictionaryClass<string, string>();
+            dictionary.Add("mar", "mar");
+            dictionary.Add("mar", "para");
+            var word = dictionary.FindWord("mar");
+            word.ShouldEqual("mar");
+        }
+
+        [TestMethod]
+        public void VerifyFindAStructureWithSameHashCodeDictionary()
+        {
+            var dictionary = new DictionaryClass<string, NewEntry>();
+            var newEntry = new NewEntry("mar", "este un fruct");
+            var newEntry2 = new NewEntry("rosie", "este o leguma");
+            dictionary.Add(newEntry.Name, newEntry);
+            dictionary.Add(newEntry2.Name, newEntry);
+            var word = dictionary.FindWord(newEntry.Name);
+            word.ShouldEqual(newEntry);
+        }
     }
 }

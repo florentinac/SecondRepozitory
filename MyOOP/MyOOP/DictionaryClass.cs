@@ -8,6 +8,32 @@ using System.Threading.Tasks;
 
 namespace MyOOP
 {
+    public class NewEntry
+    {
+        public string Name;
+        public string Description;
+
+        public NewEntry(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
+        public override bool Equals(object obj)
+        {
+            var words = new NewEntry("mar", "Este un mar");
+            if (obj is NewEntry)
+            {                
+                return words.Equals(obj);
+            }
+            if (obj is string)
+            {
+                var equals = words.Name?.Equals(obj);
+                return equals.Value && equals.HasValue;
+            }
+            return false;
+        }
+    }
+
     public class DictionaryClass<Key, T> : ICollection
     {
         private Library[] library = new Library[100];
@@ -27,7 +53,17 @@ namespace MyOOP
             {
                 bucket.Add(value);
             }
-        }
+            public override bool Equals(object obj)
+            {
+                var words = new NewEntry("mar", "Este un mar");
+                if (obj is NewEntry)
+                {
+                    var equals = words.Name?.Equals(obj);
+                    return equals.Value && equals.HasValue;
+                }
+                return false;
+            }
+        }     
 
         public IEnumerator GetEnumerator()
         {
@@ -49,6 +85,41 @@ namespace MyOOP
             {
                 AddNewEntryInExistentBucket(newEntry, hash);
             }
+        }
+
+        public bool Find(Key name)
+        {
+            var hash = CalculateHash(name);
+            if (library[hash] == null)
+                return false;
+            foreach (var words in library[hash].bucket)
+            {
+                if (words.Equals(name))
+                    return true;
+            }
+            return false;
+        }
+
+        public T FindWord(Key name)
+        {
+            ulong hash;
+            var foundWord = FindWordWithHah(name, out hash);
+            if (!foundWord) return default(T);
+            var index = 0;
+            foreach (var words in library[hash].bucket)
+            {
+                if (words.Equals(name))
+                    return library[hash].bucket[index];
+                index++;
+            }
+            return default(T);
+        }
+
+        private bool FindWordWithHah(Key name, out ulong hash)
+        {
+            hash = CalculateHash(name);
+            return library[hash] != null;
+
         }
 
         private void AddValueInLibrary(Library newBucket, ulong hash)
@@ -111,17 +182,7 @@ namespace MyOOP
         public bool IsSynchronized { get; }
         public bool IsReadOnly { get; }
 
-        public bool Find(Key name)
-        {
-            var hash = CalculateHash(name);
-            if (library[hash] == null)
-                return false;
-            foreach (var words in library[hash].bucket)
-            {
-                if (words.Equals(name))
-                    return true;
-            }
-            return false;
-        }
+        
+
     }
 }
