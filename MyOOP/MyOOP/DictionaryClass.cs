@@ -20,7 +20,7 @@ namespace MyOOP
         }
         public override bool Equals(object obj)
         {
-            var words = new NewEntry("mar", "Este un mar");
+            var words = new NewEntry("apple", "It is a fruit");
             if (obj is NewEntry)
             {                
                 return words.Equals(obj);
@@ -52,17 +52,7 @@ namespace MyOOP
             public void Add()
             {
                 bucket.Add(value);
-            }
-            public override bool Equals(object obj)
-            {
-                var words = new NewEntry("mar", "Este un mar");
-                if (obj is NewEntry)
-                {
-                    var equals = words.Name?.Equals(obj);
-                    return equals.Value && equals.HasValue;
-                }
-                return false;
-            }
+            }          
         }     
 
         public IEnumerator GetEnumerator()

@@ -20,9 +20,9 @@ namespace MyOOPTests
         [TestMethod]
         public void VerifyAddANewValueInEmptyDictionary()
         {
-            var newEntry = new NewEntry("mar","este un fruct");
-            var newEntry2 = new NewEntry("par", "este un fruct");
-            var newEntry3 = new NewEntry("rosie", "este o leguma");
+            var newEntry = new NewEntry("apple", "It is a fruit");
+            var newEntry2 = new NewEntry("pear", "It is a fruit");
+            var newEntry3 = new NewEntry("tomato", "It is a vegetable");
             var dictionary = new DictionaryClass<string, NewEntry>();
             dictionary.Add(newEntry.Name, newEntry);
             dictionary.Add(newEntry2.Name, newEntry2);
@@ -33,8 +33,8 @@ namespace MyOOPTests
         [TestMethod]
         public void VerifyAddANewValueInDictionary()
         {
-            var newEntry = new NewEntry("mar", "este un fruct");
-            var newEntry2 = new NewEntry("par", "este un fruct");
+            var newEntry = new NewEntry("apple", "It is a fruit");
+            var newEntry2 = new NewEntry("pear", "It is a fruit");
             var dictionary = new DictionaryClass<string, NewEntry>();
             dictionary.Add(newEntry.Name, newEntry);
             dictionary.Add(newEntry2.Name, newEntry2);
@@ -43,7 +43,7 @@ namespace MyOOPTests
         [TestMethod]
         public void FindAWordInEmptyDictionary()
         {
-            var newEntry = new NewEntry("mar", "este un fruct");           
+            var newEntry = new NewEntry("apple", "It is a fruit");           
             var dictionary = new DictionaryClass<string, NewEntry>();
             dictionary.Find(newEntry.Name).ShouldBeFalse();
         }
@@ -51,35 +51,35 @@ namespace MyOOPTests
         public void FindAWordInDictionaryWithOneWord()
         {
             var dictionary = new DictionaryClass<string, string>();
-            dictionary.Add("mar", "mar");
-            dictionary.Find("mar").ShouldBeTrue();
+            dictionary.Add("apple", "apple");
+            dictionary.Find("apple").ShouldBeTrue();
         }
 
         [TestMethod]
         public void FindAWordInDictionaryWithTwoWordsWithSameHash()
         {
             var dictionary = new DictionaryClass<string, string>();
-            dictionary.Add("mar", "mar");
-            dictionary.Add("mar", "para");
-            dictionary.Find("mar").ShouldBeTrue();
+            dictionary.Add("apple", "apple");
+            dictionary.Add("apple", "pear");
+            dictionary.Find("apple").ShouldBeTrue();
         }
 
         [TestMethod]
         public void FindASpecificWordInDictionaryWithTwoWordsWithSameHash()
         {
             var dictionary = new DictionaryClass<string, string>();
-            dictionary.Add("mar", "mar");
-            dictionary.Add("mar", "para");
-            var word = dictionary.FindWord("mar");
-            word.ShouldEqual("mar");
+            dictionary.Add("apple", "apple");
+            dictionary.Add("apple", "pear");
+            var word = dictionary.FindWord("apple");
+            word.ShouldEqual("apple");
         }
 
         [TestMethod]
         public void VerifyFindAStructureWithSameHashCodeDictionary()
         {
             var dictionary = new DictionaryClass<string, NewEntry>();
-            var newEntry = new NewEntry("mar", "este un fruct");
-            var newEntry2 = new NewEntry("rosie", "este o leguma");
+            var newEntry = new NewEntry("apple", "It is a fruit");
+            var newEntry2 = new NewEntry("tomato", "It is a vegetable");
             dictionary.Add(newEntry.Name, newEntry);
             dictionary.Add(newEntry2.Name, newEntry);
             var word = dictionary.FindWord(newEntry.Name);
