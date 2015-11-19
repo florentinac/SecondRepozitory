@@ -17,118 +17,169 @@ namespace MyOOP
         {
             Name = name;
             Description = description;
-        }
-        public override bool Equals(object obj)
-        {
-            var words = new NewEntry("apple", "It is a fruit");
-            if (obj is NewEntry)
-            {                
-                return words.Equals(obj);
-            }
-            if (obj is string)
-            {
-                var equals = words.Name?.Equals(obj);
-                return equals.Value && equals.HasValue;
-            }
-            return false;
-        }
+        }       
     }
 
     public class DictionaryClass<Key, T> : ICollection
     {
-        private Library[] library = new Library[100];
+        private Bucket[] buckets = new Bucket[100];
         private int count;
 
-        private class Library
+        public class Entry
         {
+            public Key key;
             public T value;
-            public List<T> bucket = new List<T>();
 
-            public Library(T value)
+            public Entry(Key key, T value)
             {
+                this.key = key;
                 this.value = value;
             }
+        }
 
-            public void Add()
+        private class Bucket:ICollection<Entry>
+        {           
+            public List<Entry> data = new List<Entry>();            
+
+            public void Add(Key key, T value)
             {
-                bucket.Add(value);
-            }          
+                data.Add(new Entry(key, value));
+            }
+
+            public IEnumerator GetEnumerator()
+            {
+                return data.GetEnumerator();
+            }
+
+            public void CopyTo(Array array, int index)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Add(Entry item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Clear()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Contains(Entry item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void CopyTo(Entry[] array, int arrayIndex)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Remove(Entry item)
+            {
+                throw new NotImplementedException();
+            }
+
+            IEnumerator<Entry> IEnumerable<Entry>.GetEnumerator()
+            {
+                foreach (var entry in data)
+                {
+                    yield return entry;
+                }
+            }
+
+            public int Count { get; }
+            public object SyncRoot { get; }
+            public bool IsSynchronized { get; }
+
+            public bool IsReadOnly
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
         }     
 
         public IEnumerator GetEnumerator()
         {
-            for (var i = 0; i < 100; i++)
-                if (library[i] != null)
-                    yield return library[i].value;
+            foreach(var bucket in buckets)
+                if (bucket != null)
+                {
+                    foreach (var entry in bucket)
+                    {
+                        yield return ((Entry) entry).value;
+                    }
+                }           
         }
 
-        public void Add(Key name, T newEntry)
+        public void Add(Key key, T newEntry)
         {
-            var hash = CalculateHash(name);
+            var hash = CalculateHash(key);
 
-            if (library[hash] == null)
+            if (buckets[hash] == null)
             {
-                var newBucket = new Library(newEntry);
-                AddValueInLibrary(newBucket, hash);
+                AddToNewBucket(key, newEntry, hash);
             }
             else
             {
-                AddNewEntryInExistentBucket(newEntry, hash);
+                AddNewEntryInExistentBucket(key, newEntry, hash);
             }
         }
 
-        public bool Find(Key name)
+        private void AddToNewBucket(Key key, T newEntry, int hash)
         {
-            var hash = CalculateHash(name);
-            if (library[hash] == null)
+            var newBucket = new Bucket();
+            newBucket.Add(key, newEntry);
+            buckets[hash] = newBucket;
+            count++;
+        }
+
+        public bool ContainsKey(Key key)
+        {
+            var hash = CalculateHash(key);
+            if (buckets[hash] == null)
                 return false;
-            foreach (var words in library[hash].bucket)
+            foreach (Entry entry in buckets[hash])
             {
-                if (words.Equals(name))
+                if (entry.key.Equals(key))
                     return true;
             }
             return false;
         }
 
-        public T FindWord(Key name)
+        public Entry Find(Key key)
         {
-            ulong hash;
-            var foundWord = FindWordWithHah(name, out hash);
-            if (!foundWord) return default(T);
+            int hash;
+            var foundWord = FindWordWithHah(key, out hash);
+            if (!foundWord) return default(Entry);
             var index = 0;
-            foreach (var words in library[hash].bucket)
-            {
-                if (words.Equals(name))
-                    return library[hash].bucket[index];
-                index++;
+            foreach (Entry entry in buckets[hash])
+            {              
+                if (entry.key.Equals(key))
+                    return entry;
             }
-            return default(T);
+            return default(Entry);
         }
 
-        private bool FindWordWithHah(Key name, out ulong hash)
+        private bool FindWordWithHah(Key name, out int hash)
         {
             hash = CalculateHash(name);
-            return library[hash] != null;
+            return buckets[hash] != null;
 
         }
 
-        private void AddValueInLibrary(Library newBucket, ulong hash)
+        private void AddNewEntryInExistentBucket(Key key,T newEntry, int hash)
         {
-            newBucket.Add();
-            library[hash] = newBucket;
+            buckets[hash].Add(key,newEntry);
             count++;
         }
 
-        private void AddNewEntryInExistentBucket(T newEntry, ulong hash)
-        {
-            library[hash].bucket.Add(newEntry);
-            count++;
-        }
-
-        private ulong CalculateHash(Key name)
-        {
-            var hash = (ulong)name.GetHashCode();
-            hash %= (ulong)library.Length;
+        private int CalculateHash(Key key)
+        { 
+            var hash = Math.Abs(key.GetHashCode());
+            hash %= buckets.Length;
             return hash;
         }
 

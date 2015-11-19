@@ -45,14 +45,14 @@ namespace MyOOPTests
         {
             var newEntry = new NewEntry("apple", "It is a fruit");           
             var dictionary = new DictionaryClass<string, NewEntry>();
-            dictionary.Find(newEntry.Name).ShouldBeFalse();
+            dictionary.ContainsKey(newEntry.Name).ShouldBeFalse();
         }
         [TestMethod]
         public void FindAWordInDictionaryWithOneWord()
         {
             var dictionary = new DictionaryClass<string, string>();
             dictionary.Add("apple", "apple");
-            dictionary.Find("apple").ShouldBeTrue();
+            dictionary.ContainsKey("apple").ShouldBeTrue();
         }
 
         [TestMethod]
@@ -61,17 +61,18 @@ namespace MyOOPTests
             var dictionary = new DictionaryClass<string, string>();
             dictionary.Add("apple", "apple");
             dictionary.Add("apple", "pear");
-            dictionary.Find("apple").ShouldBeTrue();
+            dictionary.ContainsKey("apple").ShouldBeTrue();
         }
 
         [TestMethod]
         public void FindASpecificWordInDictionaryWithTwoWordsWithSameHash()
         {
+            var entry = new NewEntry("apple", "apple");
             var dictionary = new DictionaryClass<string, string>();
             dictionary.Add("apple", "apple");
             dictionary.Add("apple", "pear");
-            var word = dictionary.FindWord("apple");
-            word.ShouldEqual("apple");
+            var word = dictionary.Find("apple");
+           
         }
 
         [TestMethod]
@@ -81,9 +82,9 @@ namespace MyOOPTests
             var newEntry = new NewEntry("apple", "It is a fruit");
             var newEntry2 = new NewEntry("tomato", "It is a vegetable");
             dictionary.Add(newEntry.Name, newEntry);
-            dictionary.Add(newEntry2.Name, newEntry);
-            var word = dictionary.FindWord(newEntry.Name);
-            word.ShouldEqual(newEntry);
+            dictionary.Add(newEntry2.Name, newEntry2);
+            var word = dictionary.Find(newEntry2.Name);
+           // dictionary.ShouldContain(word);
         }
     }
 }
