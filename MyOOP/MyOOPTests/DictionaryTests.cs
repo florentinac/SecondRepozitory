@@ -66,13 +66,12 @@ namespace MyOOPTests
 
         [TestMethod]
         public void FindASpecificWordInDictionaryWithTwoWordsWithSameHash()
-        {
-            var entry = new NewEntry("apple", "apple");
+        {            
             var dictionary = new DictionaryClass<string, string>();
             dictionary.Add("apple", "apple");
             dictionary.Add("apple", "pear");
             var word = dictionary.Find("apple");
-           
+            word.ShouldEqual("apple");
         }
 
         [TestMethod]
@@ -84,7 +83,7 @@ namespace MyOOPTests
             dictionary.Add(newEntry.Name, newEntry);
             dictionary.Add(newEntry2.Name, newEntry2);
             var word = dictionary.Find(newEntry2.Name);
-           // dictionary.ShouldContain(word);
+            word.ShouldEqual<NewEntry>(newEntry2);
         }
     }
 }

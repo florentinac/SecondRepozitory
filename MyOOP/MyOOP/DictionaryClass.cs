@@ -149,18 +149,18 @@ namespace MyOOP
             return false;
         }
 
-        public Entry Find(Key key)
+        public T Find(Key key)
         {
             int hash;
             var foundWord = FindWordWithHah(key, out hash);
-            if (!foundWord) return default(Entry);
+            if (!foundWord) return default(T);
             var index = 0;
             foreach (Entry entry in buckets[hash])
             {              
                 if (entry.key.Equals(key))
-                    return entry;
+                    return entry.value;
             }
-            return default(Entry);
+            return default(T);
         }
 
         private bool FindWordWithHah(Key name, out int hash)
