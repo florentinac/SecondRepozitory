@@ -58,25 +58,27 @@ namespace MyOOP
             var hash = CalculateHash(key);
             if (buckets[hash] == -1)
             {
-                var newEntries = new Entry(key, value);
-                buckets[hash] = newEntry;
-                entries[newEntry++] = newEntries;
-                count++;
+                AddDelegate(key,value,hash,()=>-1);
             }
             else
             {
-                var newEntries = new Entry(key, value);
-                newEntries.next = buckets[hash];
-                buckets[hash] = newEntry;
-                entries[newEntry++] = newEntries;
-                count++;
+                AddDelegate(key, value, hash, () => buckets[hash]);
             }
+        }
+
+        private delegate int DelegateNext();
+        private void AddDelegate(Key key, T value, int hash, DelegateNext delegateNext)
+        {
+            var newEntries = new Entry(key, value);
+            newEntries.next = delegateNext();
+            buckets[hash] = newEntry;
+            entries[newEntry++] = newEntries;
+            count++;
         }
 
         private int CalculateHash(Key key)
         {
-            var hash = hasher.GetHashCode(key);
-            //var hash = Math.Abs(key.GetHashCode());
+            var hash = hasher.GetHashCode(key);          
             hash %= buckets.Length;
             return hash;
         }
@@ -87,10 +89,16 @@ namespace MyOOP
         {
             var hash = CalculateHash(keyToFaind);
             if (buckets[hash] == -1) return default(T);
-            if (entries[buckets[hash]].key.Equals(keyToFaind))
-                return entries[buckets[hash]].value;
-            if (entries[buckets[hash]].next != -1)
-                return entries[entries[buckets[hash]].next].value;
+           
+            return VerifyNext(buckets[hash],keyToFaind);
+        }
+
+        private T VerifyNext(int nextValue, Key keyToFaind)
+        {
+            if (entries[nextValue].key.Equals(keyToFaind))
+                return entries[nextValue].value;
+            if (nextValue > 0)
+                return VerifyNext(entries[nextValue].next, keyToFaind);
             return default(T);
         }
     }
@@ -103,4 +111,6 @@ namespace MyOOP
             return hash;
         }
     }
+
+
 }

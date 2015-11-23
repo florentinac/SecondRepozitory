@@ -84,5 +84,35 @@ namespace MyOOPTests
             Assert.AreEqual(2, dictionary.GetCount);
             Assert.AreEqual(secondEntry, dictionary.ContainsKey("pear"));
         }
+
+        [TestMethod]
+        public void AddInDictionaryThreeEntryWithSameKey()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+
+            Assert.AreEqual(3, dictionary.GetCount);
+            Assert.AreEqual(firstEntry, dictionary.ContainsKey("appel"));
+        }
+
+        [TestMethod]
+        public void VerifyIfDictionaryDoesntContaindValueWithSameKey()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");           
+            var expectedResult = new NewEntry();
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);        
+        
+            Assert.AreEqual(expectedResult, dictionary.ContainsKey("kiwi"));
+        }
     }
 }

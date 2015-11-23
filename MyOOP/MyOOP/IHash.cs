@@ -1,7 +1,7 @@
 ﻿namespace MyOOP
 {
-    public interface IHash
+    public interface IHash<T>
     {
-         
+        int GetHashCode(T obj);
     }
 }

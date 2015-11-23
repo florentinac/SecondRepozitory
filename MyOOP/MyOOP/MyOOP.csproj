@@ -49,6 +49,7 @@
     <Compile Include="DictionaryClass.cs" />
     <Compile Include="DictionaryNet.cs" />
     <Compile Include="DoubleLinkList.cs" />
+    <Compile Include="IHash.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleLinkList.cs" />
     <Compile Include="SortedArray.cs" />
