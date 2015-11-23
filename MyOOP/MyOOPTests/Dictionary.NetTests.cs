@@ -57,7 +57,7 @@ namespace MyOOPTests
             dictionary.Add("appel", firstEntry);
             dictionary.Add("pear", secondEntry);
 
-            Assert.AreEqual(expectedResult, dictionary.ContainsKey("tomatos"));
+            Assert.IsFalse(dictionary.ContainsKey("tomatos"));
         }
         [TestMethod]
         public void VerifyIfDictionaryContainsKey()
@@ -68,7 +68,7 @@ namespace MyOOPTests
             dictionary.Add("appel", firstEntry);
             dictionary.Add("pear", secondEntry);
 
-            Assert.AreEqual(secondEntry, dictionary.ContainsKey("pear"));
+            Assert.AreEqual(secondEntry, dictionary["pear"]);
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace MyOOPTests
             dictionary.Add("pear", secondEntry);
 
             Assert.AreEqual(2, dictionary.GetCount);
-            Assert.AreEqual(secondEntry, dictionary.ContainsKey("pear"));
+            Assert.AreEqual(secondEntry, dictionary["pear"]);
         }
 
         [TestMethod]
@@ -98,7 +98,7 @@ namespace MyOOPTests
             dictionary.Add("tomato", thirdEntry);
 
             Assert.AreEqual(3, dictionary.GetCount);
-            Assert.AreEqual(firstEntry, dictionary.ContainsKey("appel"));
+            Assert.AreEqual(firstEntry, dictionary["appel"]);
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace MyOOPTests
             dictionary.Add("appel", firstEntry);
             dictionary.Add("pear", secondEntry);        
         
-            Assert.AreEqual(expectedResult, dictionary.ContainsKey("kiwi"));
+            Assert.AreEqual(expectedResult, dictionary["kiwi"]);
         }
                
         [TestMethod]

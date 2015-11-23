@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Remoting.Messaging;
+using System.Security.AccessControl;
 using System.Threading;
 
 namespace MyOOP
@@ -76,21 +78,44 @@ namespace MyOOP
 
         public int GetCount => count;
 
-        public T ContainsKey(Key keyToFaind)
+        public T this[Key keyToFind]
         {
-            var hash = CalculateHash(keyToFaind);
-            if (buckets[hash] == -1) return default(T);
-           
-            return VerifyNext(buckets[hash],keyToFaind);
+            get
+            {
+                var hash = CalculateHash(keyToFind);
+                if (buckets[hash] == -1) return default(T);
+                var result = default(T);
+                VerifyNext(buckets[hash], keyToFind, out result);
+                return result;
+            }
+
         }
 
-        private T VerifyNext(int nextValue, Key keyToFaind)
+        public bool ContainsKey(Key keyToFind)
         {
-            if (entries[nextValue].key.Equals(keyToFaind))
-                return entries[nextValue].value;
+            var hash = CalculateHash(keyToFind);
+            if (buckets[hash] == -1) return false;
+            var result =default(T);
+            return VerifyNext(buckets[hash], keyToFind, out result);
+
+        }
+
+        private bool VerifyNext(int nextValue, Key keyToFaind, out T result)
+        {
+            if (nextValue >= 0)
+            { 
+                if (entries[nextValue].key.Equals(keyToFaind))
+                {
+                    result = entries[nextValue].value;
+                    return true;
+                }
             if (nextValue > 0)
-                return VerifyNext(entries[nextValue].next, keyToFaind);
-            return default(T);
+            {
+                VerifyNext(entries[nextValue].next, keyToFaind, out result);
+            }
+            }
+            result = default(T);
+            return false;
         }
 
         public void Remove(Key key)
