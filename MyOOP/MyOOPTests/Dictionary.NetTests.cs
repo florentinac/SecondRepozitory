@@ -114,5 +114,50 @@ namespace MyOOPTests
         
             Assert.AreEqual(expectedResult, dictionary.ContainsKey("kiwi"));
         }
+               
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void VerifyDeleteANonExistentKey()
+        {
+            var dictionary = new DictionaryNet<string, NewEntry>();
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Remove("kiwi");     
+        }
+
+        [TestMethod]       
+        public void VerifyDeleteAnEntry()
+        {
+            var dictionary = new DictionaryNet<string, NewEntry>();
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            Assert.AreEqual(2, dictionary.GetCount);
+            dictionary.Remove("appel");
+
+            Assert.AreEqual(1, dictionary.GetCount);
+        }
+
+        [TestMethod]
+        public void VerifyDeleteEntryWithSameKey()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Remove("appel");
+
+            Assert.AreEqual(1, dictionary.GetCount);
+
+            //Assert.AreEqual(expectedResult, dictionary.ContainsKey("appel"));
+        }
+
+
     }
 }

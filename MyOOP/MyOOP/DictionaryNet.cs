@@ -17,15 +17,9 @@ namespace MyOOP
 
         private class Entry
         {
-            public int next = -1;
+            public int next;
             public Key key;
             public T value;
-
-            public Entry(Key key, T value)
-            {
-                this.key = key;
-                this.value = value;
-            }
 
             public Entry(Key key, T value, int next)
             {
@@ -58,19 +52,16 @@ namespace MyOOP
             var hash = CalculateHash(key);
             if (buckets[hash] == -1)
             {
-                AddDelegate(key,value,hash,()=>-1);
+                AddEntry(key,value,hash,-1);
             }
             else
             {
-                AddDelegate(key, value, hash, () => buckets[hash]);
+                AddEntry(key, value, hash, buckets[hash]);
             }
-        }
-
-        private delegate int DelegateNext();
-        private void AddDelegate(Key key, T value, int hash, DelegateNext delegateNext)
+        }     
+        private void AddEntry(Key key, T value, int hash, int next)
         {
-            var newEntries = new Entry(key, value);
-            newEntries.next = delegateNext();
+            var newEntries = new Entry(key, value, next);            
             buckets[hash] = newEntry;
             entries[newEntry++] = newEntries;
             count++;
@@ -100,6 +91,21 @@ namespace MyOOP
             if (nextValue > 0)
                 return VerifyNext(entries[nextValue].next, keyToFaind);
             return default(T);
+        }
+
+        public void Remove(Key key)
+        {
+            var hash = CalculateHash(key);
+            if (buckets[hash] == -1)
+                throw new ArgumentException();
+
+            if (entries[buckets[hash]].key.Equals(key))
+            {
+                freeIndex = buckets[hash];
+                buckets[hash] = -1;
+                count--;
+                return;
+            }         
         }
     }
 
