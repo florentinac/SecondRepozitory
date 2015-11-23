@@ -72,7 +72,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddInDictionaryTwoEntryWithSameKey()
+        public void AddInDictionaryTwoEntryWithSameHashCode()
         {
             var hasher = new FixHasher<string>();
             var dictionary = new DictionaryNet<string, NewEntry>(hasher);
@@ -86,7 +86,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void AddInDictionaryThreeEntryWithSameKey()
+        public void AddInDictionaryThreeEntryWithSameHashCode()
         {
             var hasher = new FixHasher<string>();
             var dictionary = new DictionaryNet<string, NewEntry>(hasher);
@@ -102,7 +102,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void VerifyIfDictionaryDoesntContaindValueWithSameKey()
+        public void VerifyIfDictionaryDoesntContaindValueWithSameHashCode()
         {
             var hasher = new FixHasher<string>();
             var dictionary = new DictionaryNet<string, NewEntry>(hasher);
@@ -142,7 +142,7 @@ namespace MyOOPTests
         }
 
         [TestMethod]
-        public void VerifyDeleteEntryWithSameKey()
+        public void VerifyDeleteEntryWithSameHashCode()
         {
             var hasher = new FixHasher<string>();
             var dictionary = new DictionaryNet<string, NewEntry>(hasher);
@@ -153,9 +153,24 @@ namespace MyOOPTests
             dictionary.Add("pear", secondEntry);
             dictionary.Remove("appel");
 
-            Assert.AreEqual(1, dictionary.GetCount);
+            Assert.AreEqual(1, dictionary.GetCount);   
+        }
 
-            //Assert.AreEqual(expectedResult, dictionary.ContainsKey("appel"));
+        [TestMethod]
+        public void VerifyDeleteEntryWithSameHashCodeForThreeEntry()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
+
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+            dictionary.Remove("appel");
+
+            Assert.AreEqual(2, dictionary.GetCount);
         }
 
 

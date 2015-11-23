@@ -101,11 +101,26 @@ namespace MyOOP
 
             if (entries[buckets[hash]].key.Equals(key))
             {
-                freeIndex = buckets[hash];
-                buckets[hash] = -1;
-                count--;
+                RemoveEntry(hash,buckets[hash]);
                 return;
-            }         
+            }  
+            VerifyNextAndRemoveEntry(key, hash);
+        }
+
+        private void RemoveEntry(int hash, int pos)
+        {
+            freeIndex = pos;
+            buckets[hash] = entries[pos].next;
+            count--;
+        }
+
+        private void VerifyNextAndRemoveEntry(Key key, int hash)
+        {
+            for (var i = entries[buckets[hash]].next; i >= 0; i = entries[i].next)
+                if (entries[i].key.Equals(key))
+                {
+                    RemoveEntry(hash,i);                   
+                }
         }
     }
 
