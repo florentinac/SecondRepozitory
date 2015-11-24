@@ -22,12 +22,13 @@ namespace MyOOP
             public int next;
             public Key key;
             public T value;
+            public int prev = 0;
 
             public Entry(Key key, T value, int next)
             {
                 this.key = key;
                 this.value = value;
-                this.next = next;
+                this.next = next;              
             }
         }
 
@@ -85,7 +86,8 @@ namespace MyOOP
                 var hash = CalculateHash(keyToFind);
                 if (buckets[hash] == -1) return default(T);
                 var result = default(T);
-                VerifyNext(buckets[hash], keyToFind, out result);
+                var next = -1;          
+                VerifyNext(buckets[hash], keyToFind, out result, out next);
                 return result;
             }
 
@@ -96,26 +98,32 @@ namespace MyOOP
             var hash = CalculateHash(keyToFind);
             if (buckets[hash] == -1) return false;
             var result =default(T);
-            return VerifyNext(buckets[hash], keyToFind, out result);
+            var next=-1;           
+            return VerifyNext(buckets[hash], keyToFind, out result, out next);
 
         }
 
-        private bool VerifyNext(int nextValue, Key keyToFaind, out T result)
+        private bool VerifyNext(int nextValue, Key keyToFaind, out T result, out int next)
         {
             if (nextValue >= 0)
-            { 
+            {
                 if (entries[nextValue].key.Equals(keyToFaind))
-                {
+                {                
+                    next = nextValue;
                     result = entries[nextValue].value;
                     return true;
                 }
-            if (nextValue > 0)
-            {
-                VerifyNext(entries[nextValue].next, keyToFaind, out result);
-            }
-            }
+                if (nextValue > 0)
+                {
+                    entries[entries[nextValue].next].prev = nextValue;                               
+                    VerifyNext(entries[nextValue].next, keyToFaind, out result, out next);                    
+                    return true;
+                }
+            }           
+            next = -1;
             result = default(T);
             return false;
+            
         }
 
         public void Remove(Key key)
@@ -126,27 +134,31 @@ namespace MyOOP
 
             if (entries[buckets[hash]].key.Equals(key))
             {
-                RemoveEntry(hash,buckets[hash]);
+                RemoveEntry(buckets[hash]);
+                SetNewValueForBucket(hash);
                 return;
-            }  
-            VerifyNextAndRemoveEntry(key, hash);
+            }
+            var next = -1;
+            var result = default(T);
+           
+            VerifyNext(buckets[hash], key, out result, out next);
+            RemoveEntry(next);
         }
 
-        private void RemoveEntry(int hash, int pos)
+        private void SetNewValueForBucket(int hash)
+        {
+            if (!Equals(entries[buckets[hash]].next, -1))
+                buckets[hash] = entries[buckets[hash]].next;
+            else
+                buckets[hash] = -1;
+        }
+
+        private void RemoveEntry(int pos)
         {
             freeIndex = pos;
-            buckets[hash] = entries[pos].next;
+            entries[entries[freeIndex].prev].next = entries[freeIndex].next;          
             count--;
-        }
-
-        private void VerifyNextAndRemoveEntry(Key key, int hash)
-        {
-            for (var i = entries[buckets[hash]].next; i >= 0; i = entries[i].next)
-                if (entries[i].key.Equals(key))
-                {
-                    RemoveEntry(hash,i);                   
-                }
-        }
+        }      
     }
 
     public class ClassIHasher<T> : IHash<T>

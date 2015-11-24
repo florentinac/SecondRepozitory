@@ -151,7 +151,7 @@ namespace MyOOPTests
 
             dictionary.Add("appel", firstEntry);
             dictionary.Add("pear", secondEntry);
-            dictionary.Remove("appel");
+            dictionary.Remove("pear");
 
             Assert.AreEqual(1, dictionary.GetCount);   
         }
