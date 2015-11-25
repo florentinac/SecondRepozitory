@@ -70,15 +70,30 @@ namespace MyOOP
             if (freeIndex != -1)
             {
                 var newEntries = new Entry(key, value, entries[freeIndex].next);
-                if(entries[freeIndex].prev > 0)
-                    entries[entries[freeIndex].prev].next = freeIndex;
-                else
-                    buckets[hash] = freeIndex;
+                VerifyPrevOfFreeIndex(hash);
                 entries[freeIndex] = newEntries;
                 count++;
                 return true;
             }
             return false;
+        }
+
+        private void VerifyPrevOfFreeIndex(int hash)
+        {
+            if (entries[freeIndex].prev > 0)
+                SetLinks();
+            else
+                SetBucketsValue(hash);
+        }
+
+        private void SetBucketsValue(int hash)
+        {
+            buckets[hash] = freeIndex;
+        }
+
+        private void SetLinks()
+        {
+            entries[entries[freeIndex].prev].next = freeIndex;
         }
 
         private void AddEntry(Key key, T value, int hash, int next)
