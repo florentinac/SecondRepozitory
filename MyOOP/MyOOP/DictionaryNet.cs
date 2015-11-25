@@ -14,7 +14,7 @@ namespace MyOOP
         private Entry[] entries = new Entry[50];
         private IHash<Key> hasher;
         private int count;
-        private int newEntry;
+        private int newNext;
         private int freeIndex = -1;
 
         private class Entry
@@ -53,6 +53,8 @@ namespace MyOOP
         public void Add(Key key, T value)
         {
             var hash = CalculateHash(key);
+            if(IsFreeIndexAdd(key, value, hash))
+                return;           
             if (buckets[hash] == -1)
             {
                 AddEntry(key,value,hash,-1);
@@ -61,12 +63,29 @@ namespace MyOOP
             {
                 AddEntry(key, value, hash, buckets[hash]);
             }
-        }     
+        }
+
+        private bool IsFreeIndexAdd(Key key, T value, int hash)
+        {
+            if (freeIndex != -1)
+            {
+                var newEntries = new Entry(key, value, entries[freeIndex].next);
+                if(entries[freeIndex].prev > 0)
+                    entries[entries[freeIndex].prev].next = freeIndex;
+                else
+                    buckets[hash] = freeIndex;
+                entries[freeIndex] = newEntries;
+                count++;
+                return true;
+            }
+            return false;
+        }
+
         private void AddEntry(Key key, T value, int hash, int next)
         {
             var newEntries = new Entry(key, value, next);            
-            buckets[hash] = newEntry;
-            entries[newEntry++] = newEntries;
+            buckets[hash] = newNext;
+            entries[newNext++] = newEntries;
             count++;
         }
 
@@ -156,7 +175,8 @@ namespace MyOOP
         private void RemoveEntry(int pos)
         {
             freeIndex = pos;
-            entries[entries[freeIndex].prev].next = entries[freeIndex].next;          
+            if(entries[freeIndex].prev > 0)
+                  entries[entries[freeIndex].prev].next = entries[freeIndex].next;          
             count--;
         }      
     }

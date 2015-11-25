@@ -173,6 +173,95 @@ namespace MyOOPTests
             Assert.AreEqual(2, dictionary.GetCount);
         }
 
+        [TestMethod]
+        public void VerifyDeleteEntryWithDifferentHashCodeForThreeEntry()
+        {        
+            var dictionary = new DictionaryNet<string, NewEntry>();
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
 
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+            dictionary.Remove("pear");
+
+            Assert.AreEqual(2, dictionary.GetCount);
+        }
+
+        [TestMethod]
+        public void VerifyAddItemOnFreeIndex()
+        {
+            var dictionary = new DictionaryNet<string, NewEntry>();
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
+            var fourEntry = new NewEntry("cherry", "It is a fruit");
+
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+            dictionary.Remove("pear");
+            dictionary.Add("cherry", fourEntry);
+
+            Assert.AreEqual(3, dictionary.GetCount);
+        }
+
+        [TestMethod]
+        public void VerifyAddItemAtFreeIndexWithSameHashCode()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
+            var fourEntry = new NewEntry("cherry", "It is a fruit");
+
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+            dictionary.Remove("appel");
+            dictionary.Add("cherry", fourEntry);
+
+            Assert.AreEqual(3, dictionary.GetCount);
+        }
+
+        [TestMethod]
+        public void VerifyAddItemWhenFreeIndexIsAtMiddleWithSameHashCode()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
+            var fourEntry = new NewEntry("cherry", "It is a fruit");
+
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+            dictionary.Remove("pear");
+            dictionary.Add("cherry", fourEntry);
+
+            Assert.AreEqual(3, dictionary.GetCount);
+        }
+
+        [TestMethod]
+        public void VerifyAddItemWhenFreeIndexIsFirstItemWithSameHashCode()
+        {
+            var hasher = new FixHasher<string>();
+            var dictionary = new DictionaryNet<string, NewEntry>(hasher);
+            var firstEntry = new NewEntry("appel", "It is a fruit");
+            var secondEntry = new NewEntry("pear", "It is a pear");
+            var thirdEntry = new NewEntry("tomato", "It is a vegetable");
+            var fourEntry = new NewEntry("cherry", "It is a fruit");
+
+            dictionary.Add("appel", firstEntry);
+            dictionary.Add("pear", secondEntry);
+            dictionary.Add("tomato", thirdEntry);
+            dictionary.Remove("tomato");
+            dictionary.Add("cherry", fourEntry);
+
+            Assert.AreEqual(3, dictionary.GetCount);
+        }
     }
 }
